@@ -6,10 +6,39 @@ import com.google.gson.JsonPrimitive;
 public class JsonConfigurationValue extends JsonConfigurationElement {
     private JsonPrimitive value;
 
-    JsonConfigurationValue() {
+    public JsonConfigurationValue(String value) {
+        this.value = new JsonPrimitive(value);
     }
 
-    JsonConfigurationValue(final JsonPrimitive value) {
+    public JsonConfigurationValue(Integer value) {
+        this.value = new JsonPrimitive(value);
+    }
+
+    public JsonConfigurationValue(Float value) {
+        this.value = new JsonPrimitive(value);
+    }
+
+    public JsonConfigurationValue(Double value) {
+        this.value = new JsonPrimitive(value);
+    }
+
+    public JsonConfigurationValue(Boolean value) {
+        this.value = new JsonPrimitive(value);
+    }
+
+    public JsonConfigurationValue(Byte value) {
+        this.value = new JsonPrimitive(value);
+    }
+
+    public JsonConfigurationValue(Long value) {
+        this.value = new JsonPrimitive(value);
+    }
+
+    public JsonConfigurationValue(Character value) {
+        this.value = new JsonPrimitive(value);
+    }
+
+    public JsonConfigurationValue(final JsonPrimitive value) {
         this.value = value;
     }
 

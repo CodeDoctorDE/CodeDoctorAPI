@@ -7,7 +7,9 @@ public abstract class JsonConfigurationElement {
 
     public abstract void fromElement(JsonElement element);
 
-    public abstract Object getObject();
+    public Object getObject() {
+        return this;
+    }
 
     public <T> T toJsonConfigurationElement(T element) {
         if (element instanceof JsonConfigurationElement)
@@ -15,19 +17,19 @@ public abstract class JsonConfigurationElement {
         return element;
     }
 
-    public JsonConfigurationSection toJsonConfigurationSection() {
+    public JsonConfigurationSection toConfigSection() {
         return (JsonConfigurationSection) this;
     }
 
-    public JsonConfiguration toJsonConfiguration() {
+    public JsonConfiguration toConfig() {
         return (JsonConfiguration) this;
     }
 
-    public JsonConfigurationArray toJsonConfigurationArray() {
+    public JsonConfigurationArray toConfigArray() {
         return (JsonConfigurationArray) this;
     }
 
-    public JsonConfigurationValue toJsonConfigurationValue() {
+    public JsonConfigurationValue toConfigValue() {
         return (JsonConfigurationValue) this;
     }
 }

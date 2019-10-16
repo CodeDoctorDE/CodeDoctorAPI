@@ -221,10 +221,7 @@ public class JsonConfigurationSection extends JsonConfigurationElement {
 
     public Map<String, Object> getObjectMap(String... path) {
         Map<String, Object> map = new HashMap<>();
-        for (Map.Entry<String, JsonConfigurationElement> entry :
-                getSection(path).values.entrySet()) {
-            map.put(entry.getKey(), entry.getValue().getObject());
-        }
+        getSection(path).values.forEach((key, value) -> map.put(key, value.getObject()));
         return map;
     }
 
