@@ -3,11 +3,9 @@ package com.gitlab.codedoctorde.api.config;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-public class JsonConfigurationArray extends JsonConfigurationElement {
+public class JsonConfigurationArray extends JsonConfigurationElement implements List<JsonConfigurationElement> {
     private List<JsonConfigurationElement> values = new ArrayList<>();
 
     public JsonConfigurationArray(final JsonArray jsonArray) {
@@ -26,6 +24,10 @@ public class JsonConfigurationArray extends JsonConfigurationElement {
 
     public JsonConfigurationArray(final JsonConfigurationElement[] elements) {
         values = Arrays.asList(elements);
+    }
+
+    public JsonConfigurationArray(List<JsonConfigurationElement> teams) {
+        values = teams;
     }
 
     public List<JsonConfigurationElement> getList() {
@@ -123,7 +125,134 @@ public class JsonConfigurationArray extends JsonConfigurationElement {
     }
 
     @Override
+    public void fromElement(JsonElement element) {
+        for (JsonElement jsonElement :
+                element.getAsJsonArray())
+            if (jsonElement.isJsonObject())
+                values.add(new JsonConfigurationSection(jsonElement.getAsJsonObject()));
+            else if (jsonElement.isJsonArray())
+                values.add(new JsonConfigurationArray(jsonElement.getAsJsonArray()));
+            else if (jsonElement.isJsonPrimitive())
+                values.add(new JsonConfigurationValue(jsonElement.getAsJsonPrimitive()));
+    }
+
+    @Override
     public Object getObject() {
-        return values;
+        return this;
+    }
+
+    @Override
+    public int size() {
+        return values.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return values.isEmpty();
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return values.contains(o);
+    }
+
+    @Override
+    public Iterator<JsonConfigurationElement> iterator() {
+        return values.iterator();
+    }
+
+    @Override
+    public Object[] toArray() {
+        return values.toArray();
+    }
+
+    @Override
+    public <T> T[] toArray(T[] ts) {
+        return values.toArray(ts);
+    }
+
+    @Override
+    public boolean add(JsonConfigurationElement jsonConfigurationElement) {
+        return values.add(jsonConfigurationElement);
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        return values.remove(o);
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> collection) {
+        return values.containsAll(collection);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends JsonConfigurationElement> collection) {
+        return values.addAll(collection);
+    }
+
+    @Override
+    public boolean addAll(int i, Collection<? extends JsonConfigurationElement> collection) {
+        return values.addAll(collection);
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> collection) {
+        return values.removeAll(collection);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> collection) {
+        return values.retainAll(collection);
+    }
+
+    @Override
+    public void clear() {
+        values.clear();
+    }
+
+    @Override
+    public JsonConfigurationElement get(int i) {
+        return null;
+    }
+
+    @Override
+    public JsonConfigurationElement set(int i, JsonConfigurationElement jsonConfigurationElement) {
+        return values.set(i, jsonConfigurationElement);
+    }
+
+    @Override
+    public void add(int i, JsonConfigurationElement jsonConfigurationElement) {
+        values.add(i, jsonConfigurationElement);
+    }
+
+    @Override
+    public JsonConfigurationElement remove(int i) {
+        return values.remove(i);
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        return values.indexOf(o);
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        return values.lastIndexOf(o);
+    }
+
+    @Override
+    public ListIterator<JsonConfigurationElement> listIterator() {
+        return values.listIterator();
+    }
+
+    @Override
+    public ListIterator<JsonConfigurationElement> listIterator(int i) {
+        return values.listIterator(i);
+    }
+
+    @Override
+    public List<JsonConfigurationElement> subList(int i, int i1) {
+        return values.subList(i, i1);
     }
 }

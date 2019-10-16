@@ -35,6 +35,10 @@ public class JsonConfigurationSection extends JsonConfigurationElement {
         return jsonConfigurationSection;
     }
 
+    public HashMap<String, JsonConfigurationElement> getValues() {
+        return values;
+    }
+
     public JsonConfigurationElement getElementValue(String... path) {
         return getSection(Arrays.copyOf(path, path.length - 1)).values.get(path[path.length - 1]);
     }
@@ -378,5 +382,17 @@ public class JsonConfigurationSection extends JsonConfigurationElement {
 
     public void setValue(JsonConfigurationElement[] value, String... path) {
         setValue(new JsonConfigurationArray(value), path);
+    }
+
+    @Override
+    public void fromElement(final JsonElement jsonElement) {
+        for (Map.Entry<String, JsonElement> entry :
+                jsonElement.getAsJsonObject().entrySet())
+            if (entry.getValue().isJsonObject())
+                values.put(entry.getKey(), new JsonConfigurationSection(entry.getValue().getAsJsonObject()));
+            else if (entry.getValue().isJsonArray())
+                values.put(entry.getKey(), new JsonConfigurationArray(entry.getValue().getAsJsonArray()));
+            else if (entry.getValue().isJsonPrimitive())
+                values.put(entry.getKey(), new JsonConfigurationValue(entry.getValue().getAsJsonPrimitive()));
     }
 }

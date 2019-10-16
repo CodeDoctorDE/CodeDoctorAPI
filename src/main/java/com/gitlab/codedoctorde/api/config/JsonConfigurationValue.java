@@ -4,7 +4,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
 public class JsonConfigurationValue extends JsonConfigurationElement {
-    private final JsonPrimitive value;
+    private JsonPrimitive value;
+
+    JsonConfigurationValue() {
+    }
 
     JsonConfigurationValue(final JsonPrimitive value) {
         this.value = value;
@@ -45,6 +48,11 @@ public class JsonConfigurationValue extends JsonConfigurationElement {
     @Override
     public JsonElement getElement() {
         return value;
+    }
+
+    @Override
+    public void fromElement(JsonElement element) {
+        value = element.getAsJsonPrimitive();
     }
 
     @Override
