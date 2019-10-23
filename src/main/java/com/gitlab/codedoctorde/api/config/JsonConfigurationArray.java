@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 
 import java.util.*;
 
-public class JsonConfigurationArray extends JsonConfigurationElement implements List<JsonConfigurationElement> {
+public class JsonConfigurationArray extends JsonConfigurationElement implements Collection<JsonConfigurationElement> {
     private List<JsonConfigurationElement> values = new ArrayList<>();
 
     public JsonConfigurationArray(final JsonArray jsonArray) {
@@ -192,11 +192,6 @@ public class JsonConfigurationArray extends JsonConfigurationElement implements 
     }
 
     @Override
-    public boolean addAll(int i, Collection<? extends JsonConfigurationElement> collection) {
-        return values.addAll(collection);
-    }
-
-    @Override
     public boolean removeAll(Collection<?> collection) {
         return values.removeAll(collection);
     }
@@ -209,50 +204,5 @@ public class JsonConfigurationArray extends JsonConfigurationElement implements 
     @Override
     public void clear() {
         values.clear();
-    }
-
-    @Override
-    public JsonConfigurationElement get(int i) {
-        return null;
-    }
-
-    @Override
-    public JsonConfigurationElement set(int i, JsonConfigurationElement jsonConfigurationElement) {
-        return values.set(i, jsonConfigurationElement);
-    }
-
-    @Override
-    public void add(int i, JsonConfigurationElement jsonConfigurationElement) {
-        values.add(i, jsonConfigurationElement);
-    }
-
-    @Override
-    public JsonConfigurationElement remove(int i) {
-        return values.remove(i);
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        return values.indexOf(o);
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        return values.lastIndexOf(o);
-    }
-
-    @Override
-    public ListIterator<JsonConfigurationElement> listIterator() {
-        return values.listIterator();
-    }
-
-    @Override
-    public ListIterator<JsonConfigurationElement> listIterator(int i) {
-        return values.listIterator(i);
-    }
-
-    @Override
-    public List<JsonConfigurationElement> subList(int i, int i1) {
-        return values.subList(i, i1);
     }
 }
