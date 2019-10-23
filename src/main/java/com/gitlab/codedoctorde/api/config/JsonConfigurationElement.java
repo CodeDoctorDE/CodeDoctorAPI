@@ -11,9 +11,8 @@ public abstract class JsonConfigurationElement {
         return this;
     }
 
-    public <T> T toJsonConfigurationElement(T element) {
-        if (element instanceof JsonConfigurationElement)
-            ((JsonConfigurationElement) element).fromElement(getElement());
+    public <T extends JsonConfigurationElement> T toJsonConfigurationElement(T element) {
+        element.fromElement(getElement());
         return element;
     }
 
