@@ -4,16 +4,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class GuiItemEvent {
-    void onEvent(Gui gui, GuiPage guiPage, GuiItem guiItem, Player player, ClickType clickType) {
+public interface GuiItemEvent {
+    default void onEvent(Gui gui, GuiPage guiPage, GuiItem guiItem, Player player, ClickType clickType) {
+    }
+
+    default void onTick(Gui gui, GuiPage guiPage, GuiItem guiItem, Player player) {
 
     }
 
-    void onTick(Gui gui, GuiPage guiPage, GuiItem guiItem, Player player) {
-
-    }
-
-    boolean onItemChange(Gui gui, GuiPage guiPage, GuiItem guiItem, Player player, ItemStack change) {
+    default boolean onItemChange(Gui gui, GuiPage guiPage, GuiItem guiItem, Player player, ItemStack change) {
         return false;
     }
 }

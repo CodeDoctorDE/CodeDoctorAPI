@@ -179,13 +179,16 @@ public class Gui implements Listener {
         playerInventoryHashMap.get(player).getCurrentGuiPage().getGuiItems().keySet().forEach(key -> player.getInventory().setItem(key, playerInventoryHashMap.get(player).getCurrentGuiPage().getGuiItems().get(key).getItemStack()));
     }
 
-    public void close(Player player) {
-        if (playerGuiHashMap.containsKey(player)) {
-            playerGuiHashMap.get(player).getCurrentGuiPage().raiseInventoryCloseEvent(this, player);
-            stopTick(player);
-            playerGuiHashMap.remove(player);
+    public void close(Player... players) {
+        for (Player player :
+                players) {
+            if (playerGuiHashMap.containsKey(player)) {
+                playerGuiHashMap.get(player).getCurrentGuiPage().raiseInventoryCloseEvent(this, player);
+                stopTick(player);
+                playerGuiHashMap.remove(player);
+            }
+            player.closeInventory();
         }
-        player.closeInventory();
     }
 
     @EventHandler
