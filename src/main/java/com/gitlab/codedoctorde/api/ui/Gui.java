@@ -28,13 +28,16 @@ public class Gui implements Listener {
         Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
-    public void open(final Player player) {
-        player.closeInventory();
-        playerGuiHashMap.put(player, this);
-        final Inventory inventory = guiPages.get(index).build();
-        player.openInventory(inventory);
-        startTick(player);
-        getCurrentGuiPage().raiseInventoryOpenEvent(this, player);
+    public void open(final Player... players) {
+        for (Player player :
+                players) {
+            player.closeInventory();
+            playerGuiHashMap.put(player, this);
+            final Inventory inventory = guiPages.get(index).build();
+            player.openInventory(inventory);
+            startTick(player);
+            getCurrentGuiPage().raiseInventoryOpenEvent(this, player);
+        }
     }
 
     public GuiPage getCurrentGuiPage() {
