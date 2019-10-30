@@ -60,11 +60,6 @@ public class Gui implements Listener {
         playerGuiHashMap.keySet().forEach(this::open);
     }
 
-    public void setInventoryIndex(int index) {
-        this.index = index;
-        playerGuiHashMap.keySet().forEach(this::openInventory);
-    }
-
     public boolean nextIndex() {
         if (guiPages.size() <= 1)
             return false;
@@ -74,18 +69,6 @@ public class Gui implements Listener {
             return false;
         }
         playerGuiHashMap.keySet().forEach(this::open);
-        return true;
-    }
-
-    public boolean nextInventoryIndex() {
-        if (guiPages.size() <= 1)
-            return false;
-        index++;
-        if (index >= guiPages.size()) {
-            index = guiPages.size() - 1;
-            return false;
-        }
-        playerGuiHashMap.keySet().forEach(this::openInventory);
         return true;
     }
 
@@ -105,22 +88,6 @@ public class Gui implements Listener {
         return true;
     }
 
-    public boolean previousInventoryIndex() {
-        if (guiPages.size() <= 1)
-            return false;
-        if (index >= guiPages.size()) {
-            index = guiPages.size() - 1;
-            return false;
-        }
-        index--;
-        if (index < 0) {
-            index = 0;
-            return false;
-        }
-        playerGuiHashMap.keySet().forEach(this::openInventory);
-        return true;
-    }
-
     public boolean firstIndex() {
         if (index <= 0) {
             index = 0;
@@ -130,18 +97,6 @@ public class Gui implements Listener {
             return false;
         index = 0;
         playerGuiHashMap.keySet().forEach(this::open);
-        return true;
-    }
-
-    public boolean firstInventoryIndex() {
-        if (index <= 0) {
-            index = 0;
-            return false;
-        }
-        if (guiPages.size() <= 1)
-            return false;
-        index = 0;
-        playerGuiHashMap.keySet().forEach(this::openInventory);
         return true;
     }
 
@@ -157,29 +112,11 @@ public class Gui implements Listener {
         return true;
     }
 
-    public boolean lastInventoryIndex() {
-        if (guiPages.size() <= 1)
-            return false;
-        if (index + 1 >= guiPages.size()) {
-            index = guiPages.size() - 1;
-            return false;
-        }
-        index = guiPages.size() - 1;
-        playerGuiHashMap.keySet().forEach(this::openInventory);
-        return true;
-    }
-
     public void sync(final Player player) {
         if (!playerGuiHashMap.containsKey(player))
             return;
         player.getOpenInventory().getTopInventory().clear();
         playerGuiHashMap.get(player).getCurrentGuiPage().getGuiItems().keySet().forEach(key -> player.getOpenInventory().getTopInventory().setItem(key, playerGuiHashMap.get(player).getCurrentGuiPage().getGuiItems().get(key).getItemStack()));
-    }
-
-    public void syncInventory(final Player player) {
-        if (!playerInventoryHashMap.containsKey(player))
-            return;
-        playerInventoryHashMap.get(player).getCurrentGuiPage().getGuiItems().keySet().forEach(key -> player.getInventory().setItem(key, playerInventoryHashMap.get(player).getCurrentGuiPage().getGuiItems().get(key).getItemStack()));
     }
 
     public void close(Player... players) {
@@ -254,22 +191,5 @@ public class Gui implements Listener {
         if (taskID.containsKey(player))
             Bukkit.getScheduler().cancelTask(taskID.get(player));
         taskID.remove(player);
-    }
-
-
-    public void openInventory(final Player player) {
-        playerInventoryHashMap.put(player, this);
-        final Inventory inventory = guiPages.get(index).build(player.getInventory());
-        startTick(player);
-        getCurrentGuiPage().raiseInventoryOpenEvent(this, player);
-    }
-
-    public void closeInventory(final Player player) {
-        if (playerInventoryHashMap.containsKey(player)) {
-            playerInventoryHashMap.get(player).getCurrentGuiPage().raiseInventoryCloseEvent(this, player);
-            stopTick(player);
-            playerInventoryHashMap.remove(player);
-        }
-        player.closeInventory();
     }
 }

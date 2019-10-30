@@ -19,6 +19,12 @@ public class GuiItem {
         this.guiItemEvent = guiItemEvent;
     }
 
+    public GuiItem(final ItemStack itemStack) {
+        this.itemStack = itemStack;
+        this.guiItemEvent = new GuiItemEvent() {
+        };
+    }
+
     public void raiseEvent(final Gui gui, final GuiPage guiPage, final Player player, final ClickType clickType) {
         guiItemEvent.onEvent(gui, guiPage, this, player, clickType);
     }
