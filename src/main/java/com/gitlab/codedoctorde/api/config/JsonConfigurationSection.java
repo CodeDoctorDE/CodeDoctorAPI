@@ -392,4 +392,8 @@ public class JsonConfigurationSection extends JsonConfigurationElement {
             else if (entry.getValue().isJsonPrimitive())
                 values.put(entry.getKey(), new JsonConfigurationValue(entry.getValue().getAsJsonPrimitive()));
     }
+
+    public boolean containsKey(String key){
+        return values.containsKey(key);
+    }
 }
