@@ -66,7 +66,8 @@ public class GuiPage {
     }
 
     public Inventory build() {
-        return build(inventory);
+        inventory = build(inventory);
+        return inventory;
     }
 
     public Inventory build(Inventory buildInventory) {
