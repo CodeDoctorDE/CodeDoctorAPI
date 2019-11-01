@@ -2,7 +2,7 @@ package com.gitlab.codedoctorde.api.ui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
@@ -43,15 +43,15 @@ public class GuiPage {
         return title;
     }
 
-    private void raiseEvent(final Gui gui, final Player player, final GuiItem guiItem, final ClickType clickType) {
-        guiItem.raiseEvent(gui, this, player, clickType);
+    private void raiseEvent(final Gui gui, final GuiItem guiItem, final InventoryClickEvent event) {
+        guiItem.raiseEvent(gui, this, event);
     }
 
-    void raiseItemEvent(final Gui gui, final Player player, final int location, final ClickType clickType) {
+    void raiseItemEvent(final Gui gui, final int location, final InventoryClickEvent event) {
         for (int key :
                 guiItems.keySet())
             if (key == location)
-                raiseEvent(gui, player, guiItems.get(key), clickType);
+                raiseEvent(gui, guiItems.get(key), event);
     }
 
     public void runTick(final Gui gui, final Player player) {

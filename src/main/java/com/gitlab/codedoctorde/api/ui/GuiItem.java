@@ -2,7 +2,7 @@ package com.gitlab.codedoctorde.api.ui;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class GuiItem {
@@ -25,12 +25,8 @@ public class GuiItem {
         };
     }
 
-    public void raiseEvent(final Gui gui, final GuiPage guiPage, final Player player, final ClickType clickType) {
-        guiItemEvent.onEvent(gui, guiPage, this, player, clickType);
-    }
-
-    public boolean raiseItemChangeEvent(final Gui gui, final GuiPage guiPage, final Player player, final ItemStack change) {
-        return guiItemEvent.onItemChange(gui, guiPage, this, player, change);
+    public void raiseEvent(final Gui gui, final GuiPage guiPage, final InventoryClickEvent event) {
+        guiItemEvent.onEvent(gui, guiPage, this, event);
     }
 
     public ItemStack getItemStack() {

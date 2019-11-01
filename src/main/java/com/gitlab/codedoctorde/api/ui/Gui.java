@@ -166,12 +166,7 @@ public class Gui implements Listener {
                 event.setCancelled(true);
                 if (getCurrentGuiPage().getGuiItems().containsKey(event.getSlot())) {
                     GuiItem guiItem = getCurrentGuiPage().getGuiItems().get(event.getSlot());
-                    if (guiItem.raiseItemChangeEvent(gui, getCurrentGuiPage(), player, event.getCurrentItem())) {
-                        guiItem.setItemStack(event.getCursor());
-                        event.setCurrentItem(event.getCursor());
-                        player.setItemOnCursor(null);
-                    }
-                    guiItem.raiseEvent(this, getCurrentGuiPage(), player, event.getClick());
+                    guiItem.raiseEvent(gui, getCurrentGuiPage(), event);
                 }
             }
         }
