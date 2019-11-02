@@ -18,6 +18,10 @@
             <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>codedoctorapi</id>
+            <url>https://gitlab.com/api/v4/projects/14810643/packages/maven</url>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -26,5 +30,22 @@
             <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>17.0.0</version>
+        </dependency>
+
     </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>codedoctorapi</id>
+            <url>https://gitlab.com/api/v4/projects/14810643/packages/maven</url>
+        </repository>
+        <snapshotRepository>
+            <id>codedoctorapi</id>
+            <url>https://gitlab.com/api/v4/projects/14810643/packages/maven</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
