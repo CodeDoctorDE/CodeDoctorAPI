@@ -71,9 +71,6 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public int amount(){
-        return itemStack.getAmount();
-    }
 
     public ItemStackBuilder lore(List<String> lore) {
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -82,9 +79,6 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public List<String> lore(){
-        return itemStack.getItemMeta().getLore();
-    }
 
     public ItemStackBuilder lore(String... lore) {
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -100,9 +94,6 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public String name(){
-        return itemStack.getItemMeta().getDisplayName();
-    }
 
     public ItemStackBuilder format(Object... arguments) {
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -123,9 +114,6 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public int customModelData(){
-        return itemStack.getItemMeta().getCustomModelData();
-    }
 
     public String serialize() {
         try {
