@@ -62,9 +62,17 @@ public class ItemStackBuilder {
         return this;
     }
 
+    public Material material(){
+        return itemStack.getType();
+    }
+
     public ItemStackBuilder amount(int amount) {
         itemStack.setAmount(amount);
         return this;
+    }
+
+    public int amount(){
+        return itemStack.getAmount();
     }
 
     public ItemStackBuilder lore(List<String> lore) {
@@ -72,6 +80,10 @@ public class ItemStackBuilder {
         Objects.requireNonNull(itemMeta).setLore(lore);
         itemStack.setItemMeta(itemMeta);
         return this;
+    }
+
+    public List<String> lore(){
+        return itemStack.getItemMeta().getLore();
     }
 
     public ItemStackBuilder lore(String... lore) {
@@ -86,6 +98,10 @@ public class ItemStackBuilder {
         Objects.requireNonNull(itemMeta).setDisplayName(displayName);
         itemStack.setItemMeta(itemMeta);
         return this;
+    }
+
+    public String name(){
+        return itemStack.getItemMeta().getDisplayName();
     }
 
     public ItemStackBuilder format(Object... arguments) {
@@ -105,6 +121,10 @@ public class ItemStackBuilder {
         Objects.requireNonNull(itemMeta).setCustomModelData(data);
         itemStack.setItemMeta(itemMeta);
         return this;
+    }
+
+    public int customModelData(){
+        return itemStack.getItemMeta().getCustomModelData();
     }
 
     public String serialize() {
