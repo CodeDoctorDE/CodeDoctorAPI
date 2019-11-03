@@ -162,7 +162,7 @@ public class Gui implements Listener {
         if (playerGuiHashMap.containsKey(player)) if (playerGuiHashMap.get(player) == this) {
             Gui gui = playerGuiHashMap.get(player);
             if ((event.getClickedInventory() != player.getInventory()) ||
-                    (event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY && event.getInventory() == player.getInventory())) {
+                    (event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY && event.getClickedInventory().equals(player.getInventory()))) {
                 event.setCancelled(true);
                 if (getCurrentGuiPage().getGuiItems().containsKey(event.getSlot())) {
                     GuiItem guiItem = getCurrentGuiPage().getGuiItems().get(event.getSlot());
