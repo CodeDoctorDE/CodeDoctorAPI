@@ -88,6 +88,7 @@ public class ItemStackBuilder {
         return setAmount(amount);
     }
 
+    @Nullable
     public List<String> getLore() {
         return itemStack.getItemMeta().getLore();
     }
