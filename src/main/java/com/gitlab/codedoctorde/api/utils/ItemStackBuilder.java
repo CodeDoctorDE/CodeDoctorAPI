@@ -3,7 +3,6 @@ package com.gitlab.codedoctorde.api.utils;
 import com.gitlab.codedoctorde.api.config.JsonConfigurationValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import jdk.internal.jline.internal.Nullable;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -11,6 +10,7 @@ import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
+import javax.annotation.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
