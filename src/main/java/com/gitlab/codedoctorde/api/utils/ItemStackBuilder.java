@@ -63,7 +63,7 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public Material getMaterial(Material material) {
+    public Material getMaterial() {
         return itemStack.getType();
     }
 
@@ -80,7 +80,7 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public int getAmount(int amount) {
+    public int getAmount() {
         return itemStack.getAmount();
     }
 
@@ -122,7 +122,7 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public String getDisplayName(String displayName) {
+    public String getDisplayName() {
         return itemStack.getItemMeta().getDisplayName();
     }
 
