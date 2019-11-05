@@ -3,6 +3,7 @@ package com.gitlab.codedoctorde.api.utils;
 import com.gitlab.codedoctorde.api.config.JsonConfigurationValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import jdk.internal.jline.internal.Nullable;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -57,41 +58,101 @@ public class ItemStackBuilder {
             itemStack = new ItemStack(Material.AIR);
     }
 
-    public ItemStackBuilder material(Material material) {
+    public ItemStackBuilder setMaterial(Material material) {
         itemStack.setType(material);
         return this;
+    }
+
+    public Material getMaterial(Material material) {
+        return itemStack.getType();
+    }
+
+    public ItemStackBuilder material(Material material) {
+        return setMaterial(material);
     }
 
     public Material material(){
         return itemStack.getType();
     }
 
-    public ItemStackBuilder amount(int amount) {
+    public ItemStackBuilder setAmount(int amount) {
         itemStack.setAmount(amount);
         return this;
     }
 
-
-    public ItemStackBuilder lore(List<String> lore) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        Objects.requireNonNull(itemMeta).setLore(lore);
-        itemStack.setItemMeta(itemMeta);
-        return this;
+    public int getAmount(int amount) {
+        return itemStack.getAmount();
     }
 
+    public ItemStackBuilder amount(int amount) {
+        return setAmount(amount);
+    }
 
-    public ItemStackBuilder lore(String... lore) {
+    public List<String> getLore() {
+        return itemStack.getItemMeta().getLore();
+    }
+
+    public ItemStackBuilder setLore(String... lore) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         Objects.requireNonNull(itemMeta).setLore(new ArrayList<>(Arrays.asList(lore)));
         itemStack.setItemMeta(itemMeta);
         return this;
     }
 
-    public ItemStackBuilder name(String displayName) {
+    public ItemStackBuilder setLore(List<String> lore) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Objects.requireNonNull(itemMeta).setLore(lore);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public ItemStackBuilder lore(List<String> lore) {
+        return setLore(lore);
+    }
+
+
+    public ItemStackBuilder lore(String... lore) {
+        return setLore(lore);
+    }
+
+    public ItemStackBuilder setDisplayName(String displayName) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         Objects.requireNonNull(itemMeta).setDisplayName(displayName);
         itemStack.setItemMeta(itemMeta);
         return this;
+    }
+
+    public String getDisplayName(String displayName) {
+        return itemStack.getItemMeta().getDisplayName();
+    }
+
+    /**
+     * @deprecated Replaced by {@link #displayName(String)} ()}
+     */
+    @Deprecated
+    public ItemStackBuilder name(String displayName) {
+        return setDisplayName(displayName);
+    }
+
+    public ItemStackBuilder displayName(String displayName) {
+        return setDisplayName(displayName);
+    }
+
+    @Nullable
+    public Integer getCustomModelData() {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        return (itemMeta.hasCustomModelData()) ? itemMeta.getCustomModelData() : null;
+    }
+
+    public ItemStackBuilder setCustomModelData(Integer data) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Objects.requireNonNull(itemMeta).setCustomModelData(data);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public ItemStackBuilder customModelData(Integer data) {
+        return setCustomModelData(data);
     }
 
 
@@ -103,13 +164,6 @@ public class ItemStackBuilder {
                 Objects.requireNonNull(itemMeta.getLore()))
             lore.add(MessageFormat.format(line, arguments));
         itemMeta.setLore(lore);
-        itemStack.setItemMeta(itemMeta);
-        return this;
-    }
-
-    public ItemStackBuilder customModelData(Integer data) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        Objects.requireNonNull(itemMeta).setCustomModelData(data);
         itemStack.setItemMeta(itemMeta);
         return this;
     }

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bcf102eb-450a-47e9-a627-7580be976435" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/Api/Api.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/Api/Api.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/gitlab/codedoctorde/api/utils/ItemStackBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gitlab/codedoctorde/api/utils/ItemStackBuilder.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -119,7 +120,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572791030061</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="revert getter">
+      <created>1572793867663</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1572793867663</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -140,6 +148,7 @@
     <MESSAGE value="rename file" />
     <MESSAGE value="fix an error" />
     <MESSAGE value="now getter on itemstackbuilder" />
-    <option name="LAST_COMMIT_MESSAGE" value="now getter on itemstackbuilder" />
+    <MESSAGE value="revert getter" />
+    <option name="LAST_COMMIT_MESSAGE" value="revert getter" />
   </component>
 </project>
