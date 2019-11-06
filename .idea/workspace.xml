@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bcf102eb-450a-47e9-a627-7580be976435" name="Default Changelist" comment="nullable on getlore">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="bcf102eb-450a-47e9-a627-7580be976435" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gitlab/codedoctorde/api/utils/ItemStackBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gitlab/codedoctorde/api/utils/ItemStackBuilder.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -90,7 +89,9 @@
       <option name="presentableId" value="Default" />
       <updated>1553891384878</updated>
       <workItem from="1572982580556" duration="269000" />
-      <workItem from="1573042167234" duration="57000" />
+      <workItem from="1573042167234" duration="314000" />
+      <workItem from="1573046939023" duration="875000" />
+      <workItem from="1573059917774" duration="157000" />
     </task>
     <task id="LOCAL-00001" summary="add maven build">
       <created>1572677052283</created>
@@ -155,7 +156,21 @@
       <option name="project" value="LOCAL" />
       <updated>1572974680723</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="small changes">
+      <created>1573042249694</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1573042249694</updated>
+    </task>
+    <task id="LOCAL-00011" summary="small changes">
+      <created>1573042354138</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1573042354138</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,7 +203,8 @@
     <MESSAGE value="change nullable" />
     <MESSAGE value="fix parameters in getter" />
     <MESSAGE value="nullable on getlore" />
-    <option name="LAST_COMMIT_MESSAGE" value="nullable on getlore" />
+    <MESSAGE value="small changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="small changes" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
