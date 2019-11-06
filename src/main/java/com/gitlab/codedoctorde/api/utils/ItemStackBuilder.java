@@ -95,7 +95,9 @@ public class ItemStackBuilder {
 
     public ItemStackBuilder setLore(String... lore) {
         ItemMeta itemMeta = itemStack.getItemMeta();
-        Objects.requireNonNull(itemMeta).setLore(new ArrayList<>(Arrays.asList(lore)));
+        List<String> loreList = new ArrayList<>();
+        Arrays.stream(lore).map(line -> Arrays.asList(line.split("\r\n"))).forEach(loreList::addAll);
+        Objects.requireNonNull(itemMeta).setLore(loreList);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
