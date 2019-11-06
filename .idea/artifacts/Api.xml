@@ -3,7 +3,6 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Api</output-path>
     <root id="archive" name="Api.jar">
       <element id="module-output" name="CodeDoctorAPI" />
-      <element id="library" level="project" name="org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT" />
     </root>
   </artifact>
 </component>
