@@ -162,9 +162,10 @@ public class ItemStackBuilder {
     public ItemStackBuilder format(Object... arguments) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(MessageFormat.format(itemMeta.getDisplayName(), arguments));
-        List<String> lore = new ArrayList<>();
-        Objects.requireNonNull(itemMeta.getLore()).stream().map(line -> Arrays.asList(MessageFormat.format(line, arguments).split("\n"))).forEach(lore::addAll);
-        itemMeta.setLore(lore);
+        List<String> formattedLore = new ArrayList<>();
+        List<String> lore = itemMeta.getLore();
+        Objects.requireNonNull(lore).stream().map(line -> Arrays.asList(line.split("\n"))).forEach(formattedLore::addAll);
+        itemMeta.setLore(formattedLore);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
