@@ -3,6 +3,7 @@ package com.gitlab.codedoctorde.api.utils;
 import com.gitlab.codedoctorde.api.config.JsonConfigurationValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -165,6 +166,8 @@ public class ItemStackBuilder {
         List<String> formattedLore = new ArrayList<>();
         List<String> lore = itemMeta.getLore();
         Objects.requireNonNull(lore).stream().map(line -> Arrays.asList(line.split("\n"))).forEach(formattedLore::addAll);
+        Bukkit.broadcastMessage(lore.toString());
+        Bukkit.broadcastMessage(formattedLore.toString());
         itemMeta.setLore(formattedLore);
         itemStack.setItemMeta(itemMeta);
         return this;
