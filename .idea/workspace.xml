@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bcf102eb-450a-47e9-a627-7580be976435" name="Default Changelist" comment="">
+    <list default="true" id="5414266b-2c7f-4f2c-97df-3ace6903dffa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CodeDoctorAPI.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/gitlab/codedoctorde/api/utils/ItemStackBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gitlab/codedoctorde/api/utils/ItemStackBuilder.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -11,60 +12,14 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="DefaultGradleProjectSettings">
-    <option name="isMigrated" value="true" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="HTML File" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="170" />
-    <option name="y" value="92" />
-    <option name="width" value="1026" />
-    <option name="height" value="552" />
-  </component>
-  <component name="ProjectId" id="1T36mK4JC5BVLo6NKVc0mwgupHX" />
+  <component name="ProjectId" id="1TH9t3GxpMrT0iXvyAREFzjQfL4" />
   <component name="PropertiesComponent">
-    <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553930818049" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Artifacts" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="de.codedoctor.api.utils" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Jan-Andrej\intellj-projects\CodeDoctorAPI\src\main\java\de\codedoctor\api\gui" />
-      <recent name="C:\Users\Jan-Andrej\intellj-projects\CodeDoctorAPI\src\de\codedoctor\api\gui" />
-    </key>
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/pom.xml" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -83,130 +38,27 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="bcf102eb-450a-47e9-a627-7580be976435" name="Default Changelist" comment="" />
-      <created>1553891384878</created>
+      <changelist id="5414266b-2c7f-4f2c-97df-3ace6903dffa" name="Default Changelist" comment="" />
+      <created>1573106364620</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1553891384878</updated>
-      <workItem from="1572982580556" duration="269000" />
-      <workItem from="1573042167234" duration="314000" />
-      <workItem from="1573046939023" duration="875000" />
-      <workItem from="1573059917774" duration="157000" />
+      <updated>1573106364620</updated>
+      <workItem from="1573106368205" duration="69000" />
     </task>
-    <task id="LOCAL-00001" summary="add maven build">
-      <created>1572677052283</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1572677052283</updated>
-    </task>
-    <task id="LOCAL-00002" summary="rename file">
-      <created>1572677306036</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1572677306036</updated>
-    </task>
-    <task id="LOCAL-00003" summary="fix an error">
-      <created>1572787659869</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1572787659869</updated>
-    </task>
-    <task id="LOCAL-00004" summary="now getter on itemstackbuilder">
-      <created>1572791030061</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1572791030061</updated>
-    </task>
-    <task id="LOCAL-00005" summary="revert getter">
-      <created>1572793867663</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1572793867663</updated>
-    </task>
-    <task id="LOCAL-00006" summary="add setter and getter to itemstackbuilder">
-      <created>1572972618468</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1572972618468</updated>
-    </task>
-    <task id="LOCAL-00007" summary="change nullable">
-      <created>1572973972968</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1572973972968</updated>
-    </task>
-    <task id="LOCAL-00008" summary="fix parameters in getter">
-      <created>1572974542354</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1572974542354</updated>
-    </task>
-    <task id="LOCAL-00009" summary="nullable on getlore">
-      <created>1572974680723</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1572974680723</updated>
-    </task>
-    <task id="LOCAL-00010" summary="small changes">
-      <created>1573042249694</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1573042249694</updated>
-    </task>
-    <task id="LOCAL-00011" summary="small changes">
-      <created>1573042354138</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1573042354138</updated>
-    </task>
-    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="UpdateCopyrightCheckinHandler">
-    <option name="UPDATE_COPYRIGHT" value="true" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="add maven build" />
-    <MESSAGE value="rename file" />
-    <MESSAGE value="fix an error" />
-    <MESSAGE value="now getter on itemstackbuilder" />
-    <MESSAGE value="revert getter" />
-    <MESSAGE value="add setter and getter to itemstackbuilder" />
-    <MESSAGE value="change nullable" />
-    <MESSAGE value="fix parameters in getter" />
-    <MESSAGE value="nullable on getlore" />
-    <MESSAGE value="small changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="small changes" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

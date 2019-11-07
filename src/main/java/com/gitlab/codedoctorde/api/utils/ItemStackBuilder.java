@@ -163,9 +163,7 @@ public class ItemStackBuilder {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(MessageFormat.format(itemMeta.getDisplayName(), arguments));
         List<String> lore = new ArrayList<>();
-        for (String line :
-                Objects.requireNonNull(itemMeta.getLore()))
-            lore.add(MessageFormat.format(line, arguments));
+        Objects.requireNonNull(itemMeta.getLore()).stream().map(line -> Arrays.asList(MessageFormat.format(line, arguments).split("\n"))).forEach(lore::addAll);
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
         return this;
