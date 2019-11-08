@@ -165,7 +165,14 @@ public class ItemStackBuilder {
         itemMeta.setDisplayName(MessageFormat.format(itemMeta.getDisplayName(), arguments));
         List<String> formattedLore = new ArrayList<>();
         List<String> lore = itemMeta.getLore();
-        Objects.requireNonNull(lore).stream().map(line -> Arrays.asList(MessageFormat.format(line, arguments).split("\n"))).forEach(formattedLore::addAll);
+        Objects.requireNonNull(lore).stream().map(line -> {
+                    Bukkit.broadcastMessage(MessageFormat.format(line, arguments));
+                    Bukkit.broadcastMessage(Arrays.asList(MessageFormat.format(line, arguments).split("\n")).toString());
+                    return Arrays.asList(MessageFormat.format(line, arguments).split("\n"));
+                }
+
+
+        ).forEach(formattedLore::addAll);
         Bukkit.broadcastMessage(lore.toString());
         Bukkit.broadcastMessage(formattedLore.toString());
         itemMeta.setLore(formattedLore);
