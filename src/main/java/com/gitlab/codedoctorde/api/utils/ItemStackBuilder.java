@@ -3,7 +3,6 @@ package com.gitlab.codedoctorde.api.utils;
 import com.gitlab.codedoctorde.api.config.JsonConfigurationValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -162,14 +161,7 @@ public class ItemStackBuilder {
     public ItemStackBuilder format(Object... arguments) {
         displayName(MessageFormat.format(getDisplayName(), arguments));
         List<String> formattedLore = new ArrayList<>();
-        Bukkit.broadcastMessage("loop: " + getLore());
-        for (String line : getLore()) {
-            Bukkit.broadcastMessage("next line");
-            Bukkit.broadcastMessage(Arrays.asList(MessageFormat.format(line, arguments).split("\n")).toString());
-            Bukkit.broadcastMessage(MessageFormat.format(line, arguments));
-            formattedLore.addAll(Arrays.asList(MessageFormat.format(line, arguments).split("\n")));
-        }
-        Bukkit.broadcastMessage(formattedLore.toString());
+        getLore().stream().map(line -> Arrays.asList(MessageFormat.format(line, arguments).split("\n"))).forEach(formattedLore::addAll);
         setLore(formattedLore);
         return this;
     }
