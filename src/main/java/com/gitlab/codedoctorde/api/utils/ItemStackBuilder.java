@@ -163,8 +163,8 @@ public class ItemStackBuilder {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(MessageFormat.format(itemMeta.getDisplayName(), arguments));
         List<String> formattedLore = new ArrayList<>();
-        for (String line :
-                getLore()) {
+        Bukkit.broadcastMessage("loop: " + getLore());
+        for (String line : getLore()) {
             Bukkit.broadcastMessage("next line");
             Bukkit.broadcastMessage(Arrays.asList(MessageFormat.format(line, arguments).split("\n")).toString());
             Bukkit.broadcastMessage(MessageFormat.format(line, arguments));
