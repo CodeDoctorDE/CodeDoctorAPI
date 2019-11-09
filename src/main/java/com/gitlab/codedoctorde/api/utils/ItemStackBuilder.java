@@ -89,9 +89,8 @@ public class ItemStackBuilder {
         return setAmount(amount);
     }
 
-    @Nullable
     public List<String> getLore() {
-        return itemStack.getItemMeta().getLore();
+        return (itemStack.getItemMeta().getLore() == null) ? new ArrayList<>() : itemStack.getItemMeta().getLore();
     }
 
     public ItemStackBuilder setLore(String... lore) {
@@ -164,20 +163,15 @@ public class ItemStackBuilder {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(MessageFormat.format(itemMeta.getDisplayName(), arguments));
         List<String> formattedLore = new ArrayList<>();
-        List<String> lore = itemMeta.getLore();
-        if (lore != null)
-            lore.stream().map(line -> {
-                Bukkit.broadcastMessage("next line");
-                Bukkit.broadcastMessage(Arrays.asList(MessageFormat.format(line, arguments).split("\n")).toString());
-                Bukkit.broadcastMessage(MessageFormat.format(line, arguments));
-                return Arrays.asList(MessageFormat.format(line, arguments).split("\n"));
-            }).forEach(formattedLore::addAll);
-        else
-            Bukkit.broadcastMessage("null");
-        if (lore != null)
-        Bukkit.broadcastMessage(lore.toString());
+        for (String line :
+                getLore()) {
+            Bukkit.broadcastMessage("next line");
+            Bukkit.broadcastMessage(Arrays.asList(MessageFormat.format(line, arguments).split("\n")).toString());
+            Bukkit.broadcastMessage(MessageFormat.format(line, arguments));
+            formattedLore.addAll(Arrays.asList(MessageFormat.format(line, arguments).split("\n")));
+        }
         Bukkit.broadcastMessage(formattedLore.toString());
-        itemMeta.setLore(formattedLore);
+        setLore(formattedLore);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
