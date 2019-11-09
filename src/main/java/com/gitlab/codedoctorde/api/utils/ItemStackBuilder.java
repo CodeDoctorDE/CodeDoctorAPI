@@ -167,11 +167,13 @@ public class ItemStackBuilder {
         List<String> lore = itemMeta.getLore();
         if (lore != null)
             lore.stream().map(line -> {
-                Bukkit.broadcastMessage(Arrays.asList(MessageFormat.format(line, arguments).split("\n")).toString());
                 Bukkit.broadcastMessage("next line");
+                Bukkit.broadcastMessage(Arrays.asList(MessageFormat.format(line, arguments).split("\n")).toString());
                 Bukkit.broadcastMessage(MessageFormat.format(line, arguments));
                 return Arrays.asList(MessageFormat.format(line, arguments).split("\n"));
             }).forEach(formattedLore::addAll);
+        else
+            Bukkit.broadcastMessage("null");
         if (lore != null)
         Bukkit.broadcastMessage(lore.toString());
         Bukkit.broadcastMessage(formattedLore.toString());
