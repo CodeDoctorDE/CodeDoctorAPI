@@ -16,10 +16,10 @@ import java.util.HashMap;
 public class BlockBreakRequest implements Listener {
     private static HashMap<Player, BlockBreakRequest> requests = new HashMap<>();
     private JavaPlugin plugin;
-    private BlockPlaceRequestEvent blockPlaceRequestEvent;
+    private BlockBreakRequestEvent blockBreakRequestEvent;
 
-    public BlockBreakRequest(final JavaPlugin plugin, final Player player, final BlockPlaceRequestEvent blockPlaceRequestEvent) {
-        this.blockPlaceRequestEvent = blockPlaceRequestEvent;
+    public BlockBreakRequest(final JavaPlugin plugin, final Player player, final BlockBreakRequestEvent blockBreakRequestEvent) {
+        this.blockBreakRequestEvent = blockBreakRequestEvent;
         if (requests.containsKey(player))
             requests.get(player).cancel(player);
         requests.remove(player);
@@ -29,11 +29,11 @@ public class BlockBreakRequest implements Listener {
     }
 
     public void cancel(Player player) {
-        blockPlaceRequestEvent.onCancel(player);
+        blockBreakRequestEvent.onCancel(player);
     }
 
     public void event(Player player, Block output) {
-        blockPlaceRequestEvent.onEvent(player, output);
+        blockBreakRequestEvent.onEvent(player, output);
     }
 
     @EventHandler
