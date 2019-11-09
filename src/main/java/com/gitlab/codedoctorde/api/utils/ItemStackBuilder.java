@@ -160,8 +160,7 @@ public class ItemStackBuilder {
 
 
     public ItemStackBuilder format(Object... arguments) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(MessageFormat.format(itemMeta.getDisplayName(), arguments));
+        displayName(MessageFormat.format(getDisplayName(), arguments));
         List<String> formattedLore = new ArrayList<>();
         Bukkit.broadcastMessage("loop: " + getLore());
         for (String line : getLore()) {
@@ -172,7 +171,6 @@ public class ItemStackBuilder {
         }
         Bukkit.broadcastMessage(formattedLore.toString());
         setLore(formattedLore);
-        itemStack.setItemMeta(itemMeta);
         return this;
     }
 
