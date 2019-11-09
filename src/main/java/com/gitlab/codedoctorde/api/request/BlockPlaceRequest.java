@@ -37,7 +37,7 @@ public class BlockPlaceRequest implements Listener {
     }
 
     @EventHandler
-    private void onAsyncPlayerChat(BlockPlaceEvent event) {
+    private void onBlockPlaced(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         if (requests.containsKey(player)) {
             Bukkit.getScheduler().runTask(plugin, () -> {
@@ -50,7 +50,7 @@ public class BlockPlaceRequest implements Listener {
     }
 
     @EventHandler
-    private void onPlayerMove(PlayerInteractEvent event) {
+    private void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (event.getAction() != Action.LEFT_CLICK_AIR)
             return;

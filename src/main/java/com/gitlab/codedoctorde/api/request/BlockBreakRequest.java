@@ -1,24 +1,25 @@
 package com.gitlab.codedoctorde.api.request;
 
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
-public class ChatRequest implements Listener {
-    private static HashMap<Player, ChatRequest> requests = new HashMap<>();
+public class BlockBreakRequest implements Listener {
+    private static HashMap<Player, BlockBreakRequest> requests = new HashMap<>();
     private JavaPlugin plugin;
-    private ChatRequestEvent chatRequestEvent;
+    private BlockPlaceRequestEvent blockPlaceRequestEvent;
 
-    public ChatRequest(final JavaPlugin plugin, final Player player, final ChatRequestEvent chatRequestEvent) {
-        this.chatRequestEvent = chatRequestEvent;
+    public BlockBreakRequest(final JavaPlugin plugin, final Player player, final BlockPlaceRequestEvent blockPlaceRequestEvent) {
+        this.blockPlaceRequestEvent = blockPlaceRequestEvent;
         if (requests.containsKey(player))
             requests.get(player).cancel(player);
         requests.remove(player);
@@ -28,20 +29,20 @@ public class ChatRequest implements Listener {
     }
 
     public void cancel(Player player) {
-        chatRequestEvent.onCancel(player);
+        blockPlaceRequestEvent.onCancel(player);
     }
 
-    public void event(Player player, String output) {
-        chatRequestEvent.onEvent(player, output);
+    public void event(Player player, Block output) {
+        blockPlaceRequestEvent.onEvent(player, output);
     }
 
     @EventHandler
-    private void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
+    private void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         if (requests.containsKey(player)) {
             Bukkit.getScheduler().runTask(plugin, () -> {
                 if (requests.containsKey(player))
-                    requests.get(player).event(player, event.getMessage());
+                    requests.get(player).event(player, event.getBlock());
                 requests.remove(player);
             });
             event.setCancelled(true);
