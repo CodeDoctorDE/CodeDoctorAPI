@@ -20,7 +20,7 @@ public class ItemStackTypeAdapter implements JsonSerializer<ItemStack>, JsonDese
 
     @Override
     public JsonElement serialize(ItemStack itemStack, Type type, JsonSerializationContext context) {
-        return new JsonPrimitive(gson.toJson(itemStack.serialize()));
+        return new JsonPrimitive(new ItemStackBuilder(itemStack).serialize());
     }
 
 }
