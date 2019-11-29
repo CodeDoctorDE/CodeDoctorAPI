@@ -16,6 +16,6 @@ public class BlockDataTypeAdapter implements JsonSerializer<BlockData>, JsonDese
 
     @Override
     public JsonElement serialize(BlockData src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(gson.toJson(src.getAsString()));
+        return new JsonPrimitive(src.getAsString());
     }
 }
