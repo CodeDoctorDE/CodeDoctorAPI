@@ -3,6 +3,7 @@ package com.gitlab.codedoctorde.api.utils;
 import com.gitlab.codedoctorde.api.config.JsonConfigurationValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -47,6 +48,21 @@ public class ItemStackBuilder {
         if (value != null) {
             try {
                 ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(value.getString()));
+                try (BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream)) {
+                    itemStack = (ItemStack) dataInput.readObject();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                itemStack = new ItemStack(Material.AIR);
+            }
+        } else
+            itemStack = new ItemStack(Material.AIR);
+    }
+
+    public ItemStackBuilder(JsonElement value) {
+        if (value != null) {
+            try {
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(value.getAsString()));
                 try (BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream)) {
                     itemStack = (ItemStack) dataInput.readObject();
                 }

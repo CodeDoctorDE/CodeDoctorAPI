@@ -1,11 +1,10 @@
 package com.gitlab.codedoctorde.api.serializer;
 
+import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Type;
-import java.util.Map;
 
 public class ItemStackTypeAdapter implements JsonSerializer<ItemStack>, JsonDeserializer<ItemStack> {
     private Gson gson;
@@ -16,9 +15,7 @@ public class ItemStackTypeAdapter implements JsonSerializer<ItemStack>, JsonDese
 
     @Override
     public ItemStack deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
-        Map<String, Object> map = gson.fromJson(jsonElement, new TypeToken<Map<String, Object>>() {
-        }.getType());
-        return ItemStack.deserialize(map);
+        return new ItemStackBuilder(jsonElement).build();
     }
 
     @Override
