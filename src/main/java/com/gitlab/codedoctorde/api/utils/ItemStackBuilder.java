@@ -1,11 +1,16 @@
 package com.gitlab.codedoctorde.api.utils;
 
 import com.gitlab.codedoctorde.api.config.JsonConfigurationValue;
+import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
@@ -15,10 +20,7 @@ import javax.annotation.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ItemStackBuilder {
     private static Gson gson = new GsonBuilder().create();
@@ -171,6 +173,73 @@ public class ItemStackBuilder {
 
     public ItemStackBuilder customModelData(Integer data) {
         return setCustomModelData(data);
+    }
+
+    public int getDamage() {
+        return ((Damageable) itemStack).getDamage();
+    }
+
+    public ItemStackBuilder setDamage(int damage) {
+        ((Damageable) itemStack).setDamage(damage);
+        return this;
+    }
+
+    public ItemStackBuilder damage(int damage) {
+        return setDamage(damage);
+    }
+
+    public ItemStackBuilder addItemFlags(ItemFlag... itemFlags) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Objects.requireNonNull(itemMeta).addItemFlags(itemFlags);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public ItemStackBuilder removeItemFlags(ItemFlag... itemFlags) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Objects.requireNonNull(itemMeta).removeItemFlags(itemFlags);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public boolean hasItemFlag(ItemFlag itemFlag) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        return itemMeta.hasItemFlag(itemFlag);
+    }
+
+    public Set<ItemFlag> getItemFlags() {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        return itemMeta.getItemFlags();
+    }
+
+    public ItemStackBuilder addAttributeModifier(Attribute attribute, AttributeModifier attributeModifier) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Objects.requireNonNull(itemMeta).addAttributeModifier(attribute, attributeModifier);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public ItemStackBuilder removeAttributeModifier(Attribute attribute) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Objects.requireNonNull(itemMeta).removeAttributeModifier(attribute);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public boolean hasAttributeModifier(Attribute attribute) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+
+        return (itemMeta.getAttributeModifiers() != null) && Objects.requireNonNull(itemMeta.getAttributeModifiers()).containsKey(attribute);
+    }
+
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers() {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        return itemMeta.getAttributeModifiers();
+    }
+
+    public Collection<AttributeModifier> getAttributeModifier(Attribute attribute) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        return itemMeta.getAttributeModifiers().get(attribute);
     }
 
 
