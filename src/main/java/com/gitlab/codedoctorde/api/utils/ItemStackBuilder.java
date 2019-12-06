@@ -239,7 +239,7 @@ public class ItemStackBuilder {
 
     public Collection<AttributeModifier> getAttributeModifier(Attribute attribute) {
         ItemMeta itemMeta = itemStack.getItemMeta();
-        return itemMeta.getAttributeModifiers().get(attribute);
+        return Objects.requireNonNull(itemMeta.getAttributeModifiers()).get(attribute);
     }
 
 
