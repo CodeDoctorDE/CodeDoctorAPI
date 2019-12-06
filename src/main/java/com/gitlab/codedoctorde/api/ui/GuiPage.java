@@ -4,27 +4,58 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
 public class GuiPage {
+    private JavaPlugin plugin;
     private String title;
     private int size;
     private HashMap<Integer, GuiItem> guiItems = new HashMap<>();
     private GuiEvent guiEvent;
     private Inventory inventory = null;
 
+
+    /**
+     * The gui class is obsoleted!
+     *
+     * @deprecated Automatically, this method is deprecated!
+     */
+    @Deprecated
     public GuiPage(final String title, final int size, final GuiEvent guiEvent) {
         this.guiEvent = guiEvent;
         this.title = title;
         this.size = size;
     }
 
+
+    /**
+     * The gui class is obsoleted!
+     *
+     * @deprecated Automatically, this method is deprecated!
+     */
+    @Deprecated
     public GuiPage(final String title, final int size) {
         this.title = title;
         this.size = size;
         this.guiEvent = new GuiEvent() {
         };
+    }
+
+    public GuiPage(final JavaPlugin javaPlugin, final String title, final int size) {
+        this.title = title;
+        this.size = size;
+        this.plugin = javaPlugin;
+        this.guiEvent = new GuiEvent() {
+        };
+    }
+
+    public GuiPage(final JavaPlugin javaPlugin, final String title, final int size, final GuiEvent guiEvent) {
+        this.guiEvent = guiEvent;
+        this.title = title;
+        this.plugin = javaPlugin;
+        this.size = size;
     }
 
     /*public Inventory build(){

@@ -15,6 +15,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The gui class is obsoleted!
+ *
+ * @deprecated Please use the class
+ * {@link GuiPage}!
+ */
+@Deprecated
 public class Gui implements Listener {
     static HashMap<Player, Gui> playerGuiHashMap = new HashMap<>();
     static HashMap<Player, Gui> playerInventoryHashMap = new HashMap<>();
