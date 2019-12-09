@@ -25,8 +25,8 @@ public class GuiItem {
         };
     }
 
-    public void raiseEvent(final Gui gui, final GuiPage guiPage, final InventoryClickEvent event) {
-        guiItemEvent.onEvent(gui, guiPage, this, event);
+    public void raiseEvent(final Gui gui, final InventoryClickEvent event) {
+        guiItemEvent.onEvent(gui, this, event);
     }
 
     public ItemStack getItemStack() {
@@ -37,7 +37,7 @@ public class GuiItem {
         this.itemStack = itemStack;
     }
 
-    public void runTick(Gui gui, GuiPage guiPage, Player player) {
-        guiItemEvent.onTick(gui, guiPage, this, player);
+    public void runTick(Gui gui, Player player) {
+        guiItemEvent.onTick(gui, this, player);
     }
 }

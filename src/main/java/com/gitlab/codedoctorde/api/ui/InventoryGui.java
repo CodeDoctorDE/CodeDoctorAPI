@@ -24,11 +24,11 @@ public class InventoryGui extends Gui {
             playerItemsHashMap.put(player, player.getInventory().getContents());
             player.closeInventory();
             playerGuiHashMap.put(player, this);
-            final Inventory inventory = guiPages.get(index).build();
+            final Inventory inventory = build();
             player.getInventory().clear();
             player.getInventory().setContents(inventory.getContents());
             startTick(player);
-            getCurrentGuiPage().raiseInventoryOpenEvent(this, player);
+            raiseInventoryOpenEvent(player);
         }
     }
 
@@ -37,7 +37,7 @@ public class InventoryGui extends Gui {
         for (Player player :
                 players) {
             if (playerGuiHashMap.containsKey(player)) {
-                playerGuiHashMap.get(player).getCurrentGuiPage().raiseInventoryCloseEvent(this, player);
+                playerGuiHashMap.get(player).raiseInventoryCloseEvent(player);
                 stopTick(player);
                 playerGuiHashMap.remove(player);
             }

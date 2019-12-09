@@ -5,14 +5,14 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 public interface GuiItemEvent {
-    default void onEvent(Gui gui, GuiPage guiPage, GuiItem guiItem, InventoryClickEvent event) {
+    default void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
     }
 
-    default void onTick(Gui gui, GuiPage guiPage, GuiItem guiItem, Player player) {
+    default void onTick(Gui gui, GuiItem guiItem, Player player) {
 
     }
 
-    default boolean onItemChange(Gui gui, GuiPage guiPage, GuiItem guiItem, Player player, ItemStack change) {
+    default boolean onItemChange(Gui gui, GuiItem guiItem, Player player, ItemStack change) {
         return false;
     }
 }

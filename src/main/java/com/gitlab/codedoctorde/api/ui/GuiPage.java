@@ -8,6 +8,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
+
+/**
+ * The gui class is obsoleted!
+ *
+ * @deprecated Please use the class
+ * {@link Gui}!
+ */
+@Deprecated
 public class GuiPage {
     private JavaPlugin plugin;
     private String title;
@@ -16,12 +24,6 @@ public class GuiPage {
     private GuiEvent guiEvent;
     private Inventory inventory = null;
 
-
-    /**
-     * The gui class is obsoleted!
-     *
-     * @deprecated Automatically, this method is deprecated!
-     */
     @Deprecated
     public GuiPage(final String title, final int size, final GuiEvent guiEvent) {
         this.guiEvent = guiEvent;
@@ -29,12 +31,6 @@ public class GuiPage {
         this.size = size;
     }
 
-
-    /**
-     * The gui class is obsoleted!
-     *
-     * @deprecated Automatically, this method is deprecated!
-     */
     @Deprecated
     public GuiPage(final String title, final int size) {
         this.title = title;
@@ -75,7 +71,7 @@ public class GuiPage {
     }
 
     private void raiseEvent(final Gui gui, final GuiItem guiItem, final InventoryClickEvent event) {
-        guiItem.raiseEvent(gui, this, event);
+        guiItem.raiseEvent(gui, event);
     }
 
     void raiseItemEvent(final Gui gui, final int location, final InventoryClickEvent event) {
@@ -86,10 +82,10 @@ public class GuiPage {
     }
 
     public void runTick(final Gui gui, final Player player) {
-        guiEvent.onTick(gui, this, player);
+        guiEvent.onTick(gui, player);
         for (GuiItem guiItem :
                 guiItems.values())
-            guiItem.runTick(gui, this, player);
+            guiItem.runTick(gui, player);
     }
 
     int getSize() {
@@ -116,11 +112,11 @@ public class GuiPage {
     }
 
     void raiseInventoryCloseEvent(final Gui gui, final Player player) {
-        guiEvent.onClose(gui, this, player);
+        guiEvent.onClose(gui, player);
     }
 
     void raiseInventoryOpenEvent(final Gui gui, final Player player) {
-        guiEvent.onOpen(gui, this, player);
+        guiEvent.onOpen(gui, player);
     }
 
 }

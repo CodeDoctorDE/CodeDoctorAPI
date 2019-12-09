@@ -11,28 +11,29 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-/**
- * The gui class is obsoleted!
- *
- * @deprecated Please use the class
- * {@link GuiPage}!
- */
-@Deprecated
 public class Gui implements Listener {
     static HashMap<Player, Gui> playerGuiHashMap = new HashMap<>();
     static HashMap<Player, Gui> playerInventoryHashMap = new HashMap<>();
     private final JavaPlugin plugin;
-    List<GuiPage> guiPages = new ArrayList<>();
     int index = 0;
     private HashMap<Player, Integer> taskID = new HashMap<>();
+    private String title;
+    private int size;
+    private HashMap<Integer, GuiItem> guiItems = new HashMap<>();
+    private GuiEvent guiEvent;
+    private Inventory inventory = null;
 
     public Gui(JavaPlugin javaPlugin) {
         plugin = javaPlugin;
         Bukkit.getPluginManager().registerEvents(this, javaPlugin);
+    }
+
+    public static void reloadGui(final Player player) {
+        if (!playerGuiHashMap.containsKey(player))
+            return;
+        player.getOpenInventory().getTopInventory().clear();
+        playerGuiHashMap.get(player).getGuiItems().forEach((integer, guiItem) -> player.getOpenInventory().getTopInventory().setItem(integer, guiItem.getItemStack()));
     }
 
     public void open(final Player... players) {
@@ -40,97 +41,18 @@ public class Gui implements Listener {
                 players) {
             player.closeInventory();
             playerGuiHashMap.put(player, this);
-            final Inventory inventory = guiPages.get(index).build();
+            final Inventory inventory = build();
             player.openInventory(inventory);
             startTick(player);
-            getCurrentGuiPage().raiseInventoryOpenEvent(this, player);
+            raiseInventoryOpenEvent(player);
         }
-    }
-
-    public GuiPage getCurrentGuiPage() {
-        if (index >= 0 && index < guiPages.size())
-            return guiPages.get(index);
-        else
-            return null;
-    }
-
-    public List<GuiPage> getGuiPages() {
-        return guiPages;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-        playerGuiHashMap.keySet().forEach(this::open);
-    }
-
-    public boolean nextIndex() {
-        if (guiPages.size() <= 1)
-            return false;
-        index++;
-        if (index >= guiPages.size()) {
-            index = guiPages.size() - 1;
-            return false;
-        }
-        playerGuiHashMap.keySet().forEach(this::open);
-        return true;
-    }
-
-    public boolean previousIndex() {
-        if (guiPages.size() <= 1)
-            return false;
-        if (index >= guiPages.size()) {
-            index = guiPages.size() - 1;
-            return false;
-        }
-        index--;
-        if (index < 0) {
-            index = 0;
-            return false;
-        }
-        playerGuiHashMap.keySet().forEach(this::open);
-        return true;
-    }
-
-    public boolean firstIndex() {
-        if (index <= 0) {
-            index = 0;
-            return false;
-        }
-        if (guiPages.size() <= 1)
-            return false;
-        index = 0;
-        playerGuiHashMap.keySet().forEach(this::open);
-        return true;
-    }
-
-    public boolean lastIndex() {
-        if (guiPages.size() <= 1)
-            return false;
-        if (index + 1 >= guiPages.size()) {
-            index = guiPages.size() - 1;
-            return false;
-        }
-        index = guiPages.size() - 1;
-        playerGuiHashMap.keySet().forEach(this::open);
-        return true;
-    }
-
-    public void sync(final Player player) {
-        if (!playerGuiHashMap.containsKey(player))
-            return;
-        player.getOpenInventory().getTopInventory().clear();
-        playerGuiHashMap.get(player).getCurrentGuiPage().getGuiItems().keySet().forEach(key -> player.getOpenInventory().getTopInventory().setItem(key, playerGuiHashMap.get(player).getCurrentGuiPage().getGuiItems().get(key).getItemStack()));
     }
 
     public void close(Player... players) {
         for (Player player :
                 players) {
             if (playerGuiHashMap.containsKey(player)) {
-                playerGuiHashMap.get(player).getCurrentGuiPage().raiseInventoryCloseEvent(this, player);
+                playerGuiHashMap.get(player).raiseInventoryCloseEvent(player);
                 stopTick(player);
                 playerGuiHashMap.remove(player);
             }
@@ -153,12 +75,8 @@ public class Gui implements Listener {
         if (!(event.getWhoClicked() instanceof Player))
             return;
         Player player = (Player) event.getWhoClicked();
-        if (playerGuiHashMap.containsKey(player)) {
-            if (playerGuiHashMap.get(player) == this) {
-                if (event.getInventory().equals(event.getView().getTopInventory()))
-                    event.setCancelled(true);
-            }
-        }
+        if (playerGuiHashMap.containsKey(player) && playerGuiHashMap.get(player) == this && event.getInventory().equals(event.getView().getTopInventory()))
+            event.setCancelled(true);
     }
 
     @EventHandler
@@ -171,9 +89,9 @@ public class Gui implements Listener {
             if ((event.getClickedInventory() != player.getInventory()) ||
                     (event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY && event.getClickedInventory().equals(player.getInventory()))) {
                 event.setCancelled(true);
-                if (getCurrentGuiPage().getGuiItems().containsKey(event.getSlot())) {
-                    GuiItem guiItem = getCurrentGuiPage().getGuiItems().get(event.getSlot());
-                    guiItem.raiseEvent(gui, getCurrentGuiPage(), event);
+                if (guiItems.containsKey(event.getSlot())) {
+                    GuiItem guiItem = guiItems.get(event.getSlot());
+                    guiItem.raiseEvent(gui, event);
                 }
             }
         }
@@ -184,8 +102,8 @@ public class Gui implements Listener {
     }
 
     private void runTick(Player player) {
-        if (getCurrentGuiPage() != null)
-            getCurrentGuiPage().runTick(this, player);
+        guiEvent.onTick(this, player);
+        guiItems.values().forEach(guiItem -> guiItem.runTick(this, player));
     }
 
 
@@ -194,4 +112,52 @@ public class Gui implements Listener {
             Bukkit.getScheduler().cancelTask(taskID.get(player));
         taskID.remove(player);
     }
+
+    public HashMap<Integer, GuiItem> getGuiItems() {
+        return guiItems;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    void raiseInventoryCloseEvent(final Player player) {
+        guiEvent.onClose(this, player);
+    }
+
+    void raiseInventoryOpenEvent(final Player player) {
+        guiEvent.onOpen(this, player);
+    }
+
+    public Inventory build() {
+        inventory = build(inventory);
+        return inventory;
+    }
+
+    public Inventory build(Inventory buildInventory) {
+        if (buildInventory == null) buildInventory = Bukkit.createInventory(null, size * 9, title);
+        buildInventory.clear();
+        for (int key : guiItems.keySet()) buildInventory.setItem(key, guiItems.get(key).getItemStack());
+        return buildInventory;
+    }
+
+    public Inventory buildNew() {
+        inventory = Bukkit.createInventory(null, size * 9, title);
+        inventory.clear();
+        for (int key : guiItems.keySet()) inventory.setItem(key, guiItems.get(key).getItemStack());
+        return inventory;
+    }
+
 }
