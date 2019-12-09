@@ -25,7 +25,43 @@ public class Gui implements Listener {
     private Inventory inventory = null;
 
     public Gui(JavaPlugin javaPlugin) {
+        size = 3;
         plugin = javaPlugin;
+        Bukkit.getPluginManager().registerEvents(this, javaPlugin);
+    }
+
+    public Gui(JavaPlugin javaPlugin, String title, int size) {
+        plugin = javaPlugin;
+        this.title = title;
+        this.size = size;
+        Bukkit.getPluginManager().registerEvents(this, javaPlugin);
+    }
+
+    public Gui(JavaPlugin javaPlugin, int size) {
+        plugin = javaPlugin;
+        this.size = size;
+        Bukkit.getPluginManager().registerEvents(this, javaPlugin);
+    }
+
+    public Gui(JavaPlugin javaPlugin, GuiEvent guiEvent) {
+        this.guiEvent = guiEvent;
+        size = 3;
+        plugin = javaPlugin;
+        Bukkit.getPluginManager().registerEvents(this, javaPlugin);
+    }
+
+    public Gui(JavaPlugin javaPlugin, String title, int size, GuiEvent guiEvent) {
+        this.guiEvent = guiEvent;
+        plugin = javaPlugin;
+        this.title = title;
+        this.size = size;
+        Bukkit.getPluginManager().registerEvents(this, javaPlugin);
+    }
+
+    public Gui(JavaPlugin javaPlugin, int size, GuiEvent guiEvent) {
+        this.guiEvent = guiEvent;
+        plugin = javaPlugin;
+        this.size = size;
         Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
