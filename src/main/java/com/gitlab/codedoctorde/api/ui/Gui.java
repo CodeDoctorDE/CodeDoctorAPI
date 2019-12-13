@@ -24,6 +24,7 @@ public class Gui implements Listener {
     private GuiEvent guiEvent;
     private Inventory inventory = null;
 
+
     public Gui(JavaPlugin javaPlugin) {
         size = 3;
         plugin = javaPlugin;
@@ -65,11 +66,15 @@ public class Gui implements Listener {
         Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
-    public static void reloadGui(final Player player) {
+    public static void reload(final Player player) {
         if (!playerGuiHashMap.containsKey(player))
             return;
         player.getOpenInventory().getTopInventory().clear();
         playerGuiHashMap.get(player).getGuiItems().forEach((integer, guiItem) -> player.getOpenInventory().getTopInventory().setItem(integer, guiItem.getItemStack()));
+    }
+
+    public void reload() {
+        playerGuiHashMap.forEach((player, gui) -> reload(player));
     }
 
     public void open(final Player... players) {
