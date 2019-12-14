@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
  * Class by CodingAir: https://github.com/CodingAir/CodingAPI/blob/master/src/de/codingair/codingapi/server/Version.java
  */
 public enum Version {
-    UNKNOWN, v1_7, v1_8, v1_9, v1_10, v1_11, v1_12, v1_13, v1_14;
+    UNKNOWN, v1_7, v1_8, v1_9, v1_10, v1_11, v1_12, v1_13, v1_14, v1_15;
 
     public static Version getVersion() {
         if (Bukkit.getVersion().contains("1.7")) return v1_7;
@@ -17,6 +17,7 @@ public enum Version {
         else if (Bukkit.getVersion().contains("1.12")) return v1_12;
         else if (Bukkit.getVersion().contains("1.13")) return v1_13;
         else if (Bukkit.getVersion().contains("1.14")) return v1_14;
+        else if (Bukkit.getVersion().contains("1.15")) return v1_15;
         else return UNKNOWN;
     }
 
@@ -42,6 +43,8 @@ public enum Version {
                 return "v1_13";
             case v1_14:
                 return "v1_14";
+            case v1_15:
+                return "v1_15";
             default:
                 return UNKNOWN.name();
         }
@@ -52,6 +55,13 @@ public enum Version {
         int param = version.getIndex();
 
         return current > param;
+    }
+
+    public boolean isLowerThan(Version version) {
+        int current = getIndex();
+        int param = version.getIndex();
+
+        return current < param;
     }
 
     public int getIndex() {
