@@ -28,6 +28,8 @@ public class Gui implements Listener {
     public Gui(JavaPlugin javaPlugin) {
         size = 3;
         plugin = javaPlugin;
+        guiEvent = new GuiEvent() {
+        };
         Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
@@ -35,12 +37,16 @@ public class Gui implements Listener {
         plugin = javaPlugin;
         this.title = title;
         this.size = size;
+        guiEvent = new GuiEvent() {
+        };
         Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
     public Gui(JavaPlugin javaPlugin, int size) {
         plugin = javaPlugin;
         this.size = size;
+        guiEvent = new GuiEvent() {
+        };
         Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
