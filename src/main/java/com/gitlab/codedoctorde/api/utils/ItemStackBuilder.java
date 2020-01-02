@@ -1,6 +1,5 @@
 package com.gitlab.codedoctorde.api.utils;
 
-import com.gitlab.codedoctorde.api.config.JsonConfigurationValue;
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,19 +45,19 @@ public class ItemStackBuilder {
         this.itemStack = itemStack;
     }
 
-    public ItemStackBuilder(JsonConfigurationValue value) {
+    public static ItemStackBuilder deserialize(String value) {
         if (value != null) {
             try {
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(value.getString()));
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(value));
                 try (BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream)) {
-                    itemStack = (ItemStack) dataInput.readObject();
+                    return new ItemStackBuilder((ItemStack) dataInput.readObject());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                itemStack = new ItemStack(Material.AIR);
+                return new ItemStackBuilder();
             }
         } else
-            itemStack = new ItemStack(Material.AIR);
+            return new ItemStackBuilder();
     }
 
     public ItemStackBuilder(JsonElement value) {

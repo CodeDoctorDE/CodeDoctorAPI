@@ -3,23 +3,20 @@ package com.gitlab.codedoctorde.api.config;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
-public class JsonConfiguration extends JsonConfigurationSection {
+public class ObjectConfig {
     private File file;
+    private Gson gson = new Gson();
+    private JsonObject jsonObject;
 
-    public JsonConfiguration(final File file) {
+    public ObjectConfig(final File file) {
         this.file = file;
         file.getParentFile().mkdirs();
         try {
             if (file.exists()) {
                 try {
-                    FileReader fileReader = new FileReader(file);
-                    Gson gson = new Gson();
-                    set(gson.fromJson(fileReader, JsonObject.class));
+                    reload();
                     save();
                 } catch (Exception ignored) {
                 }
@@ -35,13 +32,38 @@ public class JsonConfiguration extends JsonConfigurationSection {
         if (!file.exists())
             file.createNewFile();
         FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write(getElement().toString());
+        fileWriter.write(jsonObject.toString());
         fileWriter.close();
     }
 
     public File getFile() {
         return file;
     }
+
+    public JsonObject getJsonObject() {
+        return jsonObject;
+    }
+
+    public void setJsonObject(JsonObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
+
+    public void reload() throws FileNotFoundException {
+        jsonObject = gson.fromJson(new FileReader(file), JsonObject.class);
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public Gson getGson() {
+        return gson;
+    }
+
+    public void setGson(Gson gson) {
+        this.gson = gson;
+    }
+
     /*public void importValueSections(Object value,String name,String... keys){
         JsonConfigurationSection section = getSection(keys);
         section.importValue(name,value);
