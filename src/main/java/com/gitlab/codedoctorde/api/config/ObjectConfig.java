@@ -1,9 +1,11 @@
 package com.gitlab.codedoctorde.api.config;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.*;
+import java.util.Map;
 
 public class ObjectConfig {
     private File file;
@@ -62,6 +64,18 @@ public class ObjectConfig {
 
     public void setGson(Gson gson) {
         this.gson = gson;
+    }
+
+    public void setDefault(JsonObject defaultJsonObject) {
+        for (Map.Entry<String, JsonElement> entry :
+                defaultJsonObject.entrySet()) {
+            setDefault(entry.getKey(), entry.getValue());
+        }
+    }
+
+    private void setDefault(String key, JsonElement value) {
+        if (jsonObject.get(key).isJsonNull())
+            jsonObject.add(key, value);
     }
 
     /*public void importValueSections(Object value,String name,String... keys){
