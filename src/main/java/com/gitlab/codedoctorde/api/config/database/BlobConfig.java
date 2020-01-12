@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author CodeDoctorDE
@@ -38,7 +40,7 @@ public class BlobConfig {
         statement.close();
     }
 
-    public void put(String key, String value) throws SQLException {
+    public void set(String key, String value) throws SQLException {
         String pSql = "insert into " + table + " values(?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(pSql);
         preparedStatement.setString(0, key);
@@ -52,5 +54,13 @@ public class BlobConfig {
         rs.next();
         return CharStreams.toString(new InputStreamReader(
                 rs.getBinaryStream(1), Charsets.UTF_8));
+    }
+
+    public String[] get() throws SQLException, IOException {
+        ResultSet rs = connection.createStatement().executeQuery("select * from " + table + " where " + keyColumn + "=" + key);
+        List<String> result = new ArrayList<>();
+        while (rs.next())
+            result.add(CharStreams.toString(new InputStreamReader(rs.getBinaryStream(1), Charsets.UTF_8)));
+        return result.toArray(new String[0]);
     }
 }
