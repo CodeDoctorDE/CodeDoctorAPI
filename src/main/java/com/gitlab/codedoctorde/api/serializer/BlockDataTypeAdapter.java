@@ -6,6 +6,9 @@ import org.bukkit.block.data.BlockData;
 
 import java.lang.reflect.Type;
 
+/**
+ * @author CodeDoctorDE
+ */
 public class BlockDataTypeAdapter implements JsonSerializer<BlockData>, JsonDeserializer<BlockData> {
     private Gson gson = new Gson();
 

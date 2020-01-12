@@ -1,5 +1,8 @@
 package com.gitlab.codedoctorde.api.region;
 
+/**
+ * @author CodeDoctorDE
+ */
 public class Position {
     private int posX, posY, posZ;
 

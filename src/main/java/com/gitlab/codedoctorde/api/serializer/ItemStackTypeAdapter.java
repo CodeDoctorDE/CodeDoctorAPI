@@ -6,6 +6,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Type;
 
+/**
+ * @author CodeDoctorDE
+ */
 public class ItemStackTypeAdapter implements JsonSerializer<ItemStack>, JsonDeserializer<ItemStack> {
     private Gson gson;
 

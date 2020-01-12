@@ -21,6 +21,9 @@ import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
 import java.util.*;
 
+/**
+ * @author CodeDoctorDE
+ */
 public class ItemStackBuilder {
     private static Gson gson = new GsonBuilder().create();
     private ItemStack itemStack;

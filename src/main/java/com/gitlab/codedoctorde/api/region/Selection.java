@@ -1,6 +1,9 @@
 package com.gitlab.codedoctorde.api.region;
 
 
+/**
+ * @author CodeDoctorDE
+ */
 public class Selection {
     private Position pos1;
     private Position pos2;

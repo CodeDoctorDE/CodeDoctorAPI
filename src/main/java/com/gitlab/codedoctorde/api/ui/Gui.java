@@ -12,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+
 public class Gui implements Listener {
     static HashMap<Player, Gui> playerGuiHashMap = new HashMap<>();
     static HashMap<Player, Gui> playerInventoryHashMap = new HashMap<>();

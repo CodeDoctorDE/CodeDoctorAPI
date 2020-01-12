@@ -3,6 +3,9 @@ package com.gitlab.codedoctorde.api.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author CodeDoctorDE
+ */
 public class StringUtils {
     public static List<String> wrap(String string, int letters) {
         List<String> output = new ArrayList<>();

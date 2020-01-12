@@ -16,6 +16,9 @@ import java.util.HashMap;
  * {@link Gui}!
  */
 @Deprecated
+/**
+ * @author CodeDoctorDE
+ */
 public class GuiPage {
     private JavaPlugin plugin;
     private String title;

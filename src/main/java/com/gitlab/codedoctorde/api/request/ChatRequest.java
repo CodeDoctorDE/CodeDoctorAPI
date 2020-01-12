@@ -12,6 +12,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
+/**
+ * @author CodeDoctorDE
+ */
 public class ChatRequest implements Listener {
     private static HashMap<Player, ChatRequest> requests = new HashMap<>();
     private JavaPlugin plugin;

@@ -9,6 +9,9 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
+/**
+ * @author CodeDoctorDE
+ */
 public class Stringboard {
     private final Objective objective;
     private String[] strings;

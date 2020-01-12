@@ -13,6 +13,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
+/**
+ * @author CodeDoctorDE
+ */
 public class ItemRequest implements Listener {
     private static HashMap<Player, ItemRequest> requests = new HashMap<>();
     private final JavaPlugin plugin;

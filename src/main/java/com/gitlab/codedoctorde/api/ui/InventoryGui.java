@@ -10,6 +10,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 
+/**
+ * @author CodeDoctorDE
+ */
 public class InventoryGui extends Gui {
     private HashMap<Player, ItemStack[]> playerItemsHashMap = new HashMap<>();
 

@@ -7,6 +7,9 @@ import com.google.gson.JsonObject;
 import java.io.*;
 import java.util.Map;
 
+/**
+ * @author CodeDoctorDE
+ */
 public class ObjectConfig {
     private File file;
     private Gson gson = new Gson();
