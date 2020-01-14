@@ -9,8 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * @author CodeDoctorDE
@@ -56,11 +55,18 @@ public class BlobConfig {
                 rs.getBinaryStream(1), Charsets.UTF_8));
     }
 
-    public String[] get() throws SQLException, IOException {
+    /**
+     * Get all values of this config
+     *
+     * @return
+     * @throws SQLException
+     * @throws IOException
+     */
+    public HashMap<String, String> get() throws SQLException, IOException {
         ResultSet rs = connection.createStatement().executeQuery("select * from " + table);
-        List<String> result = new ArrayList<>();
+        HashMap<String, String> result = new HashMap<>();
         while (rs.next())
-            result.add(CharStreams.toString(new InputStreamReader(rs.getBinaryStream(1), Charsets.UTF_8)));
-        return result.toArray(new String[0]);
+            result.put(rs.getString(0), CharStreams.toString(new InputStreamReader(rs.getBinaryStream(1), Charsets.UTF_8)));
+        return result;
     }
 }
