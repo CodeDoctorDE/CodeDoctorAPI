@@ -57,7 +57,7 @@ public class BlobConfig {
     }
 
     public String[] get() throws SQLException, IOException {
-        ResultSet rs = connection.createStatement().executeQuery("select * from " + table + " where " + keyColumn + "=" + key);
+        ResultSet rs = connection.createStatement().executeQuery("select * from " + table);
         List<String> result = new ArrayList<>();
         while (rs.next())
             result.add(CharStreams.toString(new InputStreamReader(rs.getBinaryStream(1), Charsets.UTF_8)));
