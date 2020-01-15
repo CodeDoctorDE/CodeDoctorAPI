@@ -91,8 +91,11 @@ public class ObjectConfig {
         List<String> nextPath = Arrays.asList(path);
         nextPath.add(key);
         for (String current :
-                path)
+                path) {
+            if (currentObject.get(current) == null || currentObject.get(current).isJsonNull())
+                currentObject.add(current, new JsonObject());
             currentObject = currentObject.getAsJsonObject(current);
+        }
         if (currentObject.get(key) == null || currentObject.get(key).isJsonNull())
             currentObject.add(key, value);
         else if (currentObject.get(key).isJsonObject()) for (Map.Entry<String, JsonElement> entry :
