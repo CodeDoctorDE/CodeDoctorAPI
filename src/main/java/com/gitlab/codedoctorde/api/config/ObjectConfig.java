@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -74,13 +76,29 @@ public class ObjectConfig {
     public void setDefault(JsonObject defaultJsonObject) {
         for (Map.Entry<String, JsonElement> entry :
                 defaultJsonObject.entrySet()) {
+            if (entry.getValue().isJsonObject())
+                setDefault(entry.getValue().getAsJsonObject());
             setDefault(entry.getKey(), entry.getValue());
         }
     }
 
-    private void setDefault(String key, JsonElement value) {
-        if (jsonObject.get(key) == null || jsonObject.get(key).isJsonNull())
-            jsonObject.add(key, value);
+    public void setDefault(String key, JsonElement value) {
+        setDefault(new String[0], key, value);
+    }
+
+    private void setDefault(String[] path, String key, JsonElement value) {
+        JsonObject currentObject = jsonObject;
+        List<String> nextPath = Arrays.asList(path);
+        nextPath.add(key);
+        for (String current :
+                path)
+            currentObject = currentObject.getAsJsonObject(current);
+        if (currentObject.get(key) == null || currentObject.get(key).isJsonNull())
+            if (currentObject.get(key).isJsonObject()) for (Map.Entry<String, JsonElement> entry :
+                    jsonObject.entrySet())
+                setDefault(nextPath.toArray(new String[0]), entry.getKey(), entry.getValue());
+            else
+                currentObject.add(key, value);
     }
 
     /*public void importValueSections(Object value,String name,String... keys){
