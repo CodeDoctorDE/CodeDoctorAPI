@@ -79,7 +79,7 @@ public class ObjectConfig {
     }
 
     private void setDefault(String key, JsonElement value) {
-        if (jsonObject.get(key).isJsonNull())
+        if (jsonObject.get(key) == null || jsonObject.get(key).isJsonNull())
             jsonObject.add(key, value);
     }
 
