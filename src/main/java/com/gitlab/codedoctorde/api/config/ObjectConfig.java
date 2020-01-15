@@ -94,11 +94,10 @@ public class ObjectConfig {
                 path)
             currentObject = currentObject.getAsJsonObject(current);
         if (currentObject.get(key) == null || currentObject.get(key).isJsonNull())
-            if (currentObject.get(key).isJsonObject()) for (Map.Entry<String, JsonElement> entry :
-                    jsonObject.entrySet())
-                setDefault(nextPath.toArray(new String[0]), entry.getKey(), entry.getValue());
-            else
-                currentObject.add(key, value);
+            currentObject.add(key, value);
+        else if (currentObject.get(key).isJsonObject()) for (Map.Entry<String, JsonElement> entry :
+                jsonObject.entrySet())
+            setDefault(nextPath.toArray(new String[0]), entry.getKey(), entry.getValue());
     }
 
     /*public void importValueSections(Object value,String name,String... keys){
