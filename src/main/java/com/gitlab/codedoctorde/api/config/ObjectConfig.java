@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +89,7 @@ public class ObjectConfig {
 
     private void setDefault(String[] path, String key, JsonElement value) {
         JsonObject currentObject = jsonObject;
-        List<String> nextPath = Arrays.asList(path);
+        List<String> nextPath = new ArrayList<>(Arrays.asList(path));
         nextPath.add(key);
         for (String current :
                 path) {
