@@ -30,6 +30,8 @@ public class ObjectConfig {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (jsonObject == null)
+            jsonObject = new JsonObject();
     }
 
     public void save() throws IOException {
