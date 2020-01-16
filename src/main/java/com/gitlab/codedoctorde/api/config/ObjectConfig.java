@@ -100,7 +100,7 @@ public class ObjectConfig {
         if (currentObject.get(key) == null || currentObject.get(key).isJsonNull())
             currentObject.add(key, value);
         else if (currentObject.get(key).isJsonObject()) for (Map.Entry<String, JsonElement> entry :
-                jsonObject.entrySet())
+                value.getAsJsonObject().entrySet())
             setDefault(nextPath.toArray(new String[0]), entry.getKey(), entry.getValue());
     }
 
