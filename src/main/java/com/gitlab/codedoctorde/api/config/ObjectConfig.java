@@ -62,7 +62,7 @@ public class ObjectConfig {
         if (!file.exists())
             file.createNewFile();
         FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write(jsonObject.toString());
+        fileWriter.write(gson.toJson(jsonObject));
         fileWriter.close();
     }
 
