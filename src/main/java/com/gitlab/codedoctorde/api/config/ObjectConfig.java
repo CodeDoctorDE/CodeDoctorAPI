@@ -114,9 +114,10 @@ public class ObjectConfig {
                 currentObject.add(current, new JsonObject());
             currentObject = currentObject.getAsJsonObject(current);
         }
-        if (currentObject.get(key) == null || currentObject.get(key).isJsonNull())
+        if (currentObject.get(key) == null || currentObject.get(key).isJsonNull()) {
             currentObject.add(key, value);
-        else if (value.isJsonObject()) for (Map.Entry<String, JsonElement> entry :
+            System.out.println(currentObject);
+        } else if (value.isJsonObject()) for (Map.Entry<String, JsonElement> entry :
                 value.getAsJsonObject().entrySet())
             setDefault(nextPath.toArray(new String[0]), entry.getKey(), entry.getValue());
     }
