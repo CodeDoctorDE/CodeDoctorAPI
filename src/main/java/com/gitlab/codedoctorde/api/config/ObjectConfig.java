@@ -18,6 +18,26 @@ public class ObjectConfig {
     private Gson gson = new Gson();
     private JsonObject jsonObject;
 
+    public ObjectConfig(final Gson gson, final File file) {
+        this.gson = gson;
+        this.file = file;
+        file.getParentFile().mkdirs();
+        try {
+            if (file.exists()) {
+                try {
+                    reload();
+                    save();
+                } catch (Exception ignored) {
+                }
+            } else
+                file.createNewFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (jsonObject == null)
+            jsonObject = new JsonObject();
+    }
+
     public ObjectConfig(final File file) {
         this.file = file;
         file.getParentFile().mkdirs();
@@ -76,9 +96,8 @@ public class ObjectConfig {
 
     public void setDefault(JsonObject defaultJsonObject) {
         for (Map.Entry<String, JsonElement> entry :
-                defaultJsonObject.entrySet()) {
+                defaultJsonObject.entrySet())
             setDefault(entry.getKey(), entry.getValue());
-        }
     }
 
     public void setDefault(String key, JsonElement value) {
