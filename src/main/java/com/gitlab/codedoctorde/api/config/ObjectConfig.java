@@ -77,8 +77,6 @@ public class ObjectConfig {
     public void setDefault(JsonObject defaultJsonObject) {
         for (Map.Entry<String, JsonElement> entry :
                 defaultJsonObject.entrySet()) {
-            if (entry.getValue().isJsonObject())
-                setDefault(entry.getValue().getAsJsonObject());
             setDefault(entry.getKey(), entry.getValue());
         }
     }
@@ -99,7 +97,7 @@ public class ObjectConfig {
         }
         if (currentObject.get(key) == null || currentObject.get(key).isJsonNull())
             currentObject.add(key, value);
-        else if (currentObject.get(key).isJsonObject()) for (Map.Entry<String, JsonElement> entry :
+        else if (value.isJsonObject()) for (Map.Entry<String, JsonElement> entry :
                 value.getAsJsonObject().entrySet())
             setDefault(nextPath.toArray(new String[0]), entry.getKey(), entry.getValue());
     }
