@@ -1,23 +1,25 @@
 package com.gitlab.codedoctorde.api.region;
 
 
+import org.bukkit.Location;
+
 /**
  * @author CodeDoctorDE
  */
 public class Selection {
-    private Position pos1;
-    private Position pos2;
+    private Location pos1;
+    private Location pos2;
 
-    public Selection(final Position POS1, final Position POS2) {
-        pos1 = POS1;
-        pos2 = POS2;
+    public Selection(final Location pos1, final Location pos2) {
+        this.pos1 = pos1;
+        this.pos2 = pos2;
     }
 
-    public Position getPos1() {
+    public Location getPos1() {
         return pos1;
     }
 
-    public Position getPos2() {
+    public Location getPos2() {
         return pos2;
     }
 }
