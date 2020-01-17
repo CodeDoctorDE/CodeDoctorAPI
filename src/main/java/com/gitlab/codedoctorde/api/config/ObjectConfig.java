@@ -110,19 +110,14 @@ public class ObjectConfig {
         nextPath.add(key);
         for (String current :
                 path) {
-            System.out.println("path: " + current);
             if (currentObject.get(current) == null || currentObject.get(current).isJsonNull())
                 currentObject.add(current, new JsonObject());
             currentObject = currentObject.getAsJsonObject(current);
         }
-        if (currentObject.get(key) == null || currentObject.get(key).isJsonNull()) {
-            currentObject.add(key, value);
-            System.out.println("added: " + currentObject);
-        } else if (value.isJsonObject()) for (Map.Entry<String, JsonElement> entry :
-                value.getAsJsonObject().entrySet()) {
+        if (currentObject.get(key) == null || currentObject.get(key).isJsonNull()) currentObject.add(key, value);
+        else if (value.isJsonObject()) for (Map.Entry<String, JsonElement> entry :
+                value.getAsJsonObject().entrySet())
             setDefault(nextPath.toArray(new String[0]), entry.getKey(), entry.getValue());
-            System.out.println("jsonobject new value: " + nextPath + "; key: " + entry.getKey() + "; value: " + entry.getValue());
-        }
     }
 
     /*public void importValueSections(Object value,String name,String... keys){
