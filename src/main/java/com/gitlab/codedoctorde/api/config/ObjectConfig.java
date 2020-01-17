@@ -81,7 +81,8 @@ public class ObjectConfig {
     }
 
     public void reload() throws FileNotFoundException {
-        jsonObject = gson.fromJson(new FileReader(file), JsonObject.class);
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        jsonObject = gson.fromJson(br, JsonObject.class);
     }
 
     public void setFile(File file) {
