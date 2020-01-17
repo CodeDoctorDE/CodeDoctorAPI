@@ -62,9 +62,11 @@ public class ObjectConfig {
         file.getParentFile().mkdirs();
         if (!file.exists())
             file.createNewFile();
-        Writer fstream = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
-        fstream.write(gson.toJson(jsonObject));
-        fstream.close();
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8))) {
+            bw.write(gson.toJson(jsonObject));
+            bw.close();
+            //code
+        }
 
     }
     public File getFile() {
