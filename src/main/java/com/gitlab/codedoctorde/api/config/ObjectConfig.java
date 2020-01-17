@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,11 +62,11 @@ public class ObjectConfig {
         file.getParentFile().mkdirs();
         if (!file.exists())
             file.createNewFile();
-        FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write(gson.toJson(jsonObject));
-        fileWriter.close();
-    }
+        Writer fstream = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
+        fstream.write(gson.toJson(jsonObject));
+        fstream.close();
 
+    }
     public File getFile() {
         return file;
     }
