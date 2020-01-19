@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ListGui {
     private final GuiItemEvent createEvent;
@@ -131,6 +132,8 @@ public class ListGui {
 
                         }
                     }));
+                    List<GuiItem> currentPage = pages.get(finalI);
+                    IntStream.range(0, currentPage.size()).forEach(j -> getGuiItems().put(9 + finalI, currentPage.get(j)));
                 }
             });
         }
