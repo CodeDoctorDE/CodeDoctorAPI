@@ -69,7 +69,7 @@ public class ItemStackBuilder {
             itemStack = new ItemStack(Material.valueOf(value.get("material").getAsString()));
             displayName(value.get("name").getAsString())
                     .lore(gson.fromJson(value.get("lore").getAsJsonArray(), String[].class))
-                    .amount((!value.get("amount").isJsonNull()) ? value.get("amount").getAsInt() : 1);
+                    .amount((value.get("amount") != null || !value.get("amount").isJsonNull()) ? value.get("amount").getAsInt() : 1);
         } else
             itemStack = new ItemStack(Material.AIR);
     }
