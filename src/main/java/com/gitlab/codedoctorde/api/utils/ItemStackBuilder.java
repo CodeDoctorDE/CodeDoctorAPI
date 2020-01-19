@@ -4,6 +4,7 @@ import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -61,6 +62,16 @@ public class ItemStackBuilder {
             }
         } else
             return new ItemStackBuilder();
+    }
+
+    public ItemStackBuilder(JsonObject value) {
+        if (value != null) {
+            itemStack = new ItemStack(Material.valueOf(value.get("material").getAsString()));
+            displayName(value.get("name").getAsString())
+                    .lore(gson.fromJson(value.get("lore").getAsJsonArray(), String[].class))
+                    .amount((!value.get("amount").isJsonNull()) ? value.get("amount").getAsInt() : 1);
+        } else
+            itemStack = new ItemStack(Material.AIR);
     }
 
     public ItemStackBuilder(JsonElement value) {
