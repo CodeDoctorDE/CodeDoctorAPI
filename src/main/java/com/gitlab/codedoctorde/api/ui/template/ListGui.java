@@ -133,7 +133,7 @@ public class ListGui {
                         }
                     }));
                     List<GuiItem> currentPage = pages.get(finalI);
-                    IntStream.range(0, currentPage.size()).forEach(j -> getGuiItems().put(9 + finalI, currentPage.get(j)));
+                    IntStream.range(0, currentPage.size()).forEach(j -> getGuiItems().put(9 + j, currentPage.get(j)));
                 }
             });
         }
