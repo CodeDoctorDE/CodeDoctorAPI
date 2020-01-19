@@ -4,6 +4,7 @@ import com.gitlab.codedoctorde.api.ui.Gui;
 import com.gitlab.codedoctorde.api.ui.GuiEvent;
 import com.gitlab.codedoctorde.api.ui.GuiItem;
 import com.gitlab.codedoctorde.api.ui.GuiItemEvent;
+import com.gitlab.codedoctorde.api.ui.template.events.GuiListEvent;
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.JsonObject;
 import org.bukkit.entity.Player;
@@ -13,12 +14,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-interface GuiListEvent {
-    String title(int index);
-
-    GuiItem[] pages(String output);
-}
 
 public class ListGui {
     private final GuiItemEvent createEvent;
