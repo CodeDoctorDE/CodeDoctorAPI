@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class ListGui {
             pages.add(new ArrayList<>());
         for (int i = 0; i < pages.size(); i++) {
             int finalI = i;
-            guiPages.add(new Gui(plugin, MessageFormat.format(listEvent.title(i), i + 1, pages.size()), 5, guiEvent) {
+            guiPages.add(new Gui(plugin, listEvent.title(i, pages.size()), 5, guiEvent) {
                 {
                     GuiItem placeholder = new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("placeholder").getAsJsonObject()).build());
                     getGuiItems().put(0, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("first").getAsJsonObject()).build(), new GuiItemEvent() {
