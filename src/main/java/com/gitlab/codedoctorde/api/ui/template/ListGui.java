@@ -47,8 +47,8 @@ public class ListGui {
             int finalI = i;
             guiPages.add(new Gui(plugin, listEvent.title(i, pages.size()), 5, guiEvent) {
                 {
-                    GuiItem placeholder = new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("placeholder").getAsJsonObject()).build());
-                    getGuiItems().put(0, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("first").getAsJsonObject()).build(), new GuiItemEvent() {
+                    GuiItem placeholder = new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("placeholder")).build());
+                    getGuiItems().put(0, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("first")).build(), new GuiItemEvent() {
 
                         @Override
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
@@ -64,7 +64,7 @@ public class ListGui {
 
                         }
                     }));
-                    getGuiItems().put(1, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("previous").getAsJsonObject()).build(), new GuiItemEvent() {
+                    getGuiItems().put(1, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("previous")).build(), new GuiItemEvent() {
 
                         @Override
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
@@ -81,7 +81,7 @@ public class ListGui {
                         }
                     }));
                     getGuiItems().put(2, placeholder);
-                    getGuiItems().put(3, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("back").getAsJsonObject()).build(), new GuiItemEvent() {
+                    getGuiItems().put(3, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("back")).build(), new GuiItemEvent() {
 
                         @Override
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
@@ -90,7 +90,7 @@ public class ListGui {
                         }
                     }));
 
-                    getGuiItems().put(4, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("search").getAsJsonObject()).build(), new GuiItemEvent() {
+                    getGuiItems().put(4, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("search")).format(searchText).build(), new GuiItemEvent() {
                         @Override
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                             Player player = (Player) event.getWhoClicked();
@@ -98,9 +98,9 @@ public class ListGui {
                             createGui(guiTranslation, backGui, searchText)[0].open(player);
                         }
                     }));
-                    getGuiItems().put(5, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("create").getAsJsonObject()).build(), createEvent));
+                    getGuiItems().put(5, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("create")).build(), createEvent));
                     getGuiItems().put(6, placeholder);
-                    getGuiItems().put(7, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("next").getAsJsonObject()).build(), new GuiItemEvent() {
+                    getGuiItems().put(7, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("next")).build(), new GuiItemEvent() {
 
                         @Override
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
@@ -116,7 +116,7 @@ public class ListGui {
 
                         }
                     }));
-                    getGuiItems().put(8, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("last").getAsJsonObject()).build(), new GuiItemEvent() {
+                    getGuiItems().put(8, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("last")).build(), new GuiItemEvent() {
 
                         @Override
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
