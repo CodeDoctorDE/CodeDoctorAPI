@@ -6,16 +6,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.util.StringUtil;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public abstract class PluginCommandManager implements TabCompleter, CommandExecutor {
-    @Override
-    public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s,
-                             @Nonnull String[] args) {
+
+    public boolean onCommfand(CommandSender commandSender, Command command, String s,
+                              String[] args) {
         List<String> subCommandArgs = new ArrayList<>(Arrays.asList(args));
         List<SubCommand> subCommands = subCommands(commandSender, args);
         boolean exist = false;
@@ -49,7 +48,7 @@ public abstract class PluginCommandManager implements TabCompleter, CommandExecu
     }
 
     @Override
-    public List<String> onTabComplete(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] args) {
+    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
         List<String> subCommandArgs = new ArrayList<>();
         List<SubCommand> subCommands = subCommands(commandSender, args);
         Collections.addAll(subCommandArgs, args);

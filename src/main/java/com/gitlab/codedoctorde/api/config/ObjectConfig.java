@@ -1,23 +1,16 @@
 package com.gitlab.codedoctorde.api.config;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author CodeDoctorDE
  */
-public class ObjectConfig {
+public class ObjectConfig extends JsonConfig {
     private File file;
-    private Gson gson = new Gson();
-    private JsonObject jsonObject;
 
     public ObjectConfig(final Gson gson, final File file) {
         this.gson = gson;
@@ -58,72 +51,50 @@ public class ObjectConfig {
             jsonObject = new JsonObject();
     }
 
-    public void save() throws IOException {
+    public void save() {
         file.getParentFile().mkdirs();
-        if (!file.exists())
-            file.createNewFile();
-        OutputStreamWriter bw =
-                new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
-        bw.write(gson.toJson(jsonObject));
-        bw.close();
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+                OutputStreamWriter bw =
+                        new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
+                bw.write(gson.toJson(jsonObject));
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
+
     public File getFile() {
         return file;
-    }
-
-    public JsonObject getJsonObject() {
-        return jsonObject;
     }
 
     public void setJsonObject(JsonObject jsonObject) {
         this.jsonObject = jsonObject;
     }
 
-    public void reload() throws IOException {
-        BufferedReader br = new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream(file), StandardCharsets.UTF_8));
+    public void reload() {
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(
+                    new InputStreamReader(
+                            new FileInputStream(file), StandardCharsets.UTF_8));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assert br != null;
         jsonObject = gson.fromJson(br, JsonObject.class);
-        br.close();
+        try {
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setFile(File file) {
         this.file = file;
-    }
-
-    public Gson getGson() {
-        return gson;
-    }
-
-    public void setGson(Gson gson) {
-        this.gson = gson;
-    }
-
-    public void setDefault(JsonObject defaultJsonObject) {
-        for (Map.Entry<String, JsonElement> entry :
-                defaultJsonObject.entrySet())
-            setDefault(entry.getKey(), entry.getValue());
-    }
-
-    public void setDefault(String key, JsonElement value) {
-        setDefault(new String[0], key, value);
-    }
-
-    private void setDefault(String[] path, String key, JsonElement value) {
-        JsonObject currentObject = jsonObject;
-        List<String> nextPath = new ArrayList<>(Arrays.asList(path));
-        nextPath.add(key);
-        for (String current :
-                path) {
-            if (currentObject.get(current) == null || currentObject.get(current).isJsonNull())
-                currentObject.add(current, new JsonObject());
-            currentObject = currentObject.getAsJsonObject(current);
-        }
-        if (currentObject.get(key) == null || currentObject.get(key).isJsonNull()) currentObject.add(key, value);
-        else if (value.isJsonObject()) for (Map.Entry<String, JsonElement> entry :
-                value.getAsJsonObject().entrySet())
-            setDefault(nextPath.toArray(new String[0]), entry.getKey(), entry.getValue());
     }
 
     /*public void importValueSections(Object value,String name,String... keys){
