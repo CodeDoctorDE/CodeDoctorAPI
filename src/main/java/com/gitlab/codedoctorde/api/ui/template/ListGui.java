@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -138,5 +139,24 @@ public class ListGui {
             });
         }
         return guiPages.toArray(new Gui[0]);
+    }
+
+    public Gui createDeleteGui(JsonObject guiTranslation, int index, Gui backGui) {
+        return new Gui(plugin, MessageFormat.format(guiTranslation.get("title").getAsString(), listEvent.titleDelete(index)), 3) {
+            {
+                getGuiItems().put(9 + 3, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("yes")).format(teamConfig.getName(), mapIndex).build(), new GuiItemEvent() {
+                    @Override
+                    public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
+                        listEvent.delete(index);
+                    }
+                }));
+                getGuiItems().put(9 + 5, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("no")).format(teamConfig.getName(), mapIndex).build(), new GuiItemEvent() {
+                    @Override
+                    public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
+                        backGui.open((Player) event.getWhoClicked());
+                    }
+                }));
+            }
+        };
     }
 }

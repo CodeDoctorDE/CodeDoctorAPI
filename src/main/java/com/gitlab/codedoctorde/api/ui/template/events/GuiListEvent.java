@@ -6,4 +6,9 @@ public interface GuiListEvent {
     String title(int index, int size);
 
     GuiItem[] pages(String output);
+
+    void delete(int index);
+
+    String titleDelete(int index);
+
 }
