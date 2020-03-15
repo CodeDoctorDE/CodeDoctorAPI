@@ -4,7 +4,6 @@ import com.gitlab.codedoctorde.api.ui.Gui;
 import com.gitlab.codedoctorde.api.ui.GuiEvent;
 import com.gitlab.codedoctorde.api.ui.GuiItem;
 import com.gitlab.codedoctorde.api.ui.GuiItemEvent;
-import com.gitlab.codedoctorde.api.ui.template.events.GuiListDeleteEvent;
 import com.gitlab.codedoctorde.api.ui.template.events.GuiListEvent;
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.JsonObject;
@@ -12,31 +11,28 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class ListGui {
+    private final GuiItemEvent createEvent;
+    private final GuiListEvent listEvent;
     private final JavaPlugin plugin;
     private final GuiEvent guiEvent;
 
-    public ListGui(JavaPlugin plugin, GuiEvent guiEvent) {
+    public ListGui(JavaPlugin plugin, GuiItemEvent createEvent, GuiListEvent listEvent, GuiEvent guiEvent) {
         this.plugin = plugin;
+        this.createEvent = createEvent;
+        this.listEvent = listEvent;
         this.guiEvent = guiEvent;
     }
 
-    public ListGui(JavaPlugin plugin) {
-        this.plugin = plugin;
-        this.guiEvent = new GuiEvent() {
-        };
+    public Gui[] createGui(JsonObject guiTranslation, Gui backGui) {
+        return createGui(guiTranslation, backGui, "");
     }
 
-    public Gui[] createGui(JsonObject guiTranslation, Gui backGui, GuiListEvent listEvent, GuiItemEvent createEvent) {
-        return createGui(guiTranslation, backGui, "", listEvent, createEvent);
-    }
-
-    public Gui[] createGui(JsonObject guiTranslation, Gui backGui, String searchText, GuiListEvent listEvent, GuiItemEvent createEvent) {
+    public Gui[] createGui(JsonObject guiTranslation, Gui backGui, String searchText) {
         List<Gui> guiPages = new ArrayList<>();
         GuiItem[] items = listEvent.pages(searchText);
         List<List<GuiItem>> pages = new ArrayList<>();
@@ -60,7 +56,7 @@ public class ListGui {
                             if (finalI <= 0)
                                 player.sendMessage(guiTranslation.getAsJsonObject("first").getAsJsonObject("already").getAsString());
                             else
-                                createGui(guiTranslation, backGui, searchText, listEvent, createEvent)[0].open(player);
+                                createGui(guiTranslation, backGui, searchText)[0].open(player);
                         }
 
                         @Override
@@ -76,7 +72,7 @@ public class ListGui {
                             if (finalI <= 0)
                                 player.sendMessage(guiTranslation.getAsJsonObject("previous").getAsJsonObject("already").getAsString());
                             else
-                                createGui(guiTranslation, backGui, searchText, listEvent, createEvent)[finalI - 1].open(player);
+                                createGui(guiTranslation, backGui, searchText)[finalI - 1].open(player);
                         }
 
                         @Override
@@ -99,7 +95,7 @@ public class ListGui {
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                             Player player = (Player) event.getWhoClicked();
                             player.sendMessage(guiTranslation.getAsJsonObject("search").getAsJsonObject("refresh").getAsString());
-                            createGui(guiTranslation, backGui, searchText, listEvent, createEvent)[0].open(player);
+                            createGui(guiTranslation, backGui, searchText)[0].open(player);
                         }
                     }));
                     getGuiItems().put(5, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("create")).build(), createEvent));
@@ -112,7 +108,7 @@ public class ListGui {
                             if (finalI >= pages.size() - 1)
                                 player.sendMessage(guiTranslation.getAsJsonObject("next").getAsJsonObject("already").getAsString());
                             else
-                                createGui(guiTranslation, backGui, searchText, listEvent, createEvent)[finalI + 1].open(player);
+                                createGui(guiTranslation, backGui, searchText)[finalI + 1].open(player);
                         }
 
                         @Override
@@ -128,7 +124,7 @@ public class ListGui {
                             if (finalI >= pages.size() - 1)
                                 player.sendMessage(guiTranslation.getAsJsonObject("last").getAsJsonObject("already").getAsString());
                             else
-                                createGui(guiTranslation, backGui, searchText, listEvent, createEvent)[pages.size() - 1].open(player);
+                                createGui(guiTranslation, backGui, searchText)[pages.size() - 1].open(player);
                         }
 
                         @Override
@@ -142,14 +138,5 @@ public class ListGui {
             });
         }
         return guiPages.toArray(new Gui[0]);
-    }
-
-    public Gui createDeleteGui(JsonObject guiTranslation, int index, Gui backGui, GuiListDeleteEvent deleteEvent) {
-        return new Gui(plugin, MessageFormat.format(guiTranslation.get("title").getAsString(), deleteEvent.title(index)), 3) {
-            {
-                getGuiItems().put(9 + 3, deleteEvent.yesItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("yes")).build(), index));
-                getGuiItems().put(9 + 5, deleteEvent.noItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("no")).build(), index));
-            }
-        };
     }
 }
