@@ -18,28 +18,25 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class ListGui {
-    private final GuiItemEvent createEvent;
     private final JavaPlugin plugin;
     private final GuiEvent guiEvent;
 
-    public ListGui(JavaPlugin plugin, GuiItemEvent createEvent, GuiEvent guiEvent) {
+    public ListGui(JavaPlugin plugin, GuiEvent guiEvent) {
         this.plugin = plugin;
-        this.createEvent = createEvent;
         this.guiEvent = guiEvent;
     }
 
-    public ListGui(JavaPlugin plugin, GuiItemEvent createEvent) {
+    public ListGui(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.createEvent = createEvent;
         this.guiEvent = new GuiEvent() {
         };
     }
 
-    public Gui[] createGui(JsonObject guiTranslation, Gui backGui, GuiListEvent event) {
-        return createGui(guiTranslation, backGui, "", event);
+    public Gui[] createGui(JsonObject guiTranslation, Gui backGui, GuiListEvent listEvent, GuiItemEvent createEvent) {
+        return createGui(guiTranslation, backGui, "", listEvent, createEvent);
     }
 
-    public Gui[] createGui(JsonObject guiTranslation, Gui backGui, String searchText, GuiListEvent listEvent) {
+    public Gui[] createGui(JsonObject guiTranslation, Gui backGui, String searchText, GuiListEvent listEvent, GuiItemEvent createEvent) {
         List<Gui> guiPages = new ArrayList<>();
         GuiItem[] items = listEvent.pages(searchText);
         List<List<GuiItem>> pages = new ArrayList<>();
@@ -63,7 +60,7 @@ public class ListGui {
                             if (finalI <= 0)
                                 player.sendMessage(guiTranslation.getAsJsonObject("first").getAsJsonObject("already").getAsString());
                             else
-                                createGui(guiTranslation, backGui, searchText, listEvent)[0].open(player);
+                                createGui(guiTranslation, backGui, searchText, listEvent, createEvent)[0].open(player);
                         }
 
                         @Override
@@ -79,7 +76,7 @@ public class ListGui {
                             if (finalI <= 0)
                                 player.sendMessage(guiTranslation.getAsJsonObject("previous").getAsJsonObject("already").getAsString());
                             else
-                                createGui(guiTranslation, backGui, searchText, listEvent)[finalI - 1].open(player);
+                                createGui(guiTranslation, backGui, searchText, listEvent, createEvent)[finalI - 1].open(player);
                         }
 
                         @Override
@@ -102,7 +99,7 @@ public class ListGui {
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                             Player player = (Player) event.getWhoClicked();
                             player.sendMessage(guiTranslation.getAsJsonObject("search").getAsJsonObject("refresh").getAsString());
-                            createGui(guiTranslation, backGui, searchText, listEvent)[0].open(player);
+                            createGui(guiTranslation, backGui, searchText, listEvent, createEvent)[0].open(player);
                         }
                     }));
                     getGuiItems().put(5, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("create")).build(), createEvent));
@@ -115,7 +112,7 @@ public class ListGui {
                             if (finalI >= pages.size() - 1)
                                 player.sendMessage(guiTranslation.getAsJsonObject("next").getAsJsonObject("already").getAsString());
                             else
-                                createGui(guiTranslation, backGui, searchText, listEvent)[finalI + 1].open(player);
+                                createGui(guiTranslation, backGui, searchText, listEvent, createEvent)[finalI + 1].open(player);
                         }
 
                         @Override
@@ -131,7 +128,7 @@ public class ListGui {
                             if (finalI >= pages.size() - 1)
                                 player.sendMessage(guiTranslation.getAsJsonObject("last").getAsJsonObject("already").getAsString());
                             else
-                                createGui(guiTranslation, backGui, searchText, listEvent)[pages.size() - 1].open(player);
+                                createGui(guiTranslation, backGui, searchText, listEvent, createEvent)[pages.size() - 1].open(player);
                         }
 
                         @Override
