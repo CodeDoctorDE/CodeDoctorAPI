@@ -144,18 +144,8 @@ public class ListGui {
     public Gui createDeleteGui(JsonObject guiTranslation, int index, Gui backGui) {
         return new Gui(plugin, MessageFormat.format(guiTranslation.get("title").getAsString(), listEvent.titleDelete(index)), 3) {
             {
-                getGuiItems().put(9 + 3, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("yes")).format(teamConfig.getName(), mapIndex).build(), new GuiItemEvent() {
-                    @Override
-                    public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
-                        listEvent.delete(index);
-                    }
-                }));
-                getGuiItems().put(9 + 5, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("no")).format(teamConfig.getName(), mapIndex).build(), new GuiItemEvent() {
-                    @Override
-                    public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
-                        backGui.open((Player) event.getWhoClicked());
-                    }
-                }));
+                getGuiItems().put(9 + 3, listEvent.deleteYesItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("yes")).build(), index));
+                getGuiItems().put(9 + 5, listEvent.deleteYesItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("no")).build(), index));
             }
         };
     }
