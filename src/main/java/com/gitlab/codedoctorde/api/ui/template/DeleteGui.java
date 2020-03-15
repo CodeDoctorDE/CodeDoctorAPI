@@ -20,7 +20,7 @@ public class DeleteGui {
         this.deleteEvent = deleteEvent;
     }
 
-    public Gui createGui(int index, Gui backGui) {
+    public Gui createGui(int index) {
         return new Gui(plugin, deleteEvent.title(index), 3) {
             {
                 getGuiItems().put(9 + 3, deleteEvent.yesItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("yes")), index));
