@@ -95,7 +95,7 @@ public class ListGui {
                             createGui(guiTranslation, backGui, searchText)[0].open(player);
                         }
                     }));
-                    if (createEvent == null)
+                    if (createEvent != null)
                         getGuiItems().put(5, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("create")).build(), createEvent));
                     getGuiItems().put(6, placeholder);
                     getGuiItems().put(7, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("next")).build(), new GuiItemEvent() {
