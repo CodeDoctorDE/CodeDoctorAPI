@@ -20,22 +20,19 @@ public class ListGui {
     private final GuiListEvent listEvent;
     private final JavaPlugin plugin;
     private final GuiEvent guiEvent;
-    private final boolean create;
 
     public ListGui(JavaPlugin plugin, GuiItemEvent createEvent, GuiListEvent listEvent, GuiEvent guiEvent) {
         this.plugin = plugin;
         this.createEvent = createEvent;
         this.listEvent = listEvent;
         this.guiEvent = guiEvent;
-        this.create = true;
     }
 
-    public ListGui(JavaPlugin plugin, GuiItemEvent createEvent, GuiListEvent listEvent, GuiEvent guiEvent, boolean create) {
+    public ListGui(JavaPlugin plugin, GuiListEvent listEvent, GuiEvent guiEvent) {
         this.plugin = plugin;
-        this.createEvent = createEvent;
+        this.createEvent = null;
         this.listEvent = listEvent;
         this.guiEvent = guiEvent;
-        this.create = create;
     }
 
     public Gui[] createGui(JsonObject guiTranslation, Gui backGui) {
@@ -98,7 +95,7 @@ public class ListGui {
                             createGui(guiTranslation, backGui, searchText)[0].open(player);
                         }
                     }));
-                    if (create)
+                    if (createEvent == null)
                         getGuiItems().put(5, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("create")).build(), createEvent));
                     getGuiItems().put(6, placeholder);
                     getGuiItems().put(7, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("next")).build(), new GuiItemEvent() {
