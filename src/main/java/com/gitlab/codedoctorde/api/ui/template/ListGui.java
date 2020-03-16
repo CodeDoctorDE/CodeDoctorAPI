@@ -58,11 +58,6 @@ public class ListGui {
                             else
                                 createGui(guiTranslation, backGui, searchText)[0].open(player);
                         }
-
-                        @Override
-                        public void onTick(Gui gui, GuiItem guiItem, Player player) {
-
-                        }
                     }));
                     getGuiItems().put(1, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("previous")).build(), new GuiItemEvent() {
 
@@ -73,11 +68,6 @@ public class ListGui {
                                 player.sendMessage(guiTranslation.getAsJsonObject("previous").getAsJsonObject("already").getAsString());
                             else
                                 createGui(guiTranslation, backGui, searchText)[finalI - 1].open(player);
-                        }
-
-                        @Override
-                        public void onTick(Gui gui, GuiItem guiItem, Player player) {
-
                         }
                     }));
                     getGuiItems().put(2, placeholder);
@@ -110,11 +100,6 @@ public class ListGui {
                             else
                                 createGui(guiTranslation, backGui, searchText)[finalI + 1].open(player);
                         }
-
-                        @Override
-                        public void onTick(Gui gui, GuiItem guiItem, Player player) {
-
-                        }
                     }));
                     getGuiItems().put(8, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("last")).build(), new GuiItemEvent() {
 
@@ -125,11 +110,6 @@ public class ListGui {
                                 player.sendMessage(guiTranslation.getAsJsonObject("last").get("already").getAsString());
                             else
                                 createGui(guiTranslation, backGui, searchText)[pages.size() - 1].open(player);
-                        }
-
-                        @Override
-                        public void onTick(Gui gui, GuiItem guiItem, Player player) {
-
                         }
                     }));
                     List<GuiItem> currentPage = pages.get(finalI);

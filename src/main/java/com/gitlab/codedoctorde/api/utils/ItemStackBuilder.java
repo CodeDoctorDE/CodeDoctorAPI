@@ -148,6 +148,12 @@ public class ItemStackBuilder {
         return setLore(lore);
     }
 
+    public ItemStackBuilder addLore(String... lore) {
+        List<String> currentLore = new ArrayList<>(getLore());
+        Collections.addAll(currentLore, lore);
+        return setLore(currentLore);
+    }
+
     public ItemStackBuilder setDisplayName(String displayName) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         Objects.requireNonNull(itemMeta).setDisplayName(displayName);
@@ -156,7 +162,7 @@ public class ItemStackBuilder {
     }
 
     public String getDisplayName() {
-        return itemStack.getItemMeta().getDisplayName();
+        return Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
     }
 
     /**
