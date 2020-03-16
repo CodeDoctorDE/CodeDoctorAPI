@@ -94,7 +94,7 @@ public class ListGui {
                         @Override
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                             Player player = (Player) event.getWhoClicked();
-                            player.sendMessage(guiTranslation.getAsJsonObject("search").getAsJsonObject("refresh").getAsString());
+                            player.sendMessage(guiTranslation.getAsJsonObject("search").get("refresh").getAsString());
                             createGui(guiTranslation, backGui, searchText)[0].open(player);
                         }
                     }));
@@ -106,7 +106,7 @@ public class ListGui {
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                             Player player = (Player) event.getWhoClicked();
                             if (finalI >= pages.size() - 1)
-                                player.sendMessage(guiTranslation.getAsJsonObject("next").getAsJsonObject("already").getAsString());
+                                player.sendMessage(guiTranslation.getAsJsonObject("next").get("already").getAsString());
                             else
                                 createGui(guiTranslation, backGui, searchText)[finalI + 1].open(player);
                         }
@@ -122,7 +122,7 @@ public class ListGui {
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                             Player player = (Player) event.getWhoClicked();
                             if (finalI >= pages.size() - 1)
-                                player.sendMessage(guiTranslation.getAsJsonObject("last").getAsJsonObject("already").getAsString());
+                                player.sendMessage(guiTranslation.getAsJsonObject("last").get("already").getAsString());
                             else
                                 createGui(guiTranslation, backGui, searchText)[pages.size() - 1].open(player);
                         }
