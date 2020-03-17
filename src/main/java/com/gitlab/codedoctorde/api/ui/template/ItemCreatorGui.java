@@ -52,7 +52,14 @@ public class ItemCreatorGui {
             getGuiItems().put(3, placeholder);
             getGuiItems().put(4, new GuiItem(itemStackBuilder.build(), new GuiItemEvent() {
                 @Override
+                public boolean onItemChange(Gui gui, GuiItem guiItem, Player player, ItemStack change) {
+                    player.sendMessage("testfe");
+                    return false;
+                }
+
+                @Override
                 public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
+                    event.getWhoClicked().sendMessage("test");
                     if (event.getCurrentItem() != null)
                         if (!event.getCurrentItem().getType().isAir()) {
                             itemStackBuilder = new ItemStackBuilder(event.getCurrentItem());
