@@ -99,7 +99,7 @@ public class ItemCreatorGui {
                         case RIGHT:
                             itemStackBuilder.displayName(null);
                             event.getWhoClicked().sendMessage(guiTranslation.getAsJsonObject("displayname").get("remove").getAsString());
-                            createGui(backGui, guiTranslation).open(player);
+                            createGui(backGui, guiTranslation).open((Player) event.getWhoClicked());
                             break;
                     }
                 }
