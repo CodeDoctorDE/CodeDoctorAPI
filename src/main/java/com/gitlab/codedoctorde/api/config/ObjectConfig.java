@@ -53,16 +53,14 @@ public class ObjectConfig extends JsonConfig {
 
     public void save() {
         file.getParentFile().mkdirs();
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-                OutputStreamWriter bw =
-                        new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
-                bw.write(gson.toJson(jsonObject));
-                bw.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            if (!file.exists()) file.createNewFile();
+            OutputStreamWriter bw =
+                    new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
+            bw.write(gson.toJson(jsonObject));
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
