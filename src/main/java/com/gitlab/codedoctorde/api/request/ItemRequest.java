@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * @author CodeDoctorDE
@@ -54,11 +55,12 @@ public class ItemRequest implements Listener {
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        if (requests.containsKey(player)) {
-            event.setCancelled(true);
-            requests.get(player).cancel(player);
-            requests.remove(player);
-        }
+        if (Objects.requireNonNull(event.getTo()).subtract(event.getFrom()).toVector().length() != 0)
+            if (requests.containsKey(player)) {
+                event.setCancelled(true);
+                requests.get(player).cancel(player);
+                requests.remove(player);
+            }
     }
 
     @EventHandler
