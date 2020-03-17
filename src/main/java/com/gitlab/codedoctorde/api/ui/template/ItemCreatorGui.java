@@ -54,9 +54,10 @@ public class ItemCreatorGui {
                 @Override
                 public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                     if (event.getCurrentItem() != null)
-                        if (!event.getCurrentItem().getType().isAir())
+                        if (!event.getCurrentItem().getType().isAir()) {
                             itemStackBuilder = new ItemStackBuilder(event.getCurrentItem());
-                        else
+                            createGui(backGui, guiTranslation).open((Player) event.getWhoClicked());
+                        } else
                             event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
                     else
                         event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
@@ -98,7 +99,7 @@ public class ItemCreatorGui {
                         case RIGHT:
                             itemStackBuilder.displayName(null);
                             event.getWhoClicked().sendMessage(guiTranslation.getAsJsonObject("displayname").get("remove").getAsString());
-                            gui.reload();
+                            createGui(backGui, guiTranslation).open(player);
                             break;
                     }
                 }
