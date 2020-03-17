@@ -53,7 +53,13 @@ public class ItemCreatorGui {
             getGuiItems().put(4, new GuiItem(itemStackBuilder.build(), new GuiItemEvent() {
                 @Override
                 public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
-                    event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
+                    if (event.getCurrentItem() != null)
+                        if (!event.getCurrentItem().getType().isAir())
+                            itemStackBuilder = new ItemStackBuilder(event.getCurrentItem());
+                        else
+                            event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
+                    else
+                        event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
                 }
             }));
             getGuiItems().put(5, placeholder);
