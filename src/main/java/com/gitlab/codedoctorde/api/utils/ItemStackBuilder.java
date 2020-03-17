@@ -1,10 +1,7 @@
 package com.gitlab.codedoctorde.api.utils;
 
 import com.google.common.collect.Multimap;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -152,6 +149,13 @@ public class ItemStackBuilder {
         List<String> currentLore = new ArrayList<>(getLore());
         Collections.addAll(currentLore, lore);
         return setLore(currentLore);
+    }
+
+    public ItemStackBuilder addLore(JsonArray jsonArray) {
+        for (JsonElement element :
+                jsonArray)
+            addLore(element.getAsString());
+        return this;
     }
 
     public ItemStackBuilder setDisplayName(String displayName) {
