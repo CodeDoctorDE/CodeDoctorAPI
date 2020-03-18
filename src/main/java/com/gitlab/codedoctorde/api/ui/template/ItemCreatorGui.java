@@ -10,6 +10,7 @@ import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
 import com.gitlab.codedoctorde.itemmods.main.ItemCreatorSubmitEvent;
 import com.google.gson.JsonObject;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -51,17 +52,12 @@ public class ItemCreatorGui {
             getGuiItems().put(2, placeholder);
             getGuiItems().put(3, placeholder);
             getGuiItems().put(4, new GuiItem(itemStackBuilder.build(), new GuiItemEvent() {
-                @Override
-                public boolean onItemChange(Gui gui, GuiItem guiItem, Player player, ItemStack change) {
-                    player.sendMessage("testfe");
-                    return false;
-                }
 
                 @Override
                 public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
-                    event.getWhoClicked().sendMessage("test");
                     if (event.getCurrentItem() != null)
                         if (!event.getCurrentItem().getType().isAir()) {
+                            event.setCurrentItem(new ItemStack(Material.AIR));
                             itemStackBuilder = new ItemStackBuilder(event.getCurrentItem());
                             createGui(backGui, guiTranslation).open((Player) event.getWhoClicked());
                         } else
