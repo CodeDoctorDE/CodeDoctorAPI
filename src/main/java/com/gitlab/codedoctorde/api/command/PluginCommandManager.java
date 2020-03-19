@@ -13,8 +13,8 @@ import java.util.List;
 
 public abstract class PluginCommandManager implements TabCompleter, CommandExecutor {
 
-    public boolean onCommfand(CommandSender commandSender, Command command, String s,
-                              String[] args) {
+    public boolean onCommand(CommandSender commandSender, Command command, String s,
+                             String[] args) {
         List<String> subCommandArgs = new ArrayList<>(Arrays.asList(args));
         List<SubCommand> subCommands = subCommands(commandSender, args);
         boolean exist = false;
