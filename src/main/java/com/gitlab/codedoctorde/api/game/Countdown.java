@@ -48,4 +48,7 @@ public abstract class Countdown {
 
     public abstract void idle();
 
+    public boolean isRunning() {
+        return taskID != null;
+    }
 }
