@@ -57,8 +57,8 @@ public class ItemCreatorGui {
                 public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                     if (event.getCurrentItem() != null)
                         if (!event.getCurrentItem().getType().isAir()) {
-                            event.setCurrentItem(new ItemStack(Material.AIR));
                             itemStackBuilder = new ItemStackBuilder(event.getCurrentItem());
+                            event.setCurrentItem(new ItemStack(Material.AIR));
                             createGui(backGui, guiTranslation).open((Player) event.getWhoClicked());
                         } else
                             event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
