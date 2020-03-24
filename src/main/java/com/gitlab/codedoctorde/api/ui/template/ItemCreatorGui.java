@@ -56,7 +56,7 @@ public class ItemCreatorGui {
 
                 @Override
                 public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
-                    event.getWhoClicked().getInventory().addItem(Objects.requireNonNull(event.getCurrentItem()));
+                    event.getWhoClicked().getInventory().addItem(Objects.requireNonNull(event.getCursor()));
                     if (event.getCursor() != null)
                         if (!event.getCursor().getType().isAir()) {
                             System.out.println("test");
