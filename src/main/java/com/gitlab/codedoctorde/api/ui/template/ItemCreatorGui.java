@@ -20,7 +20,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ItemCreatorGui {
 
@@ -56,12 +55,10 @@ public class ItemCreatorGui {
 
                 @Override
                 public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
-                    event.getWhoClicked().getInventory().addItem(Objects.requireNonNull(event.getCursor()));
                     if (event.getCursor() != null)
                         if (!event.getCursor().getType().isAir()) {
-                            System.out.println("test");
                             itemStackBuilder.setItemStack(event.getCursor().clone());
-                            event.setCurrentItem(new ItemStack(Material.AIR));
+                            event.getWhoClicked().setItemOnCursor(new ItemStack(Material.AIR));
                             createGui(backGui, guiTranslation).open((Player) event.getWhoClicked());
                         } else
                             event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
