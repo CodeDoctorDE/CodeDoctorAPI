@@ -266,6 +266,9 @@ public class ItemStackBuilder {
         return Objects.requireNonNull(itemMeta.getAttributeModifiers()).get(attribute);
     }
 
+    public void setItemStack(ItemStack itemStack) {
+        this.itemStack = itemStack;
+    }
 
     public ItemStackBuilder format(Object... arguments) {
         displayName(MessageFormat.format(getDisplayName(), arguments));
