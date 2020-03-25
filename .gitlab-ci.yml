@@ -11,7 +11,6 @@ build:
     paths:
       - "target/*.jar"
 pages:
-  strategy: update
   image: "openkbs/jdk-mvn-py3"
   before_script:
     - 'sudo pip install mkdocs'
