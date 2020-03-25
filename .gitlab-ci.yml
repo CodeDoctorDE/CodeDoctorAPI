@@ -1,10 +1,9 @@
 image: maven:latest
 stages:
-  - build
-  - deploy
+  - test
   - publish
 deploy:
-  stage: deploy
+  stage: test
   script:
     - 'mvn deploy -s ci_settings.xml'
   only:
@@ -15,7 +14,7 @@ cache:
   paths:
     - public/apidocs
 build:
-  stage: build
+  stage: test
   script: "mvn clean package"
   artifacts:
     name: "ItemMods"
