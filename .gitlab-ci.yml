@@ -4,6 +4,11 @@ deploy:
     - 'mvn deploy -s ci_settings.xml'
   only:
     - master
+
+cache:
+  # Required to keep artifacts from old builds, e.g. from master
+  paths:
+    - public
 build:
   script: "mvn clean package"
   artifacts:
