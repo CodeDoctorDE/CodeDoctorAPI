@@ -1,4 +1,5 @@
 image: maven:latest
+
 stages:
   - test
   - publish
