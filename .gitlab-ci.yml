@@ -19,13 +19,13 @@ pages:
     - 'sudo pip install pygments'
   script:
     - 'mkdir -p public'
-    - 'mkdir -p public/$CI_PIPELINE_ID/'
+    - 'mkdir -p public/$CI_COMMIT_REF_NAME/'
     - 'mv assets docs'
     - 'mv ./*.md docs'
     - 'mkdocs build'
     - 'mv site/* public'
     - 'mvn javadoc:javadoc'
-    - 'mv target/site/* public/$CI_PIPELINE_ID/'
+    - 'mv target/site/* public/$CI_COMMIT_REF_NAME/'
   only:
     - master
   artifacts:
