@@ -30,4 +30,18 @@ public class Selection {
     public void setPos2(Location pos2) {
         this.pos2 = pos2;
     }
+
+    public boolean inSelection(Location location) {
+        double minX = Math.min(pos1.getX(), pos2.getX());
+        double minY = Math.min(pos1.getY(), pos2.getY());
+        double minZ = Math.min(pos1.getZ(), pos2.getZ());
+
+        double maxX = Math.max(pos1.getX(), pos2.getX());
+        double maxY = Math.max(pos1.getY(), pos2.getY());
+        double maxZ = Math.max(pos1.getZ(), pos2.getZ());
+
+        return (minX <= location.getX() && maxX >= location.getX() &&
+                minY <= location.getY() && maxY >= location.getY() &&
+                minZ <= location.getZ() && maxZ >= location.getZ());
+    }
 }
