@@ -11,6 +11,7 @@ build:
     paths:
       - "target/*.jar"
 pages:
+  when: always
   image: "openkbs/jdk-mvn-py3"
   before_script:
     - 'sudo pip install mkdocs'
@@ -28,5 +29,6 @@ pages:
   only:
     - master
   artifacts:
+    name: "$CI_PIPELINE_ID"
     paths:
       - public
