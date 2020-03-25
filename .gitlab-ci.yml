@@ -1,4 +1,6 @@
 image: maven:latest
+stages:
+  - publish
 deploy:
   script:
     - 'mvn deploy -s ci_settings.xml'
@@ -16,6 +18,7 @@ build:
     paths:
       - "target/*.jar"
 pages:
+  stage: publish
   when: always
   image: "openkbs/jdk-mvn-py3"
   before_script:
