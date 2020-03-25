@@ -12,7 +12,7 @@ deploy:
 cache:
   # Required to keep artifacts from old builds, e.g. from master
   paths:
-    - public/apidocs
+    - public/api
 build:
   stage: test
   script: "mvn clean package"
