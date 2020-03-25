@@ -11,19 +11,22 @@ build:
     paths:
       - "target/*.jar"
 pages:
+  strategy: update
   image: "openkbs/jdk-mvn-py3"
   before_script:
     - 'sudo pip install mkdocs'
     - 'sudo pip install mkdocs-material'
     - 'sudo pip install pygments'
   script:
+    - 'mkdir -p public'
+    - 'mkdir -p public/$CI_PIPELINE_ID/'
     - 'mv assets docs'
     - 'mv ./*.md docs'
     - 'mkdocs build'
     - 'mkdir public'
     - 'mv site/* public'
     - 'mvn javadoc:javadoc'
-    - 'mv target/site/* public'
+    - 'mv target/site/* public/$CI_PIPELINE_ID/ -R'
   only:
     - master
   artifacts:
