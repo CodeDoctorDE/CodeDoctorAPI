@@ -1,7 +1,10 @@
 image: maven:latest
 stages:
+  - build
+  - deploy
   - publish
 deploy:
+  stage: deploy
   script:
     - 'mvn deploy -s ci_settings.xml'
   only:
@@ -12,6 +15,7 @@ cache:
   paths:
     - public/apidocs
 build:
+  stage: build
   script: "mvn clean package"
   artifacts:
     name: "ItemMods"
@@ -27,14 +31,14 @@ pages:
     - 'sudo pip install pygments'
   script:
     - 'mkdir -p public'
-    - 'mkdir -p public/apidocs'
-    - 'mkdir -p public/apidocs/$CI_COMMIT_REF_NAME/'
+    - 'mkdir -p public/api'
+    - 'mkdir -p public/api/$CI_COMMIT_REF_NAME/'
     - 'mv assets docs'
     - 'mv ./*.md docs'
     - 'mkdocs build'
     - 'mv site/* public'
     - 'mvn javadoc:javadoc'
-    - 'mv target/site/apidocs/* public/apidocs/$CI_COMMIT_REF_NAME/'
+    - 'mv target/site/* public/api/$CI_COMMIT_REF_NAME/'
   only:
     - master
   artifacts:

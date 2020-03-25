@@ -6,4 +6,4 @@ Docs: <https://codedoctorde.gitlab.io/codedoctorapi/>
 
 ## ApiDocs
 
-[Master](https://codedoctorde.gitlab.io/codedoctorapi/apidocs/master)
+[Master](https://codedoctorde.gitlab.io/codedoctorapi/api/master/apidocs)
