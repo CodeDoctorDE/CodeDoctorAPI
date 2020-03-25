@@ -2,4 +2,8 @@
 
 My own api for my plugins.
 
-JavaDocs: <https://codedoctorde.gitlab.io/codedoctorapi/apidocs>
+Docs: <https://codedoctorde.gitlab.io/codedoctorapi/>
+
+## ApiDocs
+
+[Master](https://codedoctorde.gitlab.io/codedoctorapi/apidocs/master)
