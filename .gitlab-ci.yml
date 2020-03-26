@@ -38,7 +38,7 @@ pages:
     - 'mkdocs build'
     - 'mv site/* public'
     - 'mvn javadoc:javadoc'
-    - 'mv target/site/* public/api/$CI_COMMIT_REF_NAME/'
+    - 'cp -r target/site/* public/api/$CI_COMMIT_REF_NAME/'
   only:
     - master
   artifacts:
