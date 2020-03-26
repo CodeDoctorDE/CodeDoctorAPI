@@ -5,6 +5,7 @@ import com.gitlab.codedoctorde.api.ui.GuiItem;
 import com.gitlab.codedoctorde.api.ui.GuiItemEvent;
 import com.gitlab.codedoctorde.api.ui.template.events.ValueItemEvent;
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -68,7 +69,7 @@ public class ValueItem {
                     case DROP:
                         value = defaultValue;
                 }
-                itemEvent.onEvent(value);
+                itemEvent.onEvent(value, (Player) event.getWhoClicked());
             }
         });
     }

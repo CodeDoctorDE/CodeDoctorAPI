@@ -1,4 +1,4 @@
-package com.gitlab.codedoctorde.itemmods.main;
+package com.gitlab.codedoctorde.api.ui.template.events;
 
 import org.bukkit.inventory.ItemStack;
 
