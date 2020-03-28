@@ -70,7 +70,7 @@ public class ValueItem {
                     case DROP:
                         current = defaultValue;
                 }
-                if (itemEvent.onEvent(value, (Player) event.getWhoClicked()))
+                if (itemEvent.onEvent(current, (Player) event.getWhoClicked()))
                     value = current;
             }
         });
