@@ -53,23 +53,25 @@ public class ValueItem {
         return new GuiItem(itemStack, new GuiItemEvent() {
             @Override
             public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
+                int current = value;
                 switch (event.getClick()) {
                     case LEFT:
-                        value++;
+                        current++;
                         break;
                     case RIGHT:
-                        value--;
+                        current--;
                         break;
                     case SHIFT_LEFT:
-                        value += fastSkip;
+                        current += fastSkip;
                         break;
                     case SHIFT_RIGHT:
-                        value -= fastSkip;
+                        current -= fastSkip;
                         break;
                     case DROP:
-                        value = defaultValue;
+                        current = defaultValue;
                 }
-                itemEvent.onEvent(value, (Player) event.getWhoClicked());
+                if (itemEvent.onEvent(value, (Player) event.getWhoClicked()))
+                    value = current;
             }
         });
     }

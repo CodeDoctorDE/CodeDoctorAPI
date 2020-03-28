@@ -6,5 +6,5 @@ import org.bukkit.entity.Player;
  * @author CodeDoctorDE
  */
 public interface ValueItemEvent {
-    void onEvent(int value, Player player);
+    boolean onEvent(int value, Player player);
 }
