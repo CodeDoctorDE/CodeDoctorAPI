@@ -15,32 +15,29 @@ import java.util.HashMap;
 
 public class Gui implements Listener {
     static HashMap<Player, Gui> playerGuiHashMap = new HashMap<>();
-    static HashMap<Player, Gui> playerInventoryHashMap = new HashMap<>();
+    private final GuiEvent guiEvent;
     private final JavaPlugin plugin;
-    int index = 0;
     private HashMap<Player, Integer> taskID = new HashMap<>();
     private String title;
     private int size;
     private HashMap<Integer, GuiItem> guiItems = new HashMap<>();
-    private GuiEvent guiEvent;
     private Inventory inventory = null;
 
 
     public Gui(JavaPlugin javaPlugin) {
-        title = "";
-        size = 3;
-        plugin = javaPlugin;
         guiEvent = new GuiEvent() {
         };
-        Bukkit.getPluginManager().registerEvents(this, javaPlugin);
+        plugin = javaPlugin;
+        title = "";
+        size = 3;
     }
 
     public Gui(JavaPlugin javaPlugin, String title, int size) {
+        guiEvent = new GuiEvent() {
+        };
         plugin = javaPlugin;
         this.title = title;
         this.size = size;
-        guiEvent = new GuiEvent() {
-        };
         Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
