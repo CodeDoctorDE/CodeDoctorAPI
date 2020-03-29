@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -105,14 +106,23 @@ public class InventoryGui implements Listener {
             return;
         Player player = (Player) event.getWhoClicked();
         if (playerGuiHashMap.containsKey(player)) if (playerGuiHashMap.get(player) == this) {
-            InventoryGui gui = playerGuiHashMap.get(player);
             if ((event.getClickedInventory() == player.getInventory()) ||
                     (event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY && !event.getClickedInventory().equals(player.getInventory()))) {
                 event.setCancelled(true);
                 if (guiItems.containsKey(event.getSlot())) {
                     InventoryGuiItem guiItem = guiItems.get(event.getSlot());
-                    guiItem.raiseEvent(gui, event);
+                    guiItem.raiseEvent(this, event);
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if (playerGuiHashMap.containsKey(event.getPlayer())) if (playerGuiHashMap.get(event.getPlayer()) == this) {
+            if (guiItems.containsKey(event.getPlayer().getInventory().getHeldItemSlot())) {
+                InventoryGuiItem guiItem = guiItems.get(event.getPlayer().getInventory().getHeldItemSlot());
+                guiItem.raiseInteractEvent(this, event);
             }
         }
     }

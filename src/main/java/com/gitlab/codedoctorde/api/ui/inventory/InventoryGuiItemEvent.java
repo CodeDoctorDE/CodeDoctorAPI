@@ -2,6 +2,7 @@ package com.gitlab.codedoctorde.api.ui.inventory;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public interface InventoryGuiItemEvent {
@@ -9,6 +10,10 @@ public interface InventoryGuiItemEvent {
     }
 
     default void onTick(InventoryGui gui, InventoryGuiItem guiItem, Player player) {
+
+    }
+
+    default void onInteract(InventoryGui gui, InventoryGuiItem guiItem, PlayerInteractEvent event) {
 
     }
 

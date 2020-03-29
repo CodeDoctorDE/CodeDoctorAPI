@@ -4,6 +4,7 @@ import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -54,5 +55,9 @@ public class InventoryGuiItem {
 
     public void runTick(InventoryGui gui, Player player) {
         guiItemEvent.onTick(gui, this, player);
+    }
+
+    public void raiseInteractEvent(InventoryGui inventoryGui, PlayerInteractEvent event) {
+        guiItemEvent.onInteract(inventoryGui, this, event);
     }
 }
