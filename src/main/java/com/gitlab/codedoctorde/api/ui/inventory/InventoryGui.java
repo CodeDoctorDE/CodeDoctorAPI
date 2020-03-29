@@ -48,6 +48,8 @@ public class InventoryGui implements Listener {
     public void open(Player... players) {
         for (Player player :
                 players) {
+            if (playerGuiHashMap.containsKey(player))
+                close(player);
             playerItemsHashMap.put(player, player.getInventory().getContents());
             playerGuiHashMap.put(player, this);
             final ItemStack[] contents = build();
