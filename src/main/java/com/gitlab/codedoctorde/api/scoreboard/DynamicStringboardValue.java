@@ -14,14 +14,14 @@ public class DynamicStringboardValue {
     private int score = 0;
     private String entry;
 
-    public void StringboardValue(String value, Scoreboard scoreboard, String entry) {
+    public DynamicStringboardValue(String value, Scoreboard scoreboard, String entry) {
         this.value = value;
         this.entry = entry;
         recreateTeam(scoreboard, entry);
         team.setPrefix(value);
     }
 
-    public void StringboardValue(String value, int score, Scoreboard scoreboard, String entry) {
+    public DynamicStringboardValue(String value, int score, Scoreboard scoreboard, String entry) {
         this.value = value;
         this.score = score;
         this.entry = entry;
@@ -29,7 +29,7 @@ public class DynamicStringboardValue {
         team.setPrefix(value);
     }
 
-    public void StringboardValue(String value, int score, Team team, String entry) {
+    public DynamicStringboardValue(String value, int score, Team team, String entry) {
         this.value = value;
         this.score = score;
         this.team = team;
