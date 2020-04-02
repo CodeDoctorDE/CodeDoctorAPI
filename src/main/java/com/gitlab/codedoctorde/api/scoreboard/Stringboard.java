@@ -5,16 +5,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 /**
  * @author CodeDoctorDE
  */
 public class Stringboard {
     private final Objective objective;
-    private String[] strings;
+    private List<StringboardValue> values = new ArrayList<>();
+    private List<DynamicStringboardValue> dynamicValues = new ArrayList<>();
     private String title;
 
     public Stringboard(Scoreboard scoreboard, String title) {
@@ -22,26 +24,24 @@ public class Stringboard {
     }
 
     public Stringboard(String title) {
-        this(Bukkit.getScoreboardManager().getNewScoreboard().registerNewObjective(UUID.randomUUID().toString(), "dummy", title));
+        this(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard().registerNewObjective(UUID.randomUUID().toString(), "dummy", title));
     }
 
     public Stringboard(Objective objective) {
         this.objective = objective;
     }
 
-    public void reload() {
+    public void rebuild() {
         if (objective.getScoreboard() != null)
             objective.getScoreboard().getEntries().clear();
         objective.setDisplayName(title);
-        IntStream.range(0, strings.length).forEach(i -> objective.getScore(strings[i]).setScore(strings.length - i));
+        objective.getScoreboard().getEntries().forEach(entry -> objective.getScoreboard().resetScores(entry));
+        values.forEach(value -> objective.getScore(value.getValue()).setScore(value.getScore()));
+        dynamicValues.forEach(value -> objective.getScore(value.getEntry()).setScore(value.getScore()));
     }
 
-    public String[] getStrings() {
-        return strings;
-    }
-
-    public void setStrings(String[] strings) {
-        this.strings = strings;
+    public List<StringboardValue> getValues() {
+        return values;
     }
 
     public String getTitle() {
@@ -58,5 +58,9 @@ public class Stringboard {
 
     public Scoreboard getScorebaord() {
         return objective.getScoreboard();
+    }
+
+    public List<DynamicStringboardValue> getDynamicValues() {
+        return dynamicValues;
     }
 }
