@@ -15,18 +15,19 @@ public class DynamicStringboardValue {
     private String entry;
 
     public DynamicStringboardValue(String value, Scoreboard scoreboard, String entry) {
-        this.value = value;
-        this.entry = entry;
-        recreateTeam(scoreboard, entry);
-        team.setPrefix(value);
+        this(value, 0, scoreboard, entry);
+    }
+
+    public DynamicStringboardValue(String value, Stringboard stringboard, String entry) {
+        this(value, stringboard.getScoreboard(), entry);
     }
 
     public DynamicStringboardValue(String value, int score, Scoreboard scoreboard, String entry) {
-        this.value = value;
-        this.score = score;
-        this.entry = entry;
-        recreateTeam(scoreboard, entry);
-        team.setPrefix(value);
+        this(value, score, scoreboard.registerNewTeam(UUID.randomUUID().toString()), entry);
+    }
+
+    public DynamicStringboardValue(String value, int score, Stringboard stringboard, String entry) {
+        this(value, score, stringboard.getScoreboard().registerNewTeam(UUID.randomUUID().toString()), entry);
     }
 
     public DynamicStringboardValue(String value, int score, Team team, String entry) {
@@ -38,7 +39,11 @@ public class DynamicStringboardValue {
         team.setPrefix(value);
     }
 
-    public void recreateTeam(Scoreboard scoreboard, String entry) {
+    public void recreateTeam(Stringboard stringboard) {
+        recreateTeam(stringboard.getScoreboard());
+    }
+
+    public void recreateTeam(Scoreboard scoreboard) {
         String teamName = UUID.randomUUID().toString();
         while (scoreboard.getTeams().contains(teamName))
             teamName = UUID.randomUUID().toString();
