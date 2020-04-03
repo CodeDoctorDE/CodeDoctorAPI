@@ -78,7 +78,12 @@ public class DynamicStringboardValue {
         return entry;
     }
 
-    public void updateDisplay() {
+    public void updateValue(String display) {
+        this.value = value;
+        updateValue();
+    }
+
+    public void updateValue() {
         team.setPrefix(value);
     }
 }

@@ -2,6 +2,7 @@ package com.gitlab.codedoctorde.api.scoreboard;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -21,10 +22,12 @@ public class Stringboard {
 
     public Stringboard(Scoreboard scoreboard, String title) {
         this(scoreboard.registerNewObjective(UUID.randomUUID().toString(), "dummy", title));
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
     public Stringboard(String title) {
         this(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard().registerNewObjective(UUID.randomUUID().toString(), "dummy", title));
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
     public Stringboard(Objective objective) {
@@ -62,5 +65,14 @@ public class Stringboard {
 
     public List<DynamicStringboardValue> getDynamicValues() {
         return dynamicValues;
+    }
+
+    public void updateTitle() {
+        objective.setDisplayName(title);
+    }
+
+    public void updateTitle(String title) {
+        this.title = title;
+        updateTitle();
     }
 }
