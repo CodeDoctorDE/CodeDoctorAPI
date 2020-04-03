@@ -6,10 +6,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author CodeDoctorDE
@@ -74,5 +71,13 @@ public class Stringboard {
     public void updateTitle(String title) {
         this.title = title;
         updateTitle();
+    }
+
+    public void openScoreboard(Player... players) {
+        Arrays.stream(players).forEach(player -> player.setScoreboard(Objects.requireNonNull(objective.getScoreboard())));
+    }
+
+    public void closeScoreboard(Player... players) {
+        Arrays.stream(players).filter(player -> player.getScoreboard().equals(objective.getScoreboard())).forEach(player -> player.setScoreboard(Objects.requireNonNull(Bukkit.getServer().getScoreboardManager()).getNewScoreboard()));
     }
 }
