@@ -59,7 +59,7 @@ public class Stringboard {
         player.setScoreboard(Objects.requireNonNull(objective.getScoreboard()));
     }
 
-    public Scoreboard getScorebaord() {
+    public Scoreboard getScoreboard() {
         return objective.getScoreboard();
     }
 
