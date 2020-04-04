@@ -3,6 +3,7 @@ package com.gitlab.codedoctorde.api.scoreboard;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 /**
@@ -11,6 +12,7 @@ import java.util.UUID;
 public class DynamicStringboardValue {
     private Team team = null;
     private String value;
+    private String formattedValue;
     private int score = 0;
     private String entry;
 
@@ -36,6 +38,7 @@ public class DynamicStringboardValue {
         this.team = team;
         team.addEntry(entry);
         this.entry = entry;
+        this.formattedValue = value;
         team.setPrefix(value);
     }
 
@@ -85,10 +88,17 @@ public class DynamicStringboardValue {
 
     public void updateValue(String display) {
         this.value = value;
+        this.formattedValue = value;
         updateValue();
     }
 
+    public void format(Object... arguments) {
+        this.formattedValue = MessageFormat.format(value, arguments);
+        updateValue();
+    }
+
+
     public void updateValue() {
-        team.setPrefix(value);
+        team.setPrefix(formattedValue);
     }
 }

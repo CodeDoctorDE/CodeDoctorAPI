@@ -210,11 +210,18 @@ public class Gui implements Listener {
         return buildInventory;
     }
 
+    public static Gui getGui(Player player) {
+        return playerGuiHashMap.get(player);
+    }
+
+    public static boolean hasGui(Player player) {
+        return playerGuiHashMap.containsKey(player);
+    }
+
     public Inventory buildNew() {
         inventory = Bukkit.createInventory(null, size * 9, title);
         inventory.clear();
-        for (int key : guiItems.keySet()) inventory.setItem(key, guiItems.get(key).getItemStack());
+        guiItems.keySet().forEach(key -> inventory.setItem(key, guiItems.get(key).getItemStack()));
         return inventory;
     }
-
 }
