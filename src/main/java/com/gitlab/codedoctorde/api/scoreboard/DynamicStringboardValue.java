@@ -4,7 +4,6 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.text.MessageFormat;
-import java.util.UUID;
 
 /**
  * @author CodeDoctorDE
@@ -16,20 +15,20 @@ public class DynamicStringboardValue {
     private int score = 0;
     private String entry;
 
-    public DynamicStringboardValue(String value, Scoreboard scoreboard, String entry) {
-        this(value, 0, scoreboard, entry);
+    public DynamicStringboardValue(String value, Scoreboard scoreboard, String entry, String teamName) {
+        this(value, 0, scoreboard, entry, teamName);
     }
 
-    public DynamicStringboardValue(String value, Stringboard stringboard, String entry) {
-        this(value, stringboard.getScoreboard(), entry);
+    public DynamicStringboardValue(String value, Stringboard stringboard, String entry, String teamName) {
+        this(value, stringboard.getScoreboard(), entry, teamName);
     }
 
-    public DynamicStringboardValue(String value, int score, Scoreboard scoreboard, String entry) {
-        this(value, score, scoreboard.registerNewTeam(UUID.randomUUID().toString()), entry);
+    public DynamicStringboardValue(String value, int score, Scoreboard scoreboard, String entry, String teamName) {
+        this(value, score, scoreboard.registerNewTeam(teamName), entry);
     }
 
-    public DynamicStringboardValue(String value, int score, Stringboard stringboard, String entry) {
-        this(value, score, stringboard.getScoreboard().registerNewTeam(UUID.randomUUID().toString()), entry);
+    public DynamicStringboardValue(String value, int score, Stringboard stringboard, String entry, String teamName) {
+        this(value, score, stringboard.getScoreboard().registerNewTeam(teamName), entry);
     }
 
     public DynamicStringboardValue(String value, int score, Team team, String entry) {
@@ -42,14 +41,13 @@ public class DynamicStringboardValue {
         team.setPrefix(value);
     }
 
-    public void recreateTeam(Stringboard stringboard) {
-        recreateTeam(stringboard.getScoreboard());
+    public void recreateTeam(Stringboard stringboard, String teamName) {
+        recreateTeam(stringboard.getScoreboard(), teamName);
     }
 
-    public void recreateTeam(Scoreboard scoreboard) {
-        String teamName = UUID.randomUUID().toString();
-        while (scoreboard.getTeams().contains(teamName))
-            teamName = UUID.randomUUID().toString();
+    public void recreateTeam(Scoreboard scoreboard, String teamName) {
+        if (scoreboard.getTeam(teamName) != null)
+            scoreboard.getTeams().remove(scoreboard.getTeam(teamName));
         this.team = scoreboard.registerNewTeam(teamName);
         this.team.addEntry(entry);
     }
