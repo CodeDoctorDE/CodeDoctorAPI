@@ -6,7 +6,10 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author CodeDoctorDE
@@ -17,13 +20,13 @@ public class Stringboard {
     private List<DynamicStringboardValue> dynamicValues = new ArrayList<>();
     private String title;
 
-    public Stringboard(Scoreboard scoreboard, String title) {
-        this(scoreboard.registerNewObjective(UUID.randomUUID().toString(), "dummy", title));
+    public Stringboard(Scoreboard scoreboard, String title, String name) {
+        this(scoreboard.registerNewObjective(name, "dummy", title));
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
-    public Stringboard(String title) {
-        this(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard().registerNewObjective(title, "dummy", title));
+    public Stringboard(String title, String name) {
+        this(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard().registerNewObjective(name, "dummy", title));
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
