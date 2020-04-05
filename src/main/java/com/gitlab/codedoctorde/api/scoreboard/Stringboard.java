@@ -23,7 +23,7 @@ public class Stringboard {
     }
 
     public Stringboard(String title) {
-        this(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard().registerNewObjective(UUID.randomUUID().toString(), "dummy", title));
+        this(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard().registerNewObjective(title, "dummy", title));
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
