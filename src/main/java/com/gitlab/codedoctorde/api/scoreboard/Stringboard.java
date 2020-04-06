@@ -38,7 +38,7 @@ public class Stringboard {
 
     public void rebuild() {
         if (objective.getScoreboard() != null)
-            objective.getScoreboard().getEntries().clear();
+            objective.getScoreboard().getEntries().forEach(entry -> objective.getScoreboard().resetScores(entry));
         objective.setDisplayName(title);
         objective.getScoreboard().getEntries().forEach(entry -> objective.getScoreboard().resetScores(entry));
         values.forEach(value -> objective.getScore(value.getValue()).setScore(value.getScore()));
