@@ -126,6 +126,7 @@ public class InventoryGui implements Listener {
             if (guiItems.containsKey(event.getPlayer().getInventory().getHeldItemSlot())) {
                 InventoryGuiItem guiItem = guiItems.get(event.getPlayer().getInventory().getHeldItemSlot());
                 guiItem.raiseInteractEvent(this, event);
+                event.setCancelled(true);
             }
         }
     }

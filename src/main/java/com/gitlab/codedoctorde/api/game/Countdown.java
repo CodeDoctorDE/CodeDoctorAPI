@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public abstract class Countdown {
     private final JavaPlugin plugin;
-    protected int idleTime = 200, countdownTime = 30, time;
+    protected int idleTime = 500, countdownTime = 30, time;
     protected Integer taskID;
 
     public Countdown(JavaPlugin plugin) {
