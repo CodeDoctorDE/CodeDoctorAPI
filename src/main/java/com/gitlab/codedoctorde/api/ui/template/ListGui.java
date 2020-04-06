@@ -93,6 +93,8 @@ public class ListGui {
                             Player player = (Player) event.getWhoClicked();
                             if (backGui != null)
                                 backGui.open(player);
+                            else
+                                gui.close(player);
                         }
                     }));
 
