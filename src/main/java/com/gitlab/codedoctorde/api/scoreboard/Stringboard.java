@@ -31,7 +31,9 @@ public class Stringboard {
     }
 
     public Stringboard(Objective objective) {
+        this.title = objective.getDisplayName();
         this.objective = objective;
+        rebuild();
     }
 
     public void rebuild() {
