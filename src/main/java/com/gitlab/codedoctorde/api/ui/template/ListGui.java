@@ -35,6 +35,14 @@ public class ListGui {
         this.guiEvent = guiEvent;
     }
 
+    public Gui[] createGui(JsonObject guiTranslation) {
+        return createGui(guiTranslation, null, "");
+    }
+
+    public Gui[] createGui(JsonObject guiTranslation, String searchText) {
+        return createGui(guiTranslation, null, searchText);
+    }
+
     public Gui[] createGui(JsonObject guiTranslation, Gui backGui) {
         return createGui(guiTranslation, backGui, "");
     }
@@ -83,7 +91,8 @@ public class ListGui {
                         @Override
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                             Player player = (Player) event.getWhoClicked();
-                            backGui.open(player);
+                            if (backGui != null)
+                                backGui.open(player);
                         }
                     }));
 
