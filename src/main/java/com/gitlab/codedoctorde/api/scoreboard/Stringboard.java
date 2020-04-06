@@ -22,23 +22,22 @@ public class Stringboard {
 
     public Stringboard(Scoreboard scoreboard, String title, String name) {
         this(scoreboard.registerNewObjective(name, "dummy", title));
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
     public Stringboard(String title, String name) {
         this(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard().registerNewObjective(name, "dummy", title));
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
     public Stringboard(Objective objective) {
         this.title = objective.getDisplayName();
         this.objective = objective;
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         rebuild();
     }
 
     public void rebuild() {
-        if (objective.getScoreboard() != null)
-            objective.getScoreboard().getEntries().forEach(entry -> objective.getScoreboard().resetScores(entry));
+        if (objective.getScoreboard() == null)
+            return;
         objective.setDisplayName(title);
         objective.getScoreboard().getEntries().forEach(entry -> objective.getScoreboard().resetScores(entry));
         values.forEach(value -> objective.getScore(value.getValue()).setScore(value.getScore()));

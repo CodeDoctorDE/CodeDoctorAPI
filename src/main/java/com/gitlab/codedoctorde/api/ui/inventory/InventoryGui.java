@@ -12,7 +12,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author CodeDoctorDE
@@ -61,7 +63,9 @@ public class InventoryGui implements Listener {
     }
 
     private ItemStack[] build() {
-        return new ItemStack[0];
+        List<ItemStack> itemStacks = new ArrayList<>();
+        guiItems.forEach((key, value) -> itemStacks.add(key, value.getItemStack()));
+        return itemStacks.toArray(new ItemStack[0]);
     }
 
     public void close(Player... players) {
