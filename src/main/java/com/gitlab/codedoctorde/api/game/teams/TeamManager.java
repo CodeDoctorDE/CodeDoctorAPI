@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author CodeDoctorDE
@@ -29,6 +30,11 @@ public class TeamManager {
         team.getPlayers().add(player);
     }
 
+    public void join(Player player, String name) {
+        leave(player);
+        Objects.requireNonNull(getTeam(name)).getPlayers().add(player);
+    }
+
     public void leave(Player player) {
         teams.forEach(team -> team.getPlayers().remove(player));
     }
@@ -36,6 +42,11 @@ public class TeamManager {
     @Nullable
     public Team currentTeam(Player player) {
         return teams.stream().filter(team -> team.getPlayers().contains(player)).findFirst().orElse(null);
+    }
+
+    @Nullable
+    public Team getTeam(String name) {
+        return teams.stream().filter(team -> team.getName().equals(name)).findFirst().orElse(null);
     }
 
     public List<Team> getTeams() {
