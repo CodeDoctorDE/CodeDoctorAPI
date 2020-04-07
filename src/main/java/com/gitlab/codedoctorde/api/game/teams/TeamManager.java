@@ -37,4 +37,8 @@ public class TeamManager {
     public Team currentTeam(Player player) {
         return teams.stream().filter(team -> team.getPlayers().contains(player)).findFirst().orElse(null);
     }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
 }
