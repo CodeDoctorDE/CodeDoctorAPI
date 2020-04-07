@@ -13,9 +13,19 @@ public class Team {
     private String prefix = "";
     private String suffix = "";
     private String name;
+    private int max;
 
-    public Team(String name) {
+    public Team(String name, int max) {
         this.name = name;
+        this.max = max;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
     }
 
     public String getName() {
@@ -48,5 +58,9 @@ public class Team {
 
     public void updateNames() {
         players.forEach(player -> player.setDisplayName(prefix + player.getName() + suffix));
+    }
+
+    public boolean isFull() {
+        return players.size() >= max;
     }
 }

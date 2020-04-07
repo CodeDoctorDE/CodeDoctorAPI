@@ -21,18 +21,35 @@ public class TeamManager {
         return teams.stream().anyMatch(team -> team.getPlayers().contains(player));
     }
 
-    public void join(Player player, int index) {
+    public boolean join(Player player, int index) {
+        Team team = teams.get(index);
+        if (team == null)
+            return false;
+        if (team.isFull())
+            return false;
         join(player, teams.get(index));
+        return true;
     }
 
-    public void join(Player player, Team team) {
+    public boolean join(Player player, Team team) {
+        if (team == null)
+            return false;
+        if (team.isFull())
+            return false;
         leave(player);
         team.getPlayers().add(player);
+        return true;
     }
 
-    public void join(Player player, String name) {
+    public boolean join(Player player, String name) {
+        Team team = getTeam(name);
+        if (team == null)
+            return false;
+        if (team.isFull())
+            return false;
         leave(player);
-        Objects.requireNonNull(getTeam(name)).getPlayers().add(player);
+        Objects.requireNonNull(team).getPlayers().add(player);
+        return true;
     }
 
     public void leave(Player player) {
@@ -51,5 +68,16 @@ public class TeamManager {
 
     public List<Team> getTeams() {
         return teams;
+    }
+
+    public boolean joinRandom(Player player) {
+        leave(player);
+        for (Team team :
+                teams)
+            if (!team.isFull()) {
+                join(player, team);
+                return true;
+            }
+        return false;
     }
 }
