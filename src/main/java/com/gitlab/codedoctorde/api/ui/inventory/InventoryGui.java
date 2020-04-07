@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -114,6 +115,15 @@ public class InventoryGui implements Listener {
             if (guiItems.containsKey(event.getPlayer().getInventory().getHeldItemSlot())) {
                 InventoryGuiItem guiItem = guiItems.get(event.getPlayer().getInventory().getHeldItemSlot());
                 guiItem.raiseInteractEvent(this, event);
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDrop(PlayerDropItemEvent event) {
+        if (playerGuiHashMap.containsKey(event.getPlayer())) if (playerGuiHashMap.get(event.getPlayer()) == this) {
+            if (guiItems.containsKey(event.getPlayer().getInventory().getHeldItemSlot())) {
                 event.setCancelled(true);
             }
         }
