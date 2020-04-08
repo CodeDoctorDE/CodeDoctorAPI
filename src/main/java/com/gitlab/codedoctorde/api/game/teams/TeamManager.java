@@ -10,8 +10,8 @@ import java.util.Objects;
 /**
  * @author CodeDoctorDE
  */
-public class TeamManager {
-    private List<Team> teams = new ArrayList<>();
+public class TeamManager<T extends Team> {
+    private List<T> teams = new ArrayList<>();
 
     public TeamManager() {
 
@@ -66,7 +66,7 @@ public class TeamManager {
         return teams.stream().filter(team -> team.getName().equals(name)).findFirst().orElse(null);
     }
 
-    public List<Team> getTeams() {
+    public List<T> getTeams() {
         return teams;
     }
 
