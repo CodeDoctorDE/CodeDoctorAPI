@@ -57,12 +57,12 @@ public class TeamManager<T extends Team> {
     }
 
     @Nullable
-    public Team currentTeam(Player player) {
+    public T currentTeam(Player player) {
         return teams.stream().filter(team -> team.getPlayers().contains(player)).findFirst().orElse(null);
     }
 
     @Nullable
-    public Team getTeam(String name) {
+    public T getTeam(String name) {
         return teams.stream().filter(team -> team.getName().equals(name)).findFirst().orElse(null);
     }
 
