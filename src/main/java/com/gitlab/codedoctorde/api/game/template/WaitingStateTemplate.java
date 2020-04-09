@@ -1,5 +1,6 @@
-package com.gitlab.codedoctorde.api.game;
+package com.gitlab.codedoctorde.api.game.template;
 
+import com.gitlab.codedoctorde.api.game.GameState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
