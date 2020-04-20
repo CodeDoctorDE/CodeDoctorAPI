@@ -3,7 +3,7 @@ package com.gitlab.codedoctorde.api.request;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -15,27 +15,24 @@ import java.util.HashMap;
 /**
  * @author CodeDoctorDE
  */
-public class ChatRequest implements Listener {
+public class ChatRequest extends Request<ChatRequestEvent> {
     private static HashMap<Player, ChatRequest> requests = new HashMap<>();
-    private JavaPlugin plugin;
-    private ChatRequestEvent chatRequestEvent;
 
     public ChatRequest(final JavaPlugin plugin, final Player player, final ChatRequestEvent chatRequestEvent) {
-        this.chatRequestEvent = chatRequestEvent;
+        super(plugin, player, chatRequestEvent);
         if (requests.containsKey(player))
-            requests.get(player).cancel(player);
+            requests.get(player).cancel();
         requests.remove(player);
         requests.put(player, this);
-        this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-
-    public void cancel(Player player) {
-        chatRequestEvent.onCancel(player);
     }
 
     public void event(Player player, String output) {
-        chatRequestEvent.onEvent(player, output);
+        requestEvent.onEvent(player, output);
+        unregister();
+    }
+
+    public void unregister() {
+        HandlerList.unregisterAll(this);
     }
 
     @EventHandler
@@ -58,7 +55,7 @@ public class ChatRequest implements Listener {
             return;
         if (requests.containsKey(player)) {
             event.setCancelled(true);
-            requests.get(player).cancel(player);
+            requests.get(player).cancel();
             requests.remove(player);
         }
     }
@@ -66,7 +63,7 @@ public class ChatRequest implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (requests.containsKey(event.getPlayer()))
-            requests.get(event.getPlayer()).cancel(event.getPlayer());
+            requests.get(event.getPlayer()).cancel();
         requests.remove(event.getPlayer());
     }
 }

@@ -3,7 +3,7 @@ package com.gitlab.codedoctorde.api.request;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -16,27 +16,24 @@ import java.util.Objects;
 /**
  * @author CodeDoctorDE
  */
-public class ItemRequest implements Listener {
+public class ItemRequest extends Request<ItemRequestEvent> {
     private static HashMap<Player, ItemRequest> requests = new HashMap<>();
-    private final JavaPlugin plugin;
-    private ItemRequestEvent itemRequestEvent;
 
     public ItemRequest(final JavaPlugin plugin, final Player player, final ItemRequestEvent itemRequestEvent) {
-        this.itemRequestEvent = itemRequestEvent;
+        super(plugin, player, itemRequestEvent);
         if (requests.containsKey(player))
-            requests.get(player).cancel(player);
+            requests.get(player).cancel();
         requests.remove(player);
         requests.put(player, this);
-        this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-
-    public void cancel(Player player) {
-        itemRequestEvent.onCancel(player);
     }
 
     public void event(Player player, ItemStack itemStack) {
-        itemRequestEvent.onEvent(player, itemStack);
+        requestEvent.onEvent(player, itemStack);
+        unregister();
+    }
+
+    public void unregister() {
+        HandlerList.unregisterAll(this);
     }
 
     @EventHandler
@@ -57,8 +54,7 @@ public class ItemRequest implements Listener {
         Player player = event.getPlayer();
         if (Objects.requireNonNull(event.getTo()).subtract(event.getFrom()).toVector().length() != 0)
             if (requests.containsKey(player)) {
-                event.setCancelled(true);
-                requests.get(player).cancel(player);
+                requests.get(player).cancel();
                 requests.remove(player);
             }
     }
@@ -66,7 +62,7 @@ public class ItemRequest implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (requests.containsKey(event.getPlayer()))
-            requests.get(event.getPlayer()).cancel(event.getPlayer());
+            requests.get(event.getPlayer()).cancel();
         requests.remove(event.getPlayer());
     }
 }

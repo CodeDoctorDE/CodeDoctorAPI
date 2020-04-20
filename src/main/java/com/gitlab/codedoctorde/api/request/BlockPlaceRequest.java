@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -16,23 +15,17 @@ import java.util.HashMap;
 /**
  * @author CodeDoctorDE
  */
-public class BlockPlaceRequest implements Listener {
+public class BlockPlaceRequest extends Request<BlockPlaceRequestEvent> {
     private static HashMap<Player, BlockPlaceRequest> requests = new HashMap<>();
     private JavaPlugin plugin;
     private BlockPlaceRequestEvent blockPlaceRequestEvent;
 
     public BlockPlaceRequest(final JavaPlugin plugin, final Player player, final BlockPlaceRequestEvent blockPlaceRequestEvent) {
-        this.blockPlaceRequestEvent = blockPlaceRequestEvent;
+        super(plugin, player, blockPlaceRequestEvent);
         if (requests.containsKey(player))
-            requests.get(player).cancel(player);
+            requests.get(player).cancel();
         requests.remove(player);
         requests.put(player, this);
-        this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-
-    public void cancel(Player player) {
-        blockPlaceRequestEvent.onCancel(player);
     }
 
     public void event(Player player, Block output) {
@@ -59,7 +52,7 @@ public class BlockPlaceRequest implements Listener {
             return;
         if (requests.containsKey(player)) {
             event.setCancelled(true);
-            requests.get(player).cancel(player);
+            requests.get(player).cancel();
             requests.remove(player);
         }
     }
@@ -67,7 +60,7 @@ public class BlockPlaceRequest implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (requests.containsKey(event.getPlayer()))
-            requests.get(event.getPlayer()).cancel(event.getPlayer());
+            requests.get(event.getPlayer()).cancel();
         requests.remove(event.getPlayer());
     }
 }
