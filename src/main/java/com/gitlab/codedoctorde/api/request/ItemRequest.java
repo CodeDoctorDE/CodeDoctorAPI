@@ -52,7 +52,7 @@ public class ItemRequest extends Request<ItemRequestEvent> {
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        if (Objects.requireNonNull(event.getTo()).subtract(event.getFrom()).toVector().length() != 0)
+        if (event.getFrom().getBlockX() != Objects.requireNonNull(event.getTo()).getBlockX() || event.getFrom().getBlockZ() != event.getTo().getBlockZ() || event.getFrom().getBlockY() != event.getTo().getBlockY())
             if (requests.containsKey(player)) {
                 requests.get(player).cancel();
                 requests.remove(player);
