@@ -15,7 +15,7 @@
     <orderEntry type="module-library">
       <library name="Maven: org.spigotmc:spigot-api-1.15.2:1.15.2-R0.1-SNAPSHOT">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/main/resources/spigot-1.15.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/spigot-1.15.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -24,7 +24,7 @@
     <orderEntry type="module-library">
       <library name="Maven: org.spigotmc:spigot-api-1.14.4:1.14.4-R0.1-SNAPSHOT">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/main/resources/spigot-1.14.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/spigot-1.14.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -33,7 +33,7 @@
     <orderEntry type="module-library">
       <library name="Maven: org.spigotmc:spigot-api-1.13.2:1.13.2-R0.1-SNAPSHOT">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/main/resources/spigot-1.13.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/spigot-1.13.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
