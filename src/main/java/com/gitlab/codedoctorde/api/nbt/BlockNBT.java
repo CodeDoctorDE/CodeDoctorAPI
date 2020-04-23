@@ -19,13 +19,17 @@ public class BlockNBT {
         }
     }
 
-    public static void setNbt(Block block, String nbt) throws CommandSyntaxException {
-        switch (Version.getVersion()) {
-            case v1_15:
-                BlockNBT_v15.setNbt(block, nbt);
-                break;
-            case v1_14:
-                BlockNBT_v14.setNbt(block, nbt);
+    public static void setNbt(Block block, String nbt) {
+        try {
+            switch (Version.getVersion()) {
+                case v1_15:
+                    BlockNBT_v15.setNbt(block, nbt);
+                    break;
+                case v1_14:
+                    BlockNBT_v14.setNbt(block, nbt);
+            }
+        } catch (CommandSyntaxException e) {
+            e.printStackTrace();
         }
     }
 }
