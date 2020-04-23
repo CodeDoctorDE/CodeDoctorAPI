@@ -28,5 +28,6 @@ public class BlockNBT_v15 {
         TileEntity te = ws.getHandle().getTileEntity(new BlockPosition(block.getX(), block.getY(), block.getZ()));
         assert te != null;
         te.load(MojangsonParser.parse(nbt));
+        te.update();
     }
 }
