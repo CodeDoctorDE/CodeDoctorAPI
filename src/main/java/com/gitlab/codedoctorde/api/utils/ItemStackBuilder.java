@@ -46,21 +46,6 @@ public class ItemStackBuilder {
         this.itemStack = itemStack;
     }
 
-    public static ItemStackBuilder deserialize(String value) {
-        if (value != null) {
-            try {
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(value));
-                try (BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream)) {
-                    return new ItemStackBuilder((ItemStack) dataInput.readObject());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return new ItemStackBuilder();
-            }
-        } else
-            return new ItemStackBuilder();
-    }
-
     public ItemStackBuilder(JsonObject value) {
         if (value != null) {
             itemStack = new ItemStack(Material.valueOf(value.get("material").getAsString()));
@@ -86,30 +71,45 @@ public class ItemStackBuilder {
             itemStack = new ItemStack(Material.AIR);
     }
 
-    public ItemStackBuilder setMaterial(Material material) {
-        itemStack.setType(material);
-        return this;
+    public static ItemStackBuilder deserialize(String value) {
+        if (value != null) {
+            try {
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(value));
+                try (BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream)) {
+                    return new ItemStackBuilder((ItemStack) dataInput.readObject());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new ItemStackBuilder();
+            }
+        } else
+            return new ItemStackBuilder();
     }
 
     public Material getMaterial() {
         return itemStack.getType();
     }
 
+    public ItemStackBuilder setMaterial(Material material) {
+        itemStack.setType(material);
+        return this;
+    }
+
     public ItemStackBuilder material(Material material) {
         return setMaterial(material);
     }
 
-    public Material material(){
+    public Material material() {
         return itemStack.getType();
+    }
+
+    public int getAmount() {
+        return itemStack.getAmount();
     }
 
     public ItemStackBuilder setAmount(int amount) {
         itemStack.setAmount(amount);
         return this;
-    }
-
-    public int getAmount() {
-        return itemStack.getAmount();
     }
 
     public ItemStackBuilder amount(int amount) {
@@ -158,15 +158,15 @@ public class ItemStackBuilder {
         return this;
     }
 
+    public String getDisplayName() {
+        return Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
+    }
+
     public ItemStackBuilder setDisplayName(String displayName) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         Objects.requireNonNull(itemMeta).setDisplayName(displayName);
         itemStack.setItemMeta(itemMeta);
         return this;
-    }
-
-    public String getDisplayName() {
-        return Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
     }
 
     /**
@@ -266,10 +266,6 @@ public class ItemStackBuilder {
         return Objects.requireNonNull(itemMeta.getAttributeModifiers()).get(attribute);
     }
 
-    public void setItemStack(ItemStack itemStack) {
-        this.itemStack = itemStack;
-    }
-
     public ItemStackBuilder format(Object... arguments) {
         displayName(MessageFormat.format(getDisplayName(), arguments));
         List<String> formattedLore = new ArrayList<>();
@@ -277,7 +273,6 @@ public class ItemStackBuilder {
         setLore(formattedLore);
         return this;
     }
-
 
     public String serialize() {
         try {
@@ -301,5 +296,9 @@ public class ItemStackBuilder {
 
     public ItemStack getItemStack() {
         return itemStack;
+    }
+
+    public void setItemStack(ItemStack itemStack) {
+        this.itemStack = itemStack;
     }
 }
