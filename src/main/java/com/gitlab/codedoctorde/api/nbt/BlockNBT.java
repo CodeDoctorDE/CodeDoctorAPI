@@ -7,7 +7,7 @@ import org.bukkit.block.Block;
  * @author CodeDoctorDE
  */
 public class BlockNBT {
-    public String getNbt(Block block) {
+    public static String getNbt(Block block) {
         switch (Version.getVersion()) {
             case v1_15:
                 return BlockNBT_v15.getNbt(block);
