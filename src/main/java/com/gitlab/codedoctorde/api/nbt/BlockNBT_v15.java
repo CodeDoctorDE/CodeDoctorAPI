@@ -26,7 +26,7 @@ public class BlockNBT_v15 {
         CraftWorld ws = (CraftWorld) block.getWorld();
         NBTTagCompound ntc = null;
         TileEntity te = ws.getHandle().getTileEntity(new BlockPosition(block.getX(), block.getY(), block.getZ()));
-        NBTTagCompound nbtTagCompound = Objects.requireNonNull(te).persistentDataContainer.toTagCompound();
+        assert te != null;
         te.load(MojangsonParser.parse(nbt));
     }
 }
