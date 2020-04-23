@@ -29,5 +29,6 @@ public class BlockNBT_v14 {
         assert te != null;
         te.load(MojangsonParser.parse(nbt));
         te.update();
+        block.getState().update(true);
     }
 }
