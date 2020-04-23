@@ -18,7 +18,7 @@ public class BlockNBT_v15 {
         NBTTagCompound ntc = null;
         TileEntity te = ws.getHandle().getTileEntity(new BlockPosition(block.getX(), block.getY(), block.getZ()));
         NBTTagCompound nbtTagCompound = Objects.requireNonNull(te).persistentDataContainer.toTagCompound();
-        return nbtTagCompound.asString();
+        return te.save(new NBTTagCompound()).toString();
     }
 
     public static void setNbt(Block block, JsonObject nbt) {
