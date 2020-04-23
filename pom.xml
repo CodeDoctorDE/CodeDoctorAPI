@@ -24,31 +24,35 @@
             <url>https://gitlab.com/api/v4/projects/14810643/packages/maven</url>
         </repository>
     </repositories>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.spigotmc</groupId>
+                <artifactId>spigot-api-1.15.2</artifactId>
+                <version>1.15.2-R0.1-SNAPSHOT</version>
+                <scope>system</scope>
+                <optional>true</optional>
+                <systemPath>${basedir}/lib/spigot-1.15.2.jar</systemPath>
+            </dependency>
+            <dependency>
+                <groupId>org.spigotmc</groupId>
+                <artifactId>spigot-api-1.14.4</artifactId>
+                <version>1.14.4-R0.1-SNAPSHOT</version>
+                <scope>system</scope>
+                <optional>true</optional>
+                <systemPath>${basedir}/lib/spigot-1.14.4.jar</systemPath>
+            </dependency>
+            <dependency>
+                <groupId>org.spigotmc</groupId>
+                <artifactId>spigot-api-1.13.2</artifactId>
+                <version>1.13.2-R0.1-SNAPSHOT</version>
+                <scope>system</scope>
+                <optional>true</optional>
+                <systemPath>${basedir}/lib/spigot-1.13.2.jar</systemPath>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api-1.15.2</artifactId>
-            <version>1.15.2-R0.1-SNAPSHOT</version>
-            <scope>system</scope>
-            <optional>true</optional>
-            <systemPath>${basedir}/lib/spigot-1.15.2.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api-1.14.4</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
-            <scope>system</scope>
-            <optional>true</optional>
-            <systemPath>${basedir}/lib/spigot-1.14.4.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api-1.13.2</artifactId>
-            <version>1.13.2-R0.1-SNAPSHOT</version>
-            <scope>system</scope>
-            <optional>true</optional>
-            <systemPath>${basedir}/lib/spigot-1.13.2.jar</systemPath>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
         <dependency>

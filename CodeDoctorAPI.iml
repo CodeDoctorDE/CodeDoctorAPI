@@ -12,33 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
-    <orderEntry type="module-library">
-      <library name="Maven: org.spigotmc:spigot-api-1.15.2:1.15.2-R0.1-SNAPSHOT">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/spigot-1.15.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Maven: org.spigotmc:spigot-api-1.14.4:1.14.4-R0.1-SNAPSHOT">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/spigot-1.14.4.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Maven: org.spigotmc:spigot-api-1.13.2:1.13.2-R0.1-SNAPSHOT">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/spigot-1.13.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:17.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.6" level="project" />
   </component>
