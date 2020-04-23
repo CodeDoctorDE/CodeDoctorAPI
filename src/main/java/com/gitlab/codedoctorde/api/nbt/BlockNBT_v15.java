@@ -1,7 +1,8 @@
 package com.gitlab.codedoctorde.api.nbt;
 
-import com.google.gson.JsonObject;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.server.v1_15_R1.BlockPosition;
+import net.minecraft.server.v1_15_R1.MojangsonParser;
 import net.minecraft.server.v1_15_R1.NBTTagCompound;
 import net.minecraft.server.v1_15_R1.TileEntity;
 import org.bukkit.block.Block;
@@ -21,10 +22,11 @@ public class BlockNBT_v15 {
         return te.save(new NBTTagCompound()).toString();
     }
 
-    public static void setNbt(Block block, JsonObject nbt) {
+    public static void setNbt(Block block, String nbt) throws CommandSyntaxException {
         CraftWorld ws = (CraftWorld) block.getWorld();
         NBTTagCompound ntc = null;
-        TileEntity te = (TileEntity) ws.getBlockAt(block.getX(), block.getY(), block.getZ());
-        te.persistentDataContainer.putAll(new NBTTagCompound());
+        TileEntity te = ws.getHandle().getTileEntity(new BlockPosition(block.getX(), block.getY(), block.getZ()));
+        NBTTagCompound nbtTagCompound = Objects.requireNonNull(te).persistentDataContainer.toTagCompound();
+        te.load(MojangsonParser.parse(nbt));
     }
 }

@@ -1,6 +1,7 @@
 package com.gitlab.codedoctorde.api.nbt;
 
 import com.gitlab.codedoctorde.api.server.Version;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.bukkit.block.Block;
 
 /**
@@ -15,6 +16,16 @@ public class BlockNBT {
                 return BlockNBT_v14.getNbt(block);
             default:
                 return null;
+        }
+    }
+
+    public static void setNbt(Block block, String nbt) throws CommandSyntaxException {
+        switch (Version.getVersion()) {
+            case v1_15:
+                BlockNBT_v15.setNbt(block, nbt);
+                break;
+            case v1_14:
+                BlockNBT_v14.setNbt(block, nbt);
         }
     }
 }
