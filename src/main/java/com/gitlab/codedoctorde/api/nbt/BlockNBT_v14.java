@@ -25,10 +25,12 @@ public class BlockNBT_v14 {
     public static void setNbt(Block block, String nbt) throws CommandSyntaxException {
         CraftWorld ws = (CraftWorld) block.getWorld();
         NBTTagCompound ntc = null;
-        TileEntity te = ws.getHandle().getTileEntity(new BlockPosition(block.getX(), block.getY(), block.getZ()));
+        BlockPosition position = new BlockPosition(block.getX(), block.getY(), block.getZ());
+        TileEntity te = ws.getHandle().getTileEntity(position);
         assert te != null;
         te.load(MojangsonParser.parse(nbt));
         te.update();
+        ws.getHandle().setTileEntity(position, te);
         block.getState().update(true);
     }
 }
