@@ -89,6 +89,14 @@ public class Gui implements Listener {
         playerGuiHashMap.get(player).getGuiItems().forEach((integer, guiItem) -> player.getOpenInventory().getTopInventory().setItem(integer, guiItem.getItemStack()));
     }
 
+    public static Gui getGui(Player player) {
+        return playerGuiHashMap.get(player);
+    }
+
+    public static boolean hasGui(Player player) {
+        return playerGuiHashMap.containsKey(player);
+    }
+
     public void reload() {
         playerGuiHashMap.forEach((player, gui) -> reload(player));
     }
@@ -163,7 +171,6 @@ public class Gui implements Listener {
         guiItems.values().forEach(guiItem -> guiItem.runTick(this, player));
     }
 
-
     void stopTick(final Player player) {
         if (taskID.containsKey(player))
             Bukkit.getScheduler().cancelTask(taskID.get(player));
@@ -208,14 +215,6 @@ public class Gui implements Listener {
         buildInventory.clear();
         for (int key : guiItems.keySet()) buildInventory.setItem(key, guiItems.get(key).getItemStack());
         return buildInventory;
-    }
-
-    public static Gui getGui(Player player) {
-        return playerGuiHashMap.get(player);
-    }
-
-    public static boolean hasGui(Player player) {
-        return playerGuiHashMap.containsKey(player);
     }
 
     public Inventory buildNew() {

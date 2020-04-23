@@ -19,12 +19,12 @@ public class Selection {
         return pos1;
     }
 
-    public Location getPos2() {
-        return pos2;
-    }
-
     public void setPos1(Location pos1) {
         this.pos1 = pos1;
+    }
+
+    public Location getPos2() {
+        return pos2;
     }
 
     public void setPos2(Location pos2) {

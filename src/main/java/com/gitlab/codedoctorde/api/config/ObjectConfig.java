@@ -69,6 +69,10 @@ public class ObjectConfig extends JsonConfig {
         return file;
     }
 
+    public void setFile(File file) {
+        this.file = file;
+    }
+
     public void setJsonObject(JsonObject jsonObject) {
         this.jsonObject = jsonObject;
     }
@@ -89,10 +93,6 @@ public class ObjectConfig extends JsonConfig {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setFile(File file) {
-        this.file = file;
     }
 
     /*public void importValueSections(Object value,String name,String... keys){
