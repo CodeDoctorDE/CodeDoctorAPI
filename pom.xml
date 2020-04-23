@@ -27,21 +27,24 @@
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.13.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <artifactId>spigot-api-1.15.2</artifactId>
             <version>1.15.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/resources/spigot-1.15.2.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api-1.14.4</artifactId>
+            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/resources/spigot-1.14.4.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api-1.13.2</artifactId>
+            <version>1.13.2-R0.1-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/resources/spigot-1.13.2.jar</systemPath>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
