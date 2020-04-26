@@ -27,9 +27,9 @@ pages:
   when: always
   image: "python"
   before_script:
-    - 'sudo pip install mkdocs'
-    - 'sudo pip install mkdocs-material'
-    - 'sudo pip install pygments'
+    - 'pip install mkdocs'
+    - 'pip install mkdocs-material'
+    - 'pip install pygments'
   script:
     - 'mkdir -p public'
     - 'mkdir -p public/api'
