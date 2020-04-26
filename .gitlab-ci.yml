@@ -24,7 +24,7 @@ build:
 pages:
   stage: publish
   when: always
-  image: "openjdk"
+  image: "openkbs/jdk-mvn-py3"
   before_script:
     - 'pip install mkdocs'
     - 'pip install mkdocs-material'
