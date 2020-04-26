@@ -98,7 +98,7 @@ public class ListGui {
                         }
                     }));
 
-                    getGuiItems().put((createEvent != null) ? 4 : 3, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("search")).format(searchText).build(), new GuiItemEvent() {
+                    getGuiItems().put((createEvent != null) ? 4 : 5, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("search")).format(searchText).build(), new GuiItemEvent() {
                         @Override
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                             Player player = (Player) event.getWhoClicked();
