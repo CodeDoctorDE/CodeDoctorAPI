@@ -24,11 +24,7 @@ build:
 pages:
   stage: publish
   when: always
-  image: "openkbs/jdk-mvn-py3"
-  before_script:
-    - 'sudo pip install mkdocs'
-    - 'sudo pip install mkdocs-material'
-    - 'sudo pip install pygments'
+  image: "squidfunk/mkdocs-material"
   script:
     - 'mkdir -p public'
     - 'mkdir -p public/api'
