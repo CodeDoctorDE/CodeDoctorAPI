@@ -25,16 +25,22 @@ build:
 pages:
   stage: publish
   when: always
-  image: "squidfunk/mkdocs-material"
+  image: "python"
+  before_script:
+    - 'sudo pip install mkdocs'
+    - 'sudo pip install mkdocs-material'
+    - 'sudo pip install pygments'
   script:
     - 'mkdir -p public'
     - 'mkdir -p public/api'
     - 'mkdir -p public/api/$CI_COMMIT_REF_NAME/'
+    - 'mkdir -p public/api/$CI_COMMIT_SHA_NAME/'
     - 'mv assets docs'
     - 'mv ./*.md docs'
     - 'mkdocs build'
-    - 'mv site/* public'
+    - 'mv site public'
     - 'cp -r target/site/* public/api/$CI_COMMIT_REF_NAME/'
+    - 'cp -r target/site/* public/api/$CI_COMMIT_SHA/'
   only:
     - master
   artifacts:
