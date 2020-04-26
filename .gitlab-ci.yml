@@ -21,7 +21,6 @@ build:
     name: "ItemMods"
     paths:
       - "target/*.jar"
-      - 'mvn javadoc:javadoc'
 pages:
   stage: publish
   when: always
@@ -39,6 +38,7 @@ pages:
     - 'mv ./*.md docs'
     - 'mkdocs build'
     - 'mv site public'
+    - 'mvn javadoc:javadoc'
     - 'cp -r target/site/* public/api/$CI_COMMIT_REF_NAME/'
     - 'cp -r target/site/* public/api/$CI_COMMIT_SHA/'
   only:
