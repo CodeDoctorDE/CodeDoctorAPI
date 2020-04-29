@@ -1,6 +1,7 @@
 package com.gitlab.codedoctorde.api.ui;
 
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
+import com.google.gson.JsonObject;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -11,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class GuiItem {
     private ItemStack itemStack;
-    private GuiItemEvent guiItemEvent;
+    private final GuiItemEvent guiItemEvent;
 
     public GuiItem(final ItemStack itemStack, final GuiItemEvent guiItemEvent) {
         this.itemStack = itemStack;
@@ -20,6 +21,11 @@ public class GuiItem {
 
     public GuiItem(final ItemStackBuilder itemStackBuilder, final GuiItemEvent guiItemEvent) {
         this.itemStack = itemStackBuilder.build();
+        this.guiItemEvent = guiItemEvent;
+    }
+
+    public GuiItem(final JsonObject jsonObject, final GuiItemEvent guiItemEvent) {
+        this.itemStack = new ItemStackBuilder(jsonObject).build();
         this.guiItemEvent = guiItemEvent;
     }
 
@@ -36,6 +42,12 @@ public class GuiItem {
 
     public GuiItem(final ItemStackBuilder itemStackBuilder) {
         this.itemStack = itemStackBuilder.build();
+        this.guiItemEvent = new GuiItemEvent() {
+        };
+    }
+
+    public GuiItem(final JsonObject jsonObject) {
+        this.itemStack = new ItemStackBuilder(jsonObject).build();
         this.guiItemEvent = new GuiItemEvent() {
         };
     }
