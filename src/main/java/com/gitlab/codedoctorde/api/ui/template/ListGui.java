@@ -69,7 +69,7 @@ public class ListGui {
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                             Player player = (Player) event.getWhoClicked();
                             if (finalI <= 0)
-                                player.sendMessage(guiTranslation.getAsJsonObject("first").getAsJsonObject("already").getAsString());
+                                player.sendMessage(guiTranslation.getAsJsonObject("first").get("already").getAsString());
                             else
                                 createGui(guiTranslation, backGui, searchText)[0].open(player);
                         }
@@ -80,7 +80,7 @@ public class ListGui {
                         public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                             Player player = (Player) event.getWhoClicked();
                             if (finalI <= 0)
-                                player.sendMessage(guiTranslation.getAsJsonObject("previous").getAsJsonObject("already").getAsString());
+                                player.sendMessage(guiTranslation.getAsJsonObject("previous").get("already").getAsString());
                             else
                                 createGui(guiTranslation, backGui, searchText)[finalI - 1].open(player);
                         }
