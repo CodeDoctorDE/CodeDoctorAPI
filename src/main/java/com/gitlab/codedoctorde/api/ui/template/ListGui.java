@@ -20,12 +20,30 @@ public class ListGui {
     private final GuiListEvent listEvent;
     private final JavaPlugin plugin;
     private final GuiEvent guiEvent;
+    private final boolean search;
+
+    public ListGui(JavaPlugin plugin, GuiItemEvent createEvent, GuiListEvent listEvent, GuiEvent guiEvent, boolean search) {
+        this.plugin = plugin;
+        this.listEvent = listEvent;
+        this.guiEvent = guiEvent;
+        this.createEvent = createEvent;
+        this.search = search;
+    }
+
+    public ListGui(JavaPlugin plugin, GuiListEvent listEvent, GuiEvent guiEvent, boolean search) {
+        this.plugin = plugin;
+        this.createEvent = null;
+        this.listEvent = listEvent;
+        this.guiEvent = guiEvent;
+        this.search = search;
+    }
 
     public ListGui(JavaPlugin plugin, GuiItemEvent createEvent, GuiListEvent listEvent, GuiEvent guiEvent) {
         this.plugin = plugin;
-        this.createEvent = createEvent;
         this.listEvent = listEvent;
         this.guiEvent = guiEvent;
+        this.createEvent = createEvent;
+        this.search = true;
     }
 
     public ListGui(JavaPlugin plugin, GuiListEvent listEvent, GuiEvent guiEvent) {
@@ -33,6 +51,7 @@ public class ListGui {
         this.createEvent = null;
         this.listEvent = listEvent;
         this.guiEvent = guiEvent;
+        this.search = true;
     }
 
     public Gui[] createGui(JsonObject guiTranslation) {
@@ -97,15 +116,17 @@ public class ListGui {
                                 gui.close(player);
                         }
                     }));
-
-                    getGuiItems().put((createEvent != null) ? 4 : 5, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("search")).format(searchText).build(), new GuiItemEvent() {
-                        @Override
-                        public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
-                            Player player = (Player) event.getWhoClicked();
-                            player.sendMessage(guiTranslation.getAsJsonObject("search").get("refresh").getAsString());
-                            createGui(guiTranslation, backGui, searchText)[0].open(player);
-                        }
-                    }));
+                    if (search)
+                        getGuiItems().put((createEvent != null) ? 4 : 5, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("search")).format(searchText).build(), new GuiItemEvent() {
+                            @Override
+                            public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
+                                Player player = (Player) event.getWhoClicked();
+                                player.sendMessage(guiTranslation.getAsJsonObject("search").get("refresh").getAsString());
+                                createGui(guiTranslation, backGui, searchText)[0].open(player);
+                            }
+                        }));
+                    else
+                        getGuiItems().put((createEvent != null) ? 4 : 5, placeholder);
                     if (createEvent != null)
                         getGuiItems().put(5, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("create")).build(), createEvent));
                     else
