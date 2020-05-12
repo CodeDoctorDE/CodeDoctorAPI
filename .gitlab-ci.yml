@@ -24,8 +24,8 @@ build:
 pages:
   stage: publish
   when: always
-  image: "openkbs/jdk-mvn-py3"
   before_script:
+    - 'sudo apt-get install python3'
     - 'sudo pip install mkdocs'
     - 'sudo pip install mkdocs-material'
     - 'sudo pip install pygments'
