@@ -4,6 +4,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.text.MessageFormat;
+import java.util.Objects;
 
 /**
  * @author CodeDoctorDE
@@ -13,7 +14,7 @@ public class DynamicStringboardValue {
     private String value;
     private String formattedValue;
     private int score = 0;
-    private String entry;
+    private final String entry;
 
     public DynamicStringboardValue(String value, Scoreboard scoreboard, String entry, String teamName) {
         this(value, 0, scoreboard, entry, teamName);
@@ -24,11 +25,11 @@ public class DynamicStringboardValue {
     }
 
     public DynamicStringboardValue(String value, int score, Scoreboard scoreboard, String entry, String teamName) {
-        this(value, score, scoreboard.registerNewTeam(teamName), entry);
+        this(value, score, scoreboard.getTeam(teamName) != null ? Objects.requireNonNull(scoreboard.getTeam(teamName)) : scoreboard.registerNewTeam(teamName), entry);
     }
 
     public DynamicStringboardValue(String value, int score, Stringboard stringboard, String entry, String teamName) {
-        this(value, score, stringboard.getScoreboard().registerNewTeam(teamName), entry);
+        this(value, score, stringboard.getScoreboard(), entry, teamName);
     }
 
     public DynamicStringboardValue(String value, int score, Team team, String entry) {
