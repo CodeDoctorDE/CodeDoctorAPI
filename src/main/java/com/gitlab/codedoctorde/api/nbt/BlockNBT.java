@@ -10,6 +10,8 @@ import org.bukkit.block.Block;
 public class BlockNBT {
     public static String getNbt(Block block) {
         switch (Version.getVersion()) {
+            case v1_16:
+                return BlockNBT_v16.getNbt(block);
             case v1_15:
                 return BlockNBT_v15.getNbt(block);
             case v1_14:
@@ -22,6 +24,9 @@ public class BlockNBT {
     public static void setNbt(Block block, String nbt) {
         try {
             switch (Version.getVersion()) {
+                case v1_16:
+                    BlockNBT_v16.setNbt(block, nbt);
+                    break;
                 case v1_15:
                     BlockNBT_v15.setNbt(block, nbt);
                     break;
