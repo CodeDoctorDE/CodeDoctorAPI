@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api-1.16.1</artifactId>
-            <version>1.16.1-Rß.1-SNAPSHOT</version>
+            <version>1.16.1-R0.1-SNAPSHOT</version>
             <scope>system</scope>
             <systemPath>${basedir}/lib/spigot-1.16.1.jar</systemPath>
         </dependency>
