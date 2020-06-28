@@ -30,6 +30,7 @@
             <artifactId>spigot-api-1.14.4</artifactId>
             <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>system</scope>
+            <type>jar</type>
             <systemPath>${basedir}/lib/spigot-1.14.4.jar</systemPath>
         </dependency>
         <dependency>
@@ -37,6 +38,7 @@
             <artifactId>spigot-api-1.13.2</artifactId>
             <version>1.13.2-R0.1-SNAPSHOT</version>
             <scope>system</scope>
+            <type>jar</type>
             <systemPath>${basedir}/lib/spigot-1.13.2.jar</systemPath>
         </dependency>
         <dependency>
@@ -44,6 +46,7 @@
             <artifactId>spigot-api-1.15.2</artifactId>
             <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>system</scope>
+            <type>jar</type>
             <systemPath>${basedir}/lib/spigot-1.15.2.jar</systemPath>
         </dependency>
         <dependency>
@@ -51,6 +54,7 @@
             <artifactId>spigot-api-1.16.1</artifactId>
             <version>1.16.1-R0.1-SNAPSHOT</version>
             <scope>system</scope>
+            <type>jar</type>
             <systemPath>${basedir}/lib/spigot-1.16.1.jar</systemPath>
         </dependency>
 
