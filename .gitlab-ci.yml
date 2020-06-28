@@ -1,5 +1,7 @@
 image: maven:latest
 
+before_script:
+  - apt-get --yes --force-yes install wget git
 stages:
   - test
   - publish
