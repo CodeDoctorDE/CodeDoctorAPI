@@ -12,10 +12,10 @@ download:
     - 'apt-get update'
     - 'apt-get install -y wget'
     - 'mkdir lib'
-    - 'wget -O lib/spigot-1.16.1.jar https://papermc.io/api/v1/paper/1.16.1/latest/download'
-    - 'wget -O lib/spigot-1.15.2.jar https://papermc.io/api/v1/paper/1.15.2/latest/download'
-    - 'wget -O lib/spigot-1.14.4.jar https://papermc.io/api/v1/paper/1.14.4/latest/download'
-    - 'wget -O lib/spigot-1.13.2.jar https://papermc.io/api/v1/paper/1.13.2/latest/download'
+    - 'wget -O lib/spigot-1.16.1.jar https://cdn.getbukkit.org/spigot/spigot-1.16.1.jar'
+    - 'wget -O lib/spigot-1.15.2.jar https://cdn.getbukkit.org/spigot/spigot-1.15.2.jar'
+    - 'wget -O lib/spigot-1.14.4.jar https://cdn.getbukkit.org/spigot/spigot-1.14.4.jar'
+    - 'wget -O lib/spigot-1.13.2.jar https://cdn.getbukkit.org/spigot/spigot-1.13.2.jar'
 deploy:
   stage: publish
   script:
