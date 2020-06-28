@@ -26,7 +26,7 @@ public class BlockNBT_v16 {
         BlockPosition position = new BlockPosition(block.getX(), block.getY(), block.getZ());
         TileEntity te = ws.getHandle().getTileEntity(position);
         assert te != null;
-        te.save(MojangsonParser.parse(nbt));
+        te.load(te.getBlock(), MojangsonParser.parse(nbt));
         te.update();
         ws.getHandle().setTileEntity(position, te);
         block.getState().update(true);
