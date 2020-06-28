@@ -8,6 +8,7 @@ download:
   image: ubuntu:latest
   stage: pre
   script:
+    - 'rm -R lib'
     - 'apt-get update'
     - 'apt-get install -y wget'
     - 'mkdir lib'
