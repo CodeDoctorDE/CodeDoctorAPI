@@ -6,14 +6,7 @@ stages:
 deploy:
   stage: test
   script:
-    - 'wget -O lib/spigot-1.16.1.jar https://papermc.io/api/v1/paper/1.16.1/latest/download'
-    - 'wget -O lib/spigot-1.15.2.jar https://papermc.io/api/v1/paper/1.15.2/latest/download'
-    - 'wget -O lib/spigot-1.14.4.jar https://papermc.io/api/v1/paper/1.14.4/latest/download'
-    - 'wget -O lib/spigot-1.13.2.jar https://papermc.io/api/v1/paper/1.13.2/latest/download'
     - 'mvn deploy -s ci_settings.xml'
-  cache:
-    paths:
-      - lib/
   only:
     - master
 
@@ -23,11 +16,19 @@ cache:
     - public/api
 build:
   stage: test
-  script: "mvn clean package"
+  script:
+    - 'wget -O lib/spigot-1.16.1.jar https://papermc.io/api/v1/paper/1.16.1/latest/download'
+    - 'wget -O lib/spigot-1.15.2.jar https://papermc.io/api/v1/paper/1.15.2/latest/download'
+    - 'wget -O lib/spigot-1.14.4.jar https://papermc.io/api/v1/paper/1.14.4/latest/download'
+    - 'wget -O lib/spigot-1.13.2.jar https://papermc.io/api/v1/paper/1.13.2/latest/download'
+    - "mvn clean package"
   artifacts:
     name: "ItemMods"
     paths:
       - "target/*.jar"
+  cache:
+    paths:
+      - lib/
 pages:
   stage: publish
   when: always
