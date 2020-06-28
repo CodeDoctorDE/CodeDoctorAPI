@@ -33,7 +33,7 @@ cache:
 build:
   stage: test
   script:
-    - "mvn clean package"
+    - "mvn clean compile package"
   artifacts:
     name: "ItemMods"
     paths:
