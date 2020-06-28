@@ -1,7 +1,5 @@
 image: maven:latest
 
-before_script:
-  - apt-get --yes --force-yes install wget git
 stages:
   - pre
   - test
@@ -10,6 +8,8 @@ download:
   image: ubuntu:latest
   stage: pre
   script:
+    - 'apt-get update'
+    - 'apt-get install -y wget'
     - 'wget -O lib/spigot-1.16.1.jar https://papermc.io/api/v1/paper/1.16.1/latest/download'
     - 'wget -O lib/spigot-1.15.2.jar https://papermc.io/api/v1/paper/1.15.2/latest/download'
     - 'wget -O lib/spigot-1.14.4.jar https://papermc.io/api/v1/paper/1.14.4/latest/download'
