@@ -16,6 +16,7 @@ public class ValueItem {
     private final ItemStack itemStack;
     private final int defaultValue;
     private final ValueItemEvent itemEvent;
+    private Object[] format = new Object[0];
     private int fastSkip = 5;
     private int value;
 
@@ -49,8 +50,42 @@ public class ValueItem {
         this.fastSkip = fastSkip;
     }
 
+    public ValueItem(ItemStack itemStack, int value, int defaultValue, ValueItemEvent itemEvent, Object... format) {
+        this.itemStack = itemStack;
+        this.value = value;
+        this.defaultValue = defaultValue;
+        this.itemEvent = itemEvent;
+        this.format = format;
+    }
+
+    public ValueItem(ItemStackBuilder itemStackBuilder, int value, int defaultValue, ValueItemEvent itemEvent, Object... format){
+        this.itemStack = itemStackBuilder.build();
+        this.value = value;
+        this.defaultValue = defaultValue;
+        this.itemEvent = itemEvent;
+        this.format = format;
+    }
+
+    public ValueItem(ItemStack itemStack, int value, int defaultValue, int fastSkip, ValueItemEvent itemEvent, Object... format) {
+        this.itemStack = itemStack;
+        this.value = value;
+        this.defaultValue = defaultValue;
+        this.itemEvent = itemEvent;
+        this.fastSkip = fastSkip;
+        this.format = format;
+    }
+
+    public ValueItem(ItemStackBuilder itemStackBuilder, int value, int defaultValue, int fastSkip, ValueItemEvent itemEvent, Object... format) {
+        this.itemStack = itemStackBuilder.build();
+        this.value = value;
+        this.defaultValue = defaultValue;
+        this.itemEvent = itemEvent;
+        this.fastSkip = fastSkip;
+        this.format = format;
+    }
+
     public GuiItem build() {
-        return new GuiItem(itemStack, new GuiItemEvent() {
+        return new GuiItem(new ItemStackBuilder(itemStack).format(value, format), new GuiItemEvent() {
             @Override
             public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                 int current = value;
