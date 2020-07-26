@@ -1,4 +1,4 @@
-package com.gitlab.codedoctorde.api.nbt;
+package com.gitlab.codedoctorde.api.nbt.item;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.server.v1_15_R1.BlockPosition;
@@ -11,7 +11,7 @@ import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
 /**
  * @author CodeDoctorDE
  */
-public class BlockNBT_v15 {
+public class ItemNBT_v15 {
     public static String getNbt(Block block) {
         CraftWorld ws = (CraftWorld) block.getWorld();
         NBTTagCompound ntc = null;

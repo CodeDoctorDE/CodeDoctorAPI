@@ -1,4 +1,4 @@
-package com.gitlab.codedoctorde.api.nbt;
+package com.gitlab.codedoctorde.api.nbt.block;
 
 import com.gitlab.codedoctorde.api.server.Version;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;

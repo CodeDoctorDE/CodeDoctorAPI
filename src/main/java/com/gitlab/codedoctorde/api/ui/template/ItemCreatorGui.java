@@ -67,7 +67,12 @@ public class ItemCreatorGui {
                 }
             }));
             getGuiItems().put(5, placeholder);
-            getGuiItems().put(6, placeholder);
+            getGuiItems().put(6, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("nbt")), new GuiItemEvent() {
+                @Override
+                public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
+                    
+                }
+            }));
             getGuiItems().put(7, placeholder);
             getGuiItems().put(8, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("submit")).build(), new GuiItemEvent() {
                 @Override
@@ -228,6 +233,7 @@ public class ItemCreatorGui {
                 @Override
                 public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                     itemStackBuilder.setUnbreakable(!itemStackBuilder.isUnbreakable());
+                    guiItem.setItemStack(new ItemStackBuilder(guiTranslation.getAsJsonObject("unbreakable").getAsJsonObject(itemStackBuilder.isUnbreakable() ? "unbreakable" : "breakable")).build());
                     gui.reload();
                 }
             }));
