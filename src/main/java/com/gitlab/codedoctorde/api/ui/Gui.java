@@ -11,6 +11,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Gui implements Listener {
@@ -112,17 +113,17 @@ public class Gui implements Listener {
             raiseInventoryOpenEvent(player);
         }
     }
-
-    public void close(Player... players) {
-        for (Player player :
-                players) {
-            if (playerGuiHashMap.containsKey(player)) {
+    public void close(Player... players){
+        close(true, players);
+    }
+    public void close(boolean raiseEvent, Player... players) {
+        Arrays.stream(players).filter(player -> playerGuiHashMap.containsKey(player)).forEach(player -> {
+            if (raiseEvent)
                 playerGuiHashMap.get(player).raiseInventoryCloseEvent(player);
-                stopTick(player);
-                playerGuiHashMap.remove(player);
-            }
+            stopTick(player);
+            playerGuiHashMap.remove(player);
             player.closeInventory();
-        }
+        });
     }
 
     @EventHandler
@@ -222,5 +223,9 @@ public class Gui implements Listener {
         inventory.clear();
         guiItems.keySet().forEach(key -> inventory.setItem(key, guiItems.get(key).getItemStack()));
         return inventory;
+    }
+    public void changeGui(Gui gui, Player... players){
+        close(false, players);
+        gui.open(players);
     }
 }

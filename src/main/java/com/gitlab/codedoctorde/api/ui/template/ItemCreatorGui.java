@@ -224,6 +224,7 @@ public class ItemCreatorGui {
                     gui.reload();
                 }
             }));
+            getGuiItems().put(13, new GuiItem(itemStackBuilder));
         }};
     }
 }
