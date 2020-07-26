@@ -224,7 +224,13 @@ public class ItemCreatorGui {
                     gui.reload();
                 }
             }));
-            getGuiItems().put(13, new GuiItem(itemStackBuilder));
+            getGuiItems().put(13, new GuiItem(guiTranslation.getAsJsonObject("unbreakable").getAsJsonObject(itemStackBuilder.isUnbreakable() ? "unbreakable" : "breakable"), new GuiItemEvent() {
+                @Override
+                public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
+                    itemStackBuilder.setUnbreakable(!itemStackBuilder.isUnbreakable());
+                    gui.reload();
+                }
+            }));
         }};
     }
 }

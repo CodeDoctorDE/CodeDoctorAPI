@@ -263,7 +263,18 @@ public class ItemStackBuilder {
 
     public Collection<AttributeModifier> getAttributeModifier(Attribute attribute) {
         ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
         return Objects.requireNonNull(itemMeta.getAttributeModifiers()).get(attribute);
+    }
+    public boolean isUnbreakable(){
+        return Objects.requireNonNull(itemStack.getItemMeta()).isUnbreakable();
+    }
+    public ItemStackBuilder setUnbreakable(boolean unbreakable){
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setUnbreakable(unbreakable);
+        itemStack.setItemMeta(itemMeta);
+        return this;
     }
 
     public ItemStackBuilder format(Object... arguments) {
@@ -301,4 +312,5 @@ public class ItemStackBuilder {
     public void setItemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
     }
+
 }
