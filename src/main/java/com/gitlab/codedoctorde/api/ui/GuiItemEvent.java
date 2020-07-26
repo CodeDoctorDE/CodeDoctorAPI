@@ -11,8 +11,4 @@ public interface GuiItemEvent {
     default void onTick(Gui gui, GuiItem guiItem, Player player) {
 
     }
-
-    default boolean onItemChange(Gui gui, GuiItem guiItem, Player player, ItemStack change) {
-        return false;
-    }
 }

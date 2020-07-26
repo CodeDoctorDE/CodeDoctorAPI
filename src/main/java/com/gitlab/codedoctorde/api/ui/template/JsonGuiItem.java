@@ -33,10 +33,6 @@ public class JsonGuiItem {
                 itemEvent.onTick(gui, guiItem, player, jsonObject);
             }
 
-            @Override
-            public boolean onItemChange(Gui gui, GuiItem guiItem, Player player, ItemStack change) {
-                return itemEvent.onItemChange(gui, guiItem, player, change, jsonObject);
-            }
         });
     }
 
