@@ -14,21 +14,21 @@ import org.bukkit.inventory.ItemStack;
  */
 public class ValueItem {
     private final ItemStack itemStack;
-    private final int defaultValue;
+    private final float defaultValue;
     private final ValueItemEvent itemEvent;
     private Object[] format = new Object[0];
     private float fastSkip = 5;
     private float skip = 1;
     private float value;
 
-    public ValueItem(ItemStack itemStack, int value, int defaultValue, ValueItemEvent itemEvent) {
+    public ValueItem(ItemStack itemStack, float value, float defaultValue, ValueItemEvent itemEvent) {
         this.itemStack = itemStack;
         this.value = value;
         this.defaultValue = defaultValue;
         this.itemEvent = itemEvent;
     }
 
-    public ValueItem(ItemStackBuilder itemStackBuilder, int value, int defaultValue, ValueItemEvent itemEvent) {
+    public ValueItem(ItemStackBuilder itemStackBuilder, float value, float defaultValue, ValueItemEvent itemEvent) {
         this.itemStack = itemStackBuilder.build();
         this.value = value;
         this.defaultValue = defaultValue;
