@@ -17,8 +17,9 @@ public class ValueItem {
     private final int defaultValue;
     private final ValueItemEvent itemEvent;
     private Object[] format = new Object[0];
-    private int fastSkip = 5;
-    private int value;
+    private float fastSkip = 5;
+    private float skip = 1;
+    private float value;
 
     public ValueItem(ItemStack itemStack, int value, int defaultValue, ValueItemEvent itemEvent) {
         this.itemStack = itemStack;
@@ -34,67 +35,44 @@ public class ValueItem {
         this.itemEvent = itemEvent;
     }
 
-    public ValueItem(ItemStack itemStack, int value, int defaultValue, int fastSkip, ValueItemEvent itemEvent) {
-        this.itemStack = itemStack;
-        this.value = value;
-        this.defaultValue = defaultValue;
-        this.itemEvent = itemEvent;
-        this.fastSkip = fastSkip;
-    }
-
-    public ValueItem(ItemStackBuilder itemStackBuilder, int value, int defaultValue, int fastSkip, ValueItemEvent itemEvent) {
-        this.itemStack = itemStackBuilder.build();
-        this.value = value;
-        this.defaultValue = defaultValue;
-        this.itemEvent = itemEvent;
-        this.fastSkip = fastSkip;
-    }
-
-    public ValueItem(ItemStack itemStack, int value, int defaultValue, ValueItemEvent itemEvent, Object... format) {
-        this.itemStack = itemStack;
-        this.value = value;
-        this.defaultValue = defaultValue;
-        this.itemEvent = itemEvent;
+    public ValueItem setFormat(Object[] format) {
         this.format = format;
+        return this;
     }
 
-    public ValueItem(ItemStackBuilder itemStackBuilder, int value, int defaultValue, ValueItemEvent itemEvent, Object... format){
-        this.itemStack = itemStackBuilder.build();
-        this.value = value;
-        this.defaultValue = defaultValue;
-        this.itemEvent = itemEvent;
-        this.format = format;
+    public Object[] getFormat() {
+        return format;
     }
 
-    public ValueItem(ItemStack itemStack, int value, int defaultValue, int fastSkip, ValueItemEvent itemEvent, Object... format) {
-        this.itemStack = itemStack;
-        this.value = value;
-        this.defaultValue = defaultValue;
-        this.itemEvent = itemEvent;
+    public ValueItem setSkip(float skip) {
+        this.skip = skip;
+        return this;
+    }
+
+    public float getSkip() {
+        return skip;
+    }
+
+    public ValueItem setFastSkip(float fastSkip) {
         this.fastSkip = fastSkip;
-        this.format = format;
+        return this;
     }
 
-    public ValueItem(ItemStackBuilder itemStackBuilder, int value, int defaultValue, int fastSkip, ValueItemEvent itemEvent, Object... format) {
-        this.itemStack = itemStackBuilder.build();
-        this.value = value;
-        this.defaultValue = defaultValue;
-        this.itemEvent = itemEvent;
-        this.fastSkip = fastSkip;
-        this.format = format;
+    public float getFastSkip() {
+        return fastSkip;
     }
 
     public GuiItem build() {
         return new GuiItem(new ItemStackBuilder(itemStack).format(value, format), new GuiItemEvent() {
             @Override
             public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
-                int current = value;
+                float current = value;
                 switch (event.getClick()) {
                     case LEFT:
-                        current++;
+                        current+= skip;
                         break;
                     case RIGHT:
-                        current--;
+                        current-= skip;
                         break;
                     case SHIFT_LEFT:
                         current += fastSkip;
