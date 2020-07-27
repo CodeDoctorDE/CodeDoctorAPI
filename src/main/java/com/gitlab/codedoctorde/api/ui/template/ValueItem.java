@@ -85,6 +85,7 @@ public class ValueItem {
                 }
                 if (itemEvent.onEvent(current, (Player) event.getWhoClicked())) {
                     value = current;
+                    guiItem.setItemStack(new ItemStackBuilder(itemStack).format(value, format).build());
                     gui.reload();
                 }
             }
