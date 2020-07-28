@@ -63,7 +63,7 @@ public class ValueItem {
     }
 
     public GuiItem build() {
-        return new GuiItem(new ItemStackBuilder(itemStack).format(value, format), new GuiItemEvent() {
+        return new GuiItem(getFormattedItemStack(), new GuiItemEvent() {
             @Override
             public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                 float current = value;
@@ -85,11 +85,17 @@ public class ValueItem {
                 }
                 if (itemEvent.onEvent(current, (Player) event.getWhoClicked())) {
                     value = current;
-                    System.out.println(value);
-                    guiItem.setItemStack(new ItemStackBuilder(itemStack).format(value, format).build());
+                    guiItem.setItemStack(getFormattedItemStack());
                     Gui.reload((Player)event.getWhoClicked());
                 }
             }
         });
+    }
+
+    public ItemStack getItemStack() {
+        return itemStack;
+    }
+    public ItemStack getFormattedItemStack(){
+        return new ItemStackBuilder(itemStack.clone()).format(value, format).build();
     }
 }

@@ -81,7 +81,6 @@ public class Gui implements Listener {
     public static void reload(final Player player) {
         if (!playerGuiHashMap.containsKey(player))
             return;
-        System.out.println("RELOAD!");
         player.getOpenInventory().getTopInventory().clear();
         playerGuiHashMap.get(player).getGuiItems().forEach((integer, guiItem) -> player.getOpenInventory().getTopInventory().setItem(integer, guiItem.getItemStack()));
     }
@@ -118,6 +117,7 @@ public class Gui implements Listener {
         if(getCurrentPlayers().length > 0 || !registered)
             return;
         HandlerList.unregisterAll(this);
+        registered = false;
     }
     public void close(Player... players){
         close(true, players);
@@ -140,9 +140,8 @@ public class Gui implements Listener {
         if (!(event.getPlayer() instanceof Player))
             return;
         Player player = (Player) event.getPlayer();
-        if (playerGuiHashMap.containsKey(player))
-            if (playerGuiHashMap.get(player) == this)
-                playerGuiHashMap.get(player).close(player);
+        if (playerGuiHashMap.containsKey(player) && playerGuiHashMap.get(player) == this)
+            playerGuiHashMap.get(player).close(player);
     }
 
     @EventHandler

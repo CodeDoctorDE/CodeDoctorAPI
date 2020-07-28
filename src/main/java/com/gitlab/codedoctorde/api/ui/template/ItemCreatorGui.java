@@ -7,6 +7,7 @@ import com.gitlab.codedoctorde.api.ui.Gui;
 import com.gitlab.codedoctorde.api.ui.GuiItem;
 import com.gitlab.codedoctorde.api.ui.GuiItemEvent;
 import com.gitlab.codedoctorde.api.ui.template.events.ItemCreatorSubmitEvent;
+import com.gitlab.codedoctorde.api.ui.template.events.ValueItemEvent;
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.JsonObject;
 import org.bukkit.ChatColor;
@@ -165,6 +166,15 @@ public class ItemCreatorGui {
                         gui.reload();
                 }
             }));
+            getGuiItems().put(11, new ValueItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("amount")), itemStackBuilder.getAmount(), 1, new ValueItemEvent() {
+                @Override
+                public boolean onEvent(float value, Player player) {
+                    if(value < 1)
+                    return false;
+                    itemStackBuilder.setAmount((int) value);
+                    return true;
+                }
+            }).build());
             getGuiItems().put(11, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("amount")).format(itemStackBuilder.getAmount()).build(), new GuiItemEvent() {
                 @Override
                 public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
