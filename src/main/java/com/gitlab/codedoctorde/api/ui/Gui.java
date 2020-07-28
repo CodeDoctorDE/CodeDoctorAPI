@@ -3,6 +3,7 @@ package com.gitlab.codedoctorde.api.ui;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -11,17 +12,17 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class Gui implements Listener {
     static HashMap<Player, Gui> playerGuiHashMap = new HashMap<>();
     private final GuiEvent guiEvent;
     private final JavaPlugin plugin;
-    private HashMap<Player, Integer> taskID = new HashMap<>();
+    private final HashMap<Player, Integer> taskID = new HashMap<>();
     private String title;
     private int size;
-    private HashMap<Integer, GuiItem> guiItems = new HashMap<>();
+    private boolean registered = false;
+    private final HashMap<Integer, GuiItem> guiItems = new HashMap<>();
     private Inventory inventory = null;
 
 
@@ -39,7 +40,6 @@ public class Gui implements Listener {
         plugin = javaPlugin;
         this.title = title;
         this.size = size;
-        Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
     public Gui(JavaPlugin javaPlugin, int size) {
@@ -48,7 +48,6 @@ public class Gui implements Listener {
         this.size = size;
         guiEvent = new GuiEvent() {
         };
-        Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
     public Gui(JavaPlugin javaPlugin, GuiEvent guiEvent) {
@@ -56,7 +55,6 @@ public class Gui implements Listener {
         size = 3;
         this.title = "";
         plugin = javaPlugin;
-        Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
     public Gui(JavaPlugin javaPlugin, String title, int size, GuiEvent guiEvent) {
@@ -64,7 +62,6 @@ public class Gui implements Listener {
         plugin = javaPlugin;
         this.title = title;
         this.size = size;
-        Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
     public Gui(JavaPlugin javaPlugin, int size, GuiEvent guiEvent) {
@@ -72,7 +69,6 @@ public class Gui implements Listener {
         this.title = "";
         plugin = javaPlugin;
         this.size = size;
-        Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
     public Gui(JavaPlugin javaPlugin, String title, GuiEvent guiEvent) {
@@ -80,12 +76,12 @@ public class Gui implements Listener {
         this.title = title;
         plugin = javaPlugin;
         this.size = 3;
-        Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }
 
     public static void reload(final Player player) {
         if (!playerGuiHashMap.containsKey(player))
             return;
+        System.out.println("RELOAD!");
         player.getOpenInventory().getTopInventory().clear();
         playerGuiHashMap.get(player).getGuiItems().forEach((integer, guiItem) -> player.getOpenInventory().getTopInventory().setItem(integer, guiItem.getItemStack()));
     }
@@ -102,21 +98,34 @@ public class Gui implements Listener {
         playerGuiHashMap.forEach((player, gui) -> reload(player));
     }
 
-    public void open(final Player... players) {
-        for (Player player :
-                players) {
+    public void open(Player... players) {
+        Arrays.stream(players).forEach(player -> {
             player.closeInventory();
             playerGuiHashMap.put(player, this);
-            final Inventory inventory = build();
-            player.openInventory(inventory);
+            player.openInventory(build());
             startTick(player);
             raiseInventoryOpenEvent(player);
-        }
+        });
+        register();
+    }
+    public void register(){
+        if(getCurrentPlayers().length <= 0 || registered)
+            return;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
+        registered = true;
+    }
+    public void unregister(){
+        if(getCurrentPlayers().length > 0 || !registered)
+            return;
+        HandlerList.unregisterAll(this);
     }
     public void close(Player... players){
         close(true, players);
+        unregister();
     }
     public void close(boolean raiseEvent, Player... players) {
+        if(players.length <= 0)
+            players = getPlayers();
         Arrays.stream(players).filter(player -> playerGuiHashMap.containsKey(player)).forEach(player -> {
             if (raiseEvent)
                 playerGuiHashMap.get(player).raiseInventoryCloseEvent(player);
@@ -161,6 +170,9 @@ public class Gui implements Listener {
                 }
             }
         }
+    }
+    public Player[] getCurrentPlayers(){
+        return playerGuiHashMap.entrySet().stream().filter(entry -> entry.getValue().equals(this)).map(Map.Entry::getKey).toArray(Player[]::new);
     }
 
     public void startTick(Player player) {
@@ -224,7 +236,12 @@ public class Gui implements Listener {
         guiItems.keySet().forEach(key -> inventory.setItem(key, guiItems.get(key).getItemStack()));
         return inventory;
     }
+    public static Player[] getPlayers(){
+        return playerGuiHashMap.keySet().toArray(new Player[0]);
+    }
     public void changeGui(Gui gui, Player... players){
+        if(players.length <= 0)
+            players = getPlayers();
         close(false, players);
         gui.open(players);
     }
