@@ -168,40 +168,13 @@ public class ItemCreatorGui {
             }));
             getGuiItems().put(11, new ValueItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("amount")), itemStackBuilder.getAmount(), 1, new ValueItemEvent() {
                 @Override
-                public boolean onEvent(float value, Player player) {
+                public boolean onEvent(float value, Player player, ValueItem valueItem) {
                     if(value < 1)
                     return false;
                     itemStackBuilder.setAmount((int) value);
                     return true;
                 }
             }).build());
-            getGuiItems().put(11, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("amount")).format(itemStackBuilder.getAmount()).build(), new GuiItemEvent() {
-                @Override
-                public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
-                    int amount = itemStackBuilder.getAmount();
-                    switch (event.getClick()) {
-                        case LEFT:
-                            amount++;
-                            break;
-                        case RIGHT:
-                            amount--;
-                            break;
-                        case SHIFT_LEFT:
-                            amount += 5;
-                            break;
-                        case SHIFT_RIGHT:
-                            amount -= 5;
-                            break;
-                        case DROP:
-                            amount = 1;
-                            break;
-                    }
-                    itemStackBuilder.setAmount(amount);
-                    event.getWhoClicked().sendMessage(MessageFormat.format(guiTranslation.getAsJsonObject("amount").get("success").getAsString(), amount));
-                    guiItem.setItemStack(new ItemStackBuilder(guiTranslation.getAsJsonObject("amount")).format(itemStackBuilder.getAmount()).build());
-                    gui.reload();
-                }
-            }));
             getGuiItems().put(12, new GuiItem((Version.getVersion().isBiggerThan(Version.v1_13)) ?
                     ((itemStackBuilder.getCustomModelData() != null) ? new ItemStackBuilder(guiTranslation.getAsJsonObject("custommodeldata").getAsJsonObject("yes")).format(itemStackBuilder.getCustomModelData()).build() :
                             new ItemStackBuilder(guiTranslation.getAsJsonObject("custommodeldata").getAsJsonObject("no")).build()) : new ItemStackBuilder(guiTranslation.getAsJsonObject("custommodeldata").getAsJsonObject("unavailable")).build(), new GuiItemEvent() {
