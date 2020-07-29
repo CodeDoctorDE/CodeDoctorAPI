@@ -89,4 +89,7 @@ public class ValueItem extends InputItem {
             }
         });
     }
+    public ItemStack getFormattedItemStack(){
+        return new ItemStackBuilder(itemStack.clone()).format(value, format).build();
+    }
 }

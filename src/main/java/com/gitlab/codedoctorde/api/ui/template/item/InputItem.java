@@ -10,9 +10,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class InputItem {
-    private final ItemStack itemStack;
+    protected final ItemStack itemStack;
     private final InputItemEvent inputItemEvent;
-    private Object[] format;
+    protected Object[] format;
 
     public InputItem(ItemStack itemStack, InputItemEvent inputItemEvent){
         this.itemStack = itemStack;
