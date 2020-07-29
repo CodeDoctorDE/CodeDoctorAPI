@@ -44,11 +44,27 @@ public class ItemCreatorGui {
         this.submitEvent = submitEvent;
     }
 
-    public void rebuildItemStack(){
+    public void rebuildItemStack(Gui gui){
         previewGuiItem.setItemStack(itemStackBuilder.build());
+        gui.reload(4);
     }
 
     public Gui createGui(Gui backGui, JsonObject guiTranslation) {
+        previewGuiItem = new GuiItem(itemStackBuilder.build(), new GuiItemEvent() {
+
+            @Override
+            public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
+                if (event.getCursor() != null)
+                    if (event.getCursor().getType() != Material.AIR) {
+                        itemStackBuilder.setItemStack(event.getCursor().clone());
+                        event.getWhoClicked().setItemOnCursor(new ItemStack(Material.AIR));
+                        rebuildItemStack(gui);
+                    } else
+                        event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
+                else
+                    event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
+            }
+        });
         return new Gui(plugin, guiTranslation.get("title").getAsString(), 5) {{
             GuiItem placeholder = new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("placeholder")).build());
             getGuiItems().put(0, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("back")).build(), new GuiItemEvent() {
@@ -60,21 +76,7 @@ public class ItemCreatorGui {
             getGuiItems().put(1, placeholder);
             getGuiItems().put(2, placeholder);
             getGuiItems().put(3, placeholder);
-            getGuiItems().put(4, new GuiItem(itemStackBuilder.build(), new GuiItemEvent() {
-
-                @Override
-                public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
-                    if (event.getCursor() != null)
-                        if (event.getCursor().getType() != Material.AIR) {
-                            itemStackBuilder.setItemStack(event.getCursor().clone());
-                            event.getWhoClicked().setItemOnCursor(new ItemStack(Material.AIR));
-                            createGui(backGui, guiTranslation).open((Player) event.getWhoClicked());
-                        } else
-                            event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
-                    else
-                        event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
-                }
-            }));
+            getGuiItems().put(4, previewGuiItem);
             getGuiItems().put(5, placeholder);
             getGuiItems().put(6, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("nbt")), new GuiItemEvent() {
                 @Override
@@ -103,27 +105,32 @@ public class ItemCreatorGui {
                                     output = ChatColor.translateAlternateColorCodes('&', output);
                                     itemStackBuilder.displayName(output);
                                     player.sendMessage(MessageFormat.format(guiTranslation.getAsJsonObject("displayname").get("success").getAsString(), output));
-                                    createGui(backGui, guiTranslation).open(player);
+                                    inputItem.setFormat(itemStackBuilder.getDisplayName());
+                                    guiItem.setItemStack(inputItem.getFormattedItemStack());
+                                    rebuildItemStack(gui);
+                                    gui.open(player);
                                 }
 
                                 @Override
                                 public void onCancel(Player player) {
                                     player.sendMessage(guiTranslation.getAsJsonObject("displayname").get("cancel").getAsString());
-                                    createGui(backGui, guiTranslation).open(player);
+                                    gui.open(player);
                                 }
                             });
                             break;
                         case RIGHT:
                             itemStackBuilder.displayName(null);
                             event.getWhoClicked().sendMessage(guiTranslation.getAsJsonObject("displayname").get("remove").getAsString());
-                            createGui(backGui, guiTranslation).open((Player) event.getWhoClicked());
+                            inputItem.setFormat(itemStackBuilder.getDisplayName());
+                            guiItem.setItemStack(inputItem.getFormattedItemStack());
+                            rebuildItemStack(gui);
                             break;
                     }
                 }
             }).setFormat(itemStackBuilder.getDisplayName()).build());
-            getGuiItems().put(10, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("lore")).build(), new GuiItemEvent() {
+            getGuiItems().put(10, new InputItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("lore")).build(), new InputItemEvent() {
                 @Override
-                public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
+                public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event, InputItem inputItem) {
                     List<String> lore = itemStackBuilder.getLore();
                     if (lore == null)
                         lore = new ArrayList<>();
@@ -140,14 +147,16 @@ public class ItemCreatorGui {
                                         lore = new ArrayList<>();
                                     lore.add(output);
                                     itemStackBuilder.lore(lore);
+
                                     player.sendMessage(MessageFormat.format(guiTranslation.getAsJsonObject("lore").get("success").getAsString(), output));
-                                    createGui(backGui, guiTranslation).open(player);
+                                    gui.open(player);
+                                    rebuildItemStack(gui);
                                 }
 
                                 @Override
                                 public void onCancel(Player player) {
                                     player.sendMessage(guiTranslation.getAsJsonObject("lore").get("cancel").getAsString());
-                                    createGui(backGui, guiTranslation).open(player);
+                                    gui.open(player);
                                 }
                             });
                             break;
@@ -170,10 +179,11 @@ public class ItemCreatorGui {
                                         String.join(guiTranslation.getAsJsonObject("lore").get("delimiter").getAsString(), lore)));
                     }
                     itemStackBuilder.setLore(lore);
+                    inputItem.setFormat(String.join("\n", itemStackBuilder.getLore()));
                     if (event.getClick() != ClickType.LEFT)
                         gui.reload();
                 }
-            }));
+            }).setFormat(String.join("\n", itemStackBuilder.getLore())).build());
             getGuiItems().put(11, new ValueItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("amount")), itemStackBuilder.getAmount(), 1, new ValueItemEvent() {
                 @Override
                 public boolean onEvent(float value, Player player, ValueItem valueItem) {

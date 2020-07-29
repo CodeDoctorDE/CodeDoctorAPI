@@ -13,6 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Gui implements Listener {
     static HashMap<Player, Gui> playerGuiHashMap = new HashMap<>();
@@ -78,18 +79,28 @@ public class Gui implements Listener {
         this.size = 3;
     }
 
-    public static void reload(final Player player) {
-        if (!playerGuiHashMap.containsKey(player))
-            return;
-        player.getOpenInventory().getTopInventory().clear();
-        playerGuiHashMap.get(player).getGuiItems().forEach((integer, guiItem) -> reload(player, integer, guiItem));
+    public static void reload(final Player... players) {
+        for (Player player : players) {
+            if (!playerGuiHashMap.containsKey(player))
+                return;
+            player.getOpenInventory().getTopInventory().clear();
+            playerGuiHashMap.get(player).getGuiItems().forEach((integer, guiItem) -> reload(player, integer));
+        }
     }
 
-    public static void reload(final Player player, int integer, GuiItem guiItem){
+    public static void reload(final Player player, int integer){
         if (!playerGuiHashMap.containsKey(player))
             return;
-        player.getOpenInventory().getTopInventory().setItem(integer, guiItem.getItemStack());
+        player.getOpenInventory().getTopInventory().setItem(integer, playerGuiHashMap.get(player).guiItems.get(integer).getItemStack());
     }
+
+    public void reload(){
+        playerGuiHashMap.entrySet().stream().filter(playerGuiEntry -> playerGuiEntry.getValue().equals(this)).forEach(playerGuiEntry -> reload(playerGuiEntry.getKey()));
+    }
+    public void reload(int integer){
+        playerGuiHashMap.entrySet().stream().filter(playerGuiEntry -> playerGuiEntry.getValue().equals(this)).forEach(playerGuiEntry -> reload(playerGuiEntry.getKey(), integer));
+    }
+
 
     public static Gui getGui(Player player) {
         return playerGuiHashMap.get(player);
@@ -97,10 +108,6 @@ public class Gui implements Listener {
 
     public static boolean hasGui(Player player) {
         return playerGuiHashMap.containsKey(player);
-    }
-
-    public void reload() {
-        playerGuiHashMap.forEach((player, gui) -> reload(player));
     }
 
     public void open(Player... players) {
