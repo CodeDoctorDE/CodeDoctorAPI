@@ -1,10 +1,10 @@
-package com.gitlab.codedoctorde.api.ui.template;
+package com.gitlab.codedoctorde.api.ui.template.gui;
 
 import com.gitlab.codedoctorde.api.ui.Gui;
 import com.gitlab.codedoctorde.api.ui.GuiEvent;
 import com.gitlab.codedoctorde.api.ui.GuiItem;
 import com.gitlab.codedoctorde.api.ui.GuiItemEvent;
-import com.gitlab.codedoctorde.api.ui.template.events.GuiListEvent;
+import com.gitlab.codedoctorde.api.ui.template.gui.events.GuiListEvent;
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.JsonObject;
 import org.bukkit.entity.Player;

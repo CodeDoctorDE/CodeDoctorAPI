@@ -1,4 +1,4 @@
-package com.gitlab.codedoctorde.api.ui.template;
+package com.gitlab.codedoctorde.api.ui.template.item;
 
 import com.gitlab.codedoctorde.api.ui.Gui;
 import com.gitlab.codedoctorde.api.ui.GuiItem;

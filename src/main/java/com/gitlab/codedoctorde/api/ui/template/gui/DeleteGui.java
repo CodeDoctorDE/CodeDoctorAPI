@@ -1,7 +1,7 @@
-package com.gitlab.codedoctorde.api.ui.template;
+package com.gitlab.codedoctorde.api.ui.template.gui;
 
 import com.gitlab.codedoctorde.api.ui.Gui;
-import com.gitlab.codedoctorde.api.ui.template.events.GuiDeleteEvent;
+import com.gitlab.codedoctorde.api.ui.template.gui.events.GuiDeleteEvent;
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.JsonObject;
 import org.bukkit.plugin.java.JavaPlugin;

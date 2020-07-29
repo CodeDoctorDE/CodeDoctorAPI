@@ -82,7 +82,13 @@ public class Gui implements Listener {
         if (!playerGuiHashMap.containsKey(player))
             return;
         player.getOpenInventory().getTopInventory().clear();
-        playerGuiHashMap.get(player).getGuiItems().forEach((integer, guiItem) -> player.getOpenInventory().getTopInventory().setItem(integer, guiItem.getItemStack()));
+        playerGuiHashMap.get(player).getGuiItems().forEach((integer, guiItem) -> reload(player, integer, guiItem));
+    }
+
+    public static void reload(final Player player, int integer, GuiItem guiItem){
+        if (!playerGuiHashMap.containsKey(player))
+            return;
+        player.getOpenInventory().getTopInventory().setItem(integer, guiItem.getItemStack());
     }
 
     public static Gui getGui(Player player) {

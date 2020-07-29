@@ -1,9 +1,10 @@
-package com.gitlab.codedoctorde.api.ui.template;
+package com.gitlab.codedoctorde.api.ui.template.item;
 
 import com.gitlab.codedoctorde.api.ui.Gui;
 import com.gitlab.codedoctorde.api.ui.GuiItem;
 import com.gitlab.codedoctorde.api.ui.GuiItemEvent;
-import com.gitlab.codedoctorde.api.ui.template.events.ValueItemEvent;
+import com.gitlab.codedoctorde.api.ui.template.item.events.InputItemEvent;
+import com.gitlab.codedoctorde.api.ui.template.item.events.ValueItemEvent;
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -12,36 +13,32 @@ import org.bukkit.inventory.ItemStack;
 /**
  * @author CodeDoctorDE
  */
-public class ValueItem {
-    private final ItemStack itemStack;
+public class ValueItem extends InputItem {
     private final float defaultValue;
     private final ValueItemEvent itemEvent;
-    private Object[] format = new Object[0];
     private float fastSkip = 5;
     private float skip = 1;
     private float value;
 
     public ValueItem(ItemStack itemStack, float value, float defaultValue, ValueItemEvent itemEvent) {
-        this.itemStack = itemStack;
+        super(itemStack, new InputItemEvent() {
+            @Override
+            public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event, InputItem inputItem) {
+                itemEvent.onEvent(value, (Player) event.getWhoClicked(), (ValueItem) inputItem);
+            }
+
+            @Override
+            public void onTick(Gui gui, GuiItem guiItem, Player player, InputItem inputItem) {
+                itemEvent.onEvent(value, player, (ValueItem) inputItem);
+            }
+        });
         this.value = value;
         this.defaultValue = defaultValue;
         this.itemEvent = itemEvent;
     }
 
     public ValueItem(ItemStackBuilder itemStackBuilder, float value, float defaultValue, ValueItemEvent itemEvent) {
-        this.itemStack = itemStackBuilder.build();
-        this.value = value;
-        this.defaultValue = defaultValue;
-        this.itemEvent = itemEvent;
-    }
-
-    public ValueItem setFormat(Object... format) {
-        this.format = format;
-        return this;
-    }
-
-    public Object[] getFormat() {
-        return format;
+        this(itemStackBuilder.build(), value, defaultValue, itemEvent);
     }
 
     public ValueItem setSkip(float skip) {
@@ -91,12 +88,5 @@ public class ValueItem {
                 }
             }
         });
-    }
-
-    public ItemStack getItemStack() {
-        return itemStack;
-    }
-    public ItemStack getFormattedItemStack(){
-        return new ItemStackBuilder(itemStack.clone()).format(value, format).build();
     }
 }

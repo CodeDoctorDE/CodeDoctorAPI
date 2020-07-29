@@ -1,4 +1,4 @@
-package com.gitlab.codedoctorde.api.ui.template;
+package com.gitlab.codedoctorde.api.ui.template.gui;
 
 import com.gitlab.codedoctorde.api.request.ChatRequest;
 import com.gitlab.codedoctorde.api.request.ChatRequestEvent;
@@ -6,8 +6,11 @@ import com.gitlab.codedoctorde.api.server.Version;
 import com.gitlab.codedoctorde.api.ui.Gui;
 import com.gitlab.codedoctorde.api.ui.GuiItem;
 import com.gitlab.codedoctorde.api.ui.GuiItemEvent;
-import com.gitlab.codedoctorde.api.ui.template.events.ItemCreatorSubmitEvent;
-import com.gitlab.codedoctorde.api.ui.template.events.ValueItemEvent;
+import com.gitlab.codedoctorde.api.ui.template.item.InputItem;
+import com.gitlab.codedoctorde.api.ui.template.item.ValueItem;
+import com.gitlab.codedoctorde.api.ui.template.gui.events.ItemCreatorSubmitEvent;
+import com.gitlab.codedoctorde.api.ui.template.item.events.InputItemEvent;
+import com.gitlab.codedoctorde.api.ui.template.item.events.ValueItemEvent;
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.JsonObject;
 import org.bukkit.ChatColor;
@@ -25,8 +28,9 @@ import java.util.List;
 public class ItemCreatorGui {
 
     private final JavaPlugin plugin;
-    private ItemStackBuilder itemStackBuilder;
-    private ItemCreatorSubmitEvent submitEvent;
+    private final ItemStackBuilder itemStackBuilder;
+    private final ItemCreatorSubmitEvent submitEvent;
+    private GuiItem previewGuiItem;
 
     public ItemCreatorGui(JavaPlugin plugin, ItemStackBuilder itemStackBuilder, ItemCreatorSubmitEvent submitEvent) {
         this.itemStackBuilder = itemStackBuilder;
@@ -38,6 +42,10 @@ public class ItemCreatorGui {
         this.plugin = plugin;
         this.itemStackBuilder = new ItemStackBuilder(itemStack);
         this.submitEvent = submitEvent;
+    }
+
+    public void rebuildItemStack(){
+        previewGuiItem.setItemStack(itemStackBuilder.build());
     }
 
     public Gui createGui(Gui backGui, JsonObject guiTranslation) {
@@ -82,9 +90,9 @@ public class ItemCreatorGui {
                     submitEvent.onEvent(itemStackBuilder.build());
                 }
             }));
-            getGuiItems().put(9, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("displayname")).format(itemStackBuilder.getDisplayName()).build(), new GuiItemEvent() {
+            getGuiItems().put(9, new InputItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("displayname")).build(), new InputItemEvent() {
                 @Override
-                public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
+                public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event, InputItem inputItem) {
                     switch (event.getClick()) {
                         case LEFT:
                             gui.close((Player) event.getWhoClicked());
@@ -112,7 +120,7 @@ public class ItemCreatorGui {
                             break;
                     }
                 }
-            }));
+            }).setFormat(itemStackBuilder.getDisplayName()).build());
             getGuiItems().put(10, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("lore")).build(), new GuiItemEvent() {
                 @Override
                 public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
