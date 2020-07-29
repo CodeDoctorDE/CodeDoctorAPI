@@ -35,7 +35,7 @@ public class ValueItem {
         this.itemEvent = itemEvent;
     }
 
-    public ValueItem setFormat(Object[] format) {
+    public ValueItem setFormat(Object... format) {
         this.format = format;
         return this;
     }
@@ -63,6 +63,7 @@ public class ValueItem {
     }
 
     public GuiItem build() {
+        final ValueItem valueItem = this;
         return new GuiItem(getFormattedItemStack(), new GuiItemEvent() {
             @Override
             public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
@@ -83,7 +84,7 @@ public class ValueItem {
                     case DROP:
                         current = defaultValue;
                 }
-                if (itemEvent.onEvent(current, (Player) event.getWhoClicked())) {
+                if (itemEvent.onEvent(current, (Player) event.getWhoClicked(), valueItem)) {
                     value = current;
                     guiItem.setItemStack(getFormattedItemStack());
                     Gui.reload((Player)event.getWhoClicked());
