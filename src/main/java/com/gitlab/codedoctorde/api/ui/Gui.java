@@ -1,5 +1,9 @@
 package com.gitlab.codedoctorde.api.ui;
 
+import com.gitlab.codedoctorde.api.ui.template.item.InputItem;
+import com.gitlab.codedoctorde.api.ui.template.item.ValueItem;
+import com.gitlab.codedoctorde.api.ui.template.item.events.InputItemEvent;
+import com.gitlab.codedoctorde.api.ui.template.item.events.ValueItemEvent;
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
@@ -14,6 +18,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -254,6 +259,31 @@ public class Gui implements Listener {
     }
     public GuiItem addGuiItem(final int place, final JsonObject jsonObject){
         return addGuiItem(place, jsonObject, null);
+    }
+    public void addInputItem(final int place, final InputItem inputItem){
+        getGuiItems().put(place, inputItem.build());
+    }
+    public InputItem addInputItem(final int place, final ItemStack itemStack, final InputItemEvent event){
+        InputItem inputItem = new InputItem(itemStack, event);
+        addInputItem(place, inputItem);
+        return inputItem;
+    }
+    public InputItem addInputItem(final int place, final ItemStackBuilder itemStackBuilder, final InputItemEvent event){
+        return addInputItem(place, itemStackBuilder.build(), event);
+    }
+    public InputItem addInputItem(final int place, final JsonObject jsonObject, final InputItemEvent event){
+        return addInputItem(place, new ItemStackBuilder(jsonObject).build(), event);
+    }
+    public InputItem addValueItem(final int place, final ItemStack itemStack, final float value, final float defaultValue, final ValueItemEvent event){
+        ValueItem valueItem = new ValueItem(itemStack, value, defaultValue, event);
+        addInputItem(place, valueItem);
+        return valueItem;
+    }
+    public InputItem addValueItem(final int place, final ItemStackBuilder itemStackBuilder, final float value, final float defaultValue, final ValueItemEvent event){
+        return addValueItem(place, itemStackBuilder.build(), value, defaultValue, event);
+    }
+    public InputItem addValueItem(final int place, final JsonObject jsonObject, final float value, final float defaultValue, final ValueItemEvent event){
+        return addValueItem(place, new ItemStackBuilder(jsonObject).build(), value, defaultValue, event);
     }
     public Inventory build() {
         inventory = build(inventory);

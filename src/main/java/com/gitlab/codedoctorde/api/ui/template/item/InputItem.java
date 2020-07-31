@@ -5,6 +5,7 @@ import com.gitlab.codedoctorde.api.ui.GuiItem;
 import com.gitlab.codedoctorde.api.ui.GuiItemEvent;
 import com.gitlab.codedoctorde.api.ui.template.item.events.InputItemEvent;
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
+import com.google.gson.JsonObject;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -17,6 +18,12 @@ public class InputItem {
     public InputItem(ItemStack itemStack, InputItemEvent inputItemEvent){
         this.itemStack = itemStack;
         this.inputItemEvent = inputItemEvent;
+    }
+    public InputItem(ItemStackBuilder itemStackBuilder, InputItemEvent inputItemEvent){
+        this(itemStackBuilder.build(), inputItemEvent);
+    }
+    public InputItem(JsonObject jsonObject, InputItemEvent inputItemEvent){
+        this(new ItemStackBuilder(jsonObject).build(), inputItemEvent);
     }
 
     public InputItem setFormat(Object... format) {

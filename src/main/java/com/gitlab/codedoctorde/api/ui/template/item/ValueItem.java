@@ -6,6 +6,7 @@ import com.gitlab.codedoctorde.api.ui.GuiItemEvent;
 import com.gitlab.codedoctorde.api.ui.template.item.events.InputItemEvent;
 import com.gitlab.codedoctorde.api.ui.template.item.events.ValueItemEvent;
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
+import com.google.gson.JsonObject;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -39,6 +40,9 @@ public class ValueItem extends InputItem {
 
     public ValueItem(ItemStackBuilder itemStackBuilder, float value, float defaultValue, ValueItemEvent itemEvent) {
         this(itemStackBuilder.build(), value, defaultValue, itemEvent);
+    }
+    public ValueItem(JsonObject jsonObject, float value, float defaultValue, ValueItemEvent itemEvent){
+        this(new ItemStackBuilder(jsonObject).build(), value, defaultValue, itemEvent);
     }
 
     public ValueItem setSkip(float skip) {
