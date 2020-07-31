@@ -8,7 +8,7 @@ import com.gitlab.codedoctorde.api.ui.GuiItem;
 import com.gitlab.codedoctorde.api.ui.GuiItemEvent;
 import com.gitlab.codedoctorde.api.ui.template.item.InputItem;
 import com.gitlab.codedoctorde.api.ui.template.item.ValueItem;
-import com.gitlab.codedoctorde.api.ui.template.gui.events.ItemCreatorSubmitEvent;
+import com.gitlab.codedoctorde.api.ui.template.gui.events.ItemCreatorEvent;
 import com.gitlab.codedoctorde.api.ui.template.item.events.InputItemEvent;
 import com.gitlab.codedoctorde.api.ui.template.item.events.ValueItemEvent;
 import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
@@ -29,19 +29,19 @@ public class ItemCreatorGui {
 
     private final JavaPlugin plugin;
     private final ItemStackBuilder itemStackBuilder;
-    private final ItemCreatorSubmitEvent submitEvent;
+    private final ItemCreatorEvent creatorEvent;
     private GuiItem previewGuiItem;
 
-    public ItemCreatorGui(JavaPlugin plugin, ItemStackBuilder itemStackBuilder, ItemCreatorSubmitEvent submitEvent) {
+    public ItemCreatorGui(JavaPlugin plugin, ItemStackBuilder itemStackBuilder, ItemCreatorEvent creatorEvent) {
         this.itemStackBuilder = itemStackBuilder;
         this.plugin = plugin;
-        this.submitEvent = submitEvent;
+        this.creatorEvent = creatorEvent;
     }
 
-    public ItemCreatorGui(JavaPlugin plugin, ItemStack itemStack, ItemCreatorSubmitEvent submitEvent) {
+    public ItemCreatorGui(JavaPlugin plugin, ItemStack itemStack, ItemCreatorEvent creatorEvent) {
         this.plugin = plugin;
         this.itemStackBuilder = new ItemStackBuilder(itemStack);
-        this.submitEvent = submitEvent;
+        this.creatorEvent = creatorEvent;
     }
 
     public void rebuildItemStack(Gui gui){
@@ -49,7 +49,7 @@ public class ItemCreatorGui {
         gui.reload(4);
     }
 
-    public Gui createGui(Gui backGui, JsonObject guiTranslation) {
+    public Gui createGui(JsonObject guiTranslation) {
         previewGuiItem = new GuiItem(itemStackBuilder.build(), new GuiItemEvent() {
 
             @Override
@@ -70,7 +70,7 @@ public class ItemCreatorGui {
             getGuiItems().put(0, new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("back")).build(), new GuiItemEvent() {
                 @Override
                 public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
-                    backGui.open((Player) event.getWhoClicked());
+                    creatorEvent.onCancel((Player) event.getWhoClicked());
                 }
             }));
             getGuiItems().put(1, placeholder);
@@ -89,7 +89,7 @@ public class ItemCreatorGui {
                 @Override
                 public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                     event.getWhoClicked().sendMessage(guiTranslation.getAsJsonObject("submit").get("success").getAsString());
-                    submitEvent.onEvent(itemStackBuilder.build());
+                    creatorEvent.onEvent((Player) event.getWhoClicked(), itemStackBuilder.build());
                 }
             }));
             getGuiItems().put(9, new InputItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("displayname")).build(), new InputItemEvent() {
@@ -180,6 +180,7 @@ public class ItemCreatorGui {
                     }
                     itemStackBuilder.setLore(lore);
                     inputItem.setFormat(String.join("\n", itemStackBuilder.getLore()));
+                    guiItem.setItemStack(inputItem.getFormattedItemStack());
                     if (event.getClick() != ClickType.LEFT)
                         gui.reload();
                 }

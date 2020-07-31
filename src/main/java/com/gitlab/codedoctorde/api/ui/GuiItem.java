@@ -16,40 +16,35 @@ public class GuiItem {
 
     public GuiItem(final ItemStack itemStack, final GuiItemEvent guiItemEvent) {
         this.itemStack = itemStack;
-        this.guiItemEvent = guiItemEvent;
+        if(guiItemEvent != null)
+            this.guiItemEvent = guiItemEvent;
+        else
+            this.guiItemEvent = new GuiItemEvent() {
+            };
     }
 
     public GuiItem(final ItemStackBuilder itemStackBuilder, final GuiItemEvent guiItemEvent) {
-        this.itemStack = itemStackBuilder.build();
-        this.guiItemEvent = guiItemEvent;
+        this(itemStackBuilder.build(), guiItemEvent);
     }
 
     public GuiItem(final JsonObject jsonObject, final GuiItemEvent guiItemEvent) {
-        this.itemStack = new ItemStackBuilder(jsonObject).build();
-        this.guiItemEvent = guiItemEvent;
+        this(new ItemStackBuilder(jsonObject).build(), guiItemEvent);
     }
 
     public GuiItem(final GuiItemEvent guiItemEvent) {
-        this.itemStack = new ItemStack(Material.AIR);
-        this.guiItemEvent = guiItemEvent;
+        this(new ItemStack(Material.AIR), guiItemEvent);
     }
 
     public GuiItem(final ItemStack itemStack) {
-        this.itemStack = itemStack;
-        this.guiItemEvent = new GuiItemEvent() {
-        };
+        this(itemStack, null);
     }
 
     public GuiItem(final ItemStackBuilder itemStackBuilder) {
-        this.itemStack = itemStackBuilder.build();
-        this.guiItemEvent = new GuiItemEvent() {
-        };
+        this(itemStackBuilder.build(), null);
     }
 
     public GuiItem(final JsonObject jsonObject) {
-        this.itemStack = new ItemStackBuilder(jsonObject).build();
-        this.guiItemEvent = new GuiItemEvent() {
-        };
+        this(new ItemStackBuilder(jsonObject).build(), null);
     }
 
     public void raiseEvent(final Gui gui, final InventoryClickEvent event) {

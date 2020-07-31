@@ -20,8 +20,12 @@ public abstract class JsonConfig {
 
     public abstract void save();
 
-    public JsonObject getJsonObject() {
-        return jsonObject;
+    public JsonObject getJsonObject(String... path) {
+        JsonObject current = jsonObject;
+        for (String currentPath:
+             path)
+            current = current.getAsJsonObject(currentPath);
+        return current;
     }
 
     public Gson getGson() {

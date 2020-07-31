@@ -1,5 +1,7 @@
 package com.gitlab.codedoctorde.api.ui;
 
+import com.gitlab.codedoctorde.api.utils.ItemStackBuilder;
+import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,6 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -229,7 +232,29 @@ public class Gui implements Listener {
     void raiseInventoryOpenEvent(final Player player) {
         guiEvent.onOpen(this, player);
     }
-
+    public void addGuiItem(final int place, final GuiItem guiItem){
+        getGuiItems().put(place, guiItem);
+    }
+    public GuiItem addGuiItem(final int place, final ItemStack itemStack, final GuiItemEvent event){
+        GuiItem guiItem = new GuiItem(itemStack, event);
+        addGuiItem(place, guiItem);
+        return guiItem;
+    }
+    public GuiItem addGuiItem(final int place, final ItemStackBuilder itemStackBuilder, final GuiItemEvent event){
+        return addGuiItem(place, itemStackBuilder.build(), event);
+    }
+    public GuiItem addGuiItem(final int place, final JsonObject jsonObject, final GuiItemEvent event){
+        return addGuiItem(place, new ItemStackBuilder(jsonObject).build(), event);
+    }
+    public GuiItem addGuiItem(final int place, final ItemStack itemStack){
+        return addGuiItem(place, itemStack, null);
+    }
+    public GuiItem addGuiItem(final int place, final ItemStackBuilder itemStackBuilder){
+        return addGuiItem(place, itemStackBuilder, null);
+    }
+    public GuiItem addGuiItem(final int place, final JsonObject jsonObject){
+        return addGuiItem(place, jsonObject, null);
+    }
     public Inventory build() {
         inventory = build(inventory);
         return inventory;
