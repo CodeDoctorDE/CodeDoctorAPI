@@ -69,7 +69,6 @@ jobs:
           mkdocs build
           mkdir public
           mv site/* public
-          mv target/site/* public
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.8
         with:
