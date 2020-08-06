@@ -68,7 +68,8 @@ jobs:
           mv ./*.md docs
           mkdocs build
           mkdir public
-          mv site/* public
+          mkdir public/apidocs
+          mv site/* public/apidocs
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.8
         with:
