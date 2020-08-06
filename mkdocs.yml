@@ -1,6 +1,6 @@
 site_name: CodeDoctorAPI
-site_url: https://codedoctorde.gitlab.io/codedoctorapi
-repo_url: https://gitlab.com/codedoctorde/codedoctorapi/
+site_url: https://codedoctorde.github.io/codedoctorapi
+repo_url: https://github.com/codedoctorde/codedoctorapi/
 theme:
   name: material
 markdown_extensions:

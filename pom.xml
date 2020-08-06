@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.gitlab.codedoctorde</groupId>
+    <groupId>com.github.codedoctorde</groupId>
     <artifactId>CodeDoctorAPI</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <properties>
@@ -18,10 +18,6 @@
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>codedoctorapi</id>
-            <url>https://gitlab.com/api/v4/projects/14810643/packages/maven</url>
         </repository>
     </repositories>
     <dependencies>
@@ -80,12 +76,12 @@
     </dependencies>
     <distributionManagement>
         <repository>
-            <id>codedoctorapi</id>
-            <url>https://gitlab.com/api/v4/projects/14810643/packages/maven</url>
+            <id>codemc-releases</id>
+            <url>https://repo.codemc.io/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>codedoctorapi</id>
-            <url>https://gitlab.com/api/v4/projects/14810643/packages/maven</url>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <build>
