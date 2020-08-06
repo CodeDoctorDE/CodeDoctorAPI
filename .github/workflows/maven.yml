@@ -21,8 +21,8 @@ jobs:
       - name: Download spigots
         run: |
           rm -f -R lib
-          apt-get update
-          apt-get install -y wget
+          sudo apt-get update
+          sudo apt-get install -y wget
           mkdir lib
           wget -O lib/spigot-1.16.1.jar https://cdn.getbukkit.org/spigot/spigot-1.16.1.jar
           wget -O lib/spigot-1.15.2.jar https://cdn.getbukkit.org/spigot/spigot-1.15.2.jar
