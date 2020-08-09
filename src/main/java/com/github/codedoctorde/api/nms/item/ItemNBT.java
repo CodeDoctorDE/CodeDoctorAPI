@@ -1,7 +1,9 @@
-package com.github.codedoctorde.api.nbt.item;
+package com.github.codedoctorde.api.nms.item;
 
+import com.github.codedoctorde.api.nms.v1_14_R1.ItemNBT_v14;
+import com.github.codedoctorde.api.nms.v1_15_R1.ItemNBT_v15;
+import com.github.codedoctorde.api.nms.v1_16_R1.ItemNBT_v16;
 import com.github.codedoctorde.api.server.Version;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.bukkit.block.Block;
 
 /**
@@ -22,7 +24,6 @@ public class ItemNBT {
     }
 
     public static void setNbt(Block block, String nbt) {
-        try {
             switch (Version.getVersion()) {
                 case v1_16:
                     ItemNBT_v16.setNbt(block, nbt);
@@ -33,8 +34,5 @@ public class ItemNBT {
                 case v1_14:
                     ItemNBT_v14.setNbt(block, nbt);
             }
-        } catch (CommandSyntaxException e) {
-            e.printStackTrace();
-        }
     }
 }

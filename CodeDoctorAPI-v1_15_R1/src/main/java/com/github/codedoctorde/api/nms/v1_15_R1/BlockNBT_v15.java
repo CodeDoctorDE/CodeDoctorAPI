@@ -1,4 +1,4 @@
-package com.github.codedoctorde.api.nbt.block;
+package com.github.codedoctorde.api.nms.v1_15_R1;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.server.v1_15_R1.BlockPosition;
@@ -20,13 +20,17 @@ public class BlockNBT_v15 {
         return te.save(new NBTTagCompound()).toString();
     }
 
-    public static void setNbt(Block block, String nbt) throws CommandSyntaxException {
+    public static void setNbt(Block block, String nbt) {
         CraftWorld ws = (CraftWorld) block.getWorld();
         NBTTagCompound ntc = null;
         BlockPosition position = new BlockPosition(block.getX(), block.getY(), block.getZ());
         TileEntity te = ws.getHandle().getTileEntity(position);
         assert te != null;
-        te.load(MojangsonParser.parse(nbt));
+        try {
+            te.load(MojangsonParser.parse(nbt));
+        } catch (CommandSyntaxException e) {
+            e.printStackTrace();
+        }
         te.update();
         ws.getHandle().setTileEntity(position, te);
         block.getState().update(true);

@@ -1,17 +1,17 @@
-package com.github.codedoctorde.api.nbt.item;
+package com.github.codedoctorde.api.nms.v1_16_R1;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.server.v1_15_R1.BlockPosition;
-import net.minecraft.server.v1_15_R1.MojangsonParser;
-import net.minecraft.server.v1_15_R1.NBTTagCompound;
-import net.minecraft.server.v1_15_R1.TileEntity;
+import net.minecraft.server.v1_16_R1.BlockPosition;
+import net.minecraft.server.v1_16_R1.MojangsonParser;
+import net.minecraft.server.v1_16_R1.NBTTagCompound;
+import net.minecraft.server.v1_16_R1.TileEntity;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
 
 /**
  * @author CodeDoctorDE
  */
-public class ItemNBT_v15 {
+public class ItemNBT_v16 {
     public static String getNbt(Block block) {
         CraftWorld ws = (CraftWorld) block.getWorld();
         NBTTagCompound ntc = null;
@@ -20,13 +20,17 @@ public class ItemNBT_v15 {
         return te.save(new NBTTagCompound()).toString();
     }
 
-    public static void setNbt(Block block, String nbt) throws CommandSyntaxException {
+    public static void setNbt(Block block, String nbt) {
         CraftWorld ws = (CraftWorld) block.getWorld();
         NBTTagCompound ntc = null;
         BlockPosition position = new BlockPosition(block.getX(), block.getY(), block.getZ());
         TileEntity te = ws.getHandle().getTileEntity(position);
         assert te != null;
-        te.load(MojangsonParser.parse(nbt));
+        try {
+            te.load(te.getBlock(), MojangsonParser.parse(nbt));
+        } catch (CommandSyntaxException e) {
+            e.printStackTrace();
+        }
         te.update();
         ws.getHandle().setTileEntity(position, te);
         block.getState().update(true);
