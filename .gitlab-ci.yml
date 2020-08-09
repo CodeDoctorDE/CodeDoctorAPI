@@ -26,7 +26,7 @@ deploy:
 cache:
   # Required to keep artifacts from old builds, e.g. from master
   paths:
-    - public/api
+    - public/com.github.codedoctorde.api
     - lib
 build:
   stage: test
@@ -49,16 +49,16 @@ pages:
     - 'sudo pip install pygments'
   script:
     - 'mkdir -p public'
-    - 'mkdir -p public/api'
-    - 'mkdir -p public/api/$CI_COMMIT_REF_NAME/'
-    - 'mkdir -p public/api/$CI_COMMIT_SHA_NAME/'
+    - 'mkdir -p public/com.github.codedoctorde.api'
+    - 'mkdir -p public/com.github.codedoctorde.api/$CI_COMMIT_REF_NAME/'
+    - 'mkdir -p public/com.github.codedoctorde.api/$CI_COMMIT_SHA_NAME/'
     - 'mv assets docs'
     - 'mv ./*.md docs'
     - 'mkdocs build'
     - 'mv site public'
     - 'mvn javadoc:javadoc'
-    - 'cp -r target/site/* public/api/$CI_COMMIT_REF_NAME/'
-    - 'cp -r target/site/* public/api/$CI_COMMIT_SHA/'
+    - 'cp -r target/site/* public/com.github.codedoctorde.api/$CI_COMMIT_REF_NAME/'
+    - 'cp -r target/site/* public/com.github.codedoctorde.api/$CI_COMMIT_SHA/'
   only:
     - master
   artifacts:

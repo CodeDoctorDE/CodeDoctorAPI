@@ -1,6 +1,5 @@
 package com.github.codedoctorde.api.ui.template.gui.events;
 
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
