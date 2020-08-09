@@ -13,7 +13,7 @@
     </modules>
     <profiles>
         <profile>
-            <id>Implementations</id>
+            <id>Impl</id>
             <modules>
                 <module>CodeDoctorAPI-v1_14_R1</module>
                 <module>CodeDoctorAPI-v1_15_R1</module>
