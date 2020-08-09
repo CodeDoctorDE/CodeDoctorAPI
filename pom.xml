@@ -61,24 +61,6 @@
             <artifactId>gson</artifactId>
             <version>2.8.6</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.codedoctorde</groupId>
-            <artifactId>CodeDoctorAPI-v1_15_R1</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.codedoctorde</groupId>
-            <artifactId>CodeDoctorAPI-v1_16_R1</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.codedoctorde</groupId>
-            <artifactId>CodeDoctorAPI-v1_14_R1</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
     <distributionManagement>
         <repository>
