@@ -5,10 +5,7 @@ import com.github.codedoctorde.api.ui.GuiEvent;
 import com.github.codedoctorde.api.ui.GuiItem;
 import com.github.codedoctorde.api.ui.GuiItemEvent;
 import com.github.codedoctorde.api.ui.template.gui.events.GuiListEvent;
-import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.JsonObject;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -54,19 +51,19 @@ public class ListGui {
         this.size = size;
     }
 
-    public Gui[] createGui() {
-        return createGui(null, "");
+    public Gui[] createGuis() {
+        return createGuis(null, "");
     }
 
-    public Gui[] createGui(String searchText) {
-        return createGui(null, searchText);
+    public Gui[] createGuis(String searchText) {
+        return createGuis(null, searchText);
     }
 
-    public Gui[] createGui(Gui backGui) {
-        return createGui(backGui, "");
+    public Gui[] createGuis(Gui backGui) {
+        return createGuis(backGui, "");
     }
 
-    public Gui[] createGui(Gui backGui, String searchText) {
+    public Gui[] createGuis(Gui backGui, String searchText) {
         List<Gui> guiPages = new ArrayList<>();
         GuiItem[] items = listEvent.pages(searchText);
 

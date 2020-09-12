@@ -26,7 +26,7 @@ public interface GuiListEvent {
             public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                 Player player = (Player) event.getWhoClicked();
                 player.sendMessage(guiTranslation.getAsJsonObject("search").get("refresh").getAsString());
-                listGui.createGui(backGui, searchText)[0].open(player);
+                listGui.createGuis(backGui, searchText)[0].open(player);
             }
         });
         GuiItem create = new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("create")).build(), listGui.getCreateEvent());
@@ -39,7 +39,7 @@ public interface GuiListEvent {
                         if (currentPages <= 0)
                             player.sendMessage(guiTranslation.getAsJsonObject("first").get("already").getAsString());
                         else
-                            listGui.createGui(backGui, searchText)[0].open(player);
+                            listGui.createGuis(backGui, searchText)[0].open(player);
                     }
                 }),
                 new GuiItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("previous")).build(), new GuiItemEvent() {
@@ -50,7 +50,7 @@ public interface GuiListEvent {
                         if (currentPages <= 0)
                             player.sendMessage(guiTranslation.getAsJsonObject("previous").get("already").getAsString());
                         else
-                            listGui.createGui(backGui, searchText)[currentPages - 1].open(player);
+                            listGui.createGuis(backGui, searchText)[currentPages - 1].open(player);
                     }
                 }),
                 placeholder,
@@ -73,7 +73,7 @@ public interface GuiListEvent {
                     @Override
                     public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                         Player player = (Player) event.getWhoClicked();
-                        Gui[] guis = listGui.createGui(backGui, searchText);
+                        Gui[] guis = listGui.createGuis(backGui, searchText);
                         if (currentPages >= guis.length - 1)
                             player.sendMessage(guiTranslation.getAsJsonObject("next").get("already").getAsString());
                         else
@@ -85,7 +85,7 @@ public interface GuiListEvent {
                     @Override
                     public void onEvent(Gui gui, GuiItem guiItem, InventoryClickEvent event) {
                         Player player = (Player) event.getWhoClicked();
-                        Gui[] guis = listGui.createGui(backGui, searchText);
+                        Gui[] guis = listGui.createGuis(backGui, searchText);
                         if (currentPages >= guis.length - 1)
                             player.sendMessage(guiTranslation.getAsJsonObject("last").get("already").getAsString());
                         else
