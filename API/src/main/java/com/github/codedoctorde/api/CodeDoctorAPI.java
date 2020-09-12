@@ -11,4 +11,12 @@ public class CodeDoctorAPI {
     public CodeDoctorAPI(final JavaPlugin plugin) {
         this.plugin = plugin;
     }
+
+    public String getVersion(){
+        return getClass().getPackage().getImplementationVersion();
+    }
+
+    public JavaPlugin getPlugin() {
+        return plugin;
+    }
 }
