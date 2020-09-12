@@ -23,6 +23,7 @@ public class ListGui {
     private final GuiEvent guiEvent;
     private final boolean search;
     private final JsonObject guiTranslation;
+    private int size = 5;
 
     public ListGui(JsonObject guiTranslation, JavaPlugin plugin, GuiItemEvent createEvent, GuiListEvent listEvent, GuiEvent guiEvent, boolean search) {
         this.plugin = plugin;
@@ -45,6 +46,14 @@ public class ListGui {
         this(guiTranslation, plugin, null, listEvent, guiEvent, true);
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
     public Gui[] createGui() {
         return createGui(null, "");
     }
@@ -64,9 +73,10 @@ public class ListGui {
         int size = 0;
         for (GuiItem item : items) {
             if (guiPages.size() == 0 || guiPages.get(guiPages.size() - 1).getFreeSpaces().length == 0) {
-                Gui current = new Gui(plugin);
-                Arrays.stream(listEvent.buildHeader(this, current, guiPages.size() - 1, 0, backGui, searchText)).forEach(current::addGuiItem);
-                GuiItem[] footer = listEvent.buildFooter(this, current, guiPages.size() - 1, 0, backGui, searchText);
+                Gui current = new Gui(plugin, listEvent.title(guiPages.size()), size);
+
+                Arrays.stream(listEvent.buildHeader(this, current, guiPages.size() - 1, backGui, searchText)).forEach(current::addGuiItem);
+                GuiItem[] footer = listEvent.buildFooter(this, current, guiPages.size() - 1, backGui, searchText);
                 IntStream.range(0, footer.length).forEach(i -> current.putGuiItem(current.getSize() - 1 - i, footer[i]));
                 guiPages.add(current);
             }
