@@ -12,7 +12,7 @@ import java.util.List;
 public class AnimationItemManager {
     private ItemStack itemStackTemplate;
     private AnimationItemType animationItemType;
-    private List<String> changes = new ArrayList<>();
+    private List<String> changes;
 
     public AnimationItemManager(final AnimationItemType animationItemType, final List<String> changes, final ItemStack itemStackTemplate) {
         this.animationItemType = animationItemType;
@@ -72,6 +72,7 @@ public class AnimationItemManager {
             case STRIPE:
                 String lastChange = changes.get(changes.size() - 1);
                 for (String change : changes) {
+                    assert itemMetaTemplate != null;
                     char[] charArray = itemMetaTemplate.getDisplayName().toCharArray();
                     for (int i = 0; i < charArray.length; i++) {
                         ItemStack itemStack = itemStackTemplate.clone();
@@ -82,6 +83,7 @@ public class AnimationItemManager {
                                 displayName.append(change);
                             displayName.append(charArray[x]);
                         }
+                        assert itemMeta != null;
                         itemMeta.setDisplayName(displayName.toString());
                         itemStack.setItemMeta(itemMeta);
                     }

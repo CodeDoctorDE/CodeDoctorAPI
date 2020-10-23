@@ -67,7 +67,7 @@ public class ListGui {
         List<Gui> guiPages = new ArrayList<>();
         GuiItem[] items = listEvent.pages(searchText);
 
-        int size = 0;
+        int size = 6;
         for (GuiItem item : items) {
             if (guiPages.size() == 0 || guiPages.get(guiPages.size() - 1).getFreeSpaces().length == 0) {
                 Gui current = new Gui(plugin, listEvent.title(guiPages.size()), size);
