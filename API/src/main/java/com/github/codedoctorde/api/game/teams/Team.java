@@ -9,7 +9,7 @@ import java.util.List;
  * @author CodeDoctorDE
  */
 public class Team {
-    private List<Player> players = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>();
     private String prefix = "";
     private String suffix = "";
     private String name;

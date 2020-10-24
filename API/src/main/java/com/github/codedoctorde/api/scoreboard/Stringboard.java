@@ -16,8 +16,8 @@ import java.util.Objects;
  */
 public class Stringboard {
     private final Objective objective;
-    private List<StringboardValue> values = new ArrayList<>();
-    private List<DynamicStringboardValue> dynamicValues = new ArrayList<>();
+    private final List<StringboardValue> values = new ArrayList<>();
+    private final List<DynamicStringboardValue> dynamicValues = new ArrayList<>();
     private String title;
 
     public Stringboard(Scoreboard scoreboard, String title, String name) {

@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
  * @author CodeDoctorDE
  */
 public class BlockDataTypeAdapter implements JsonSerializer<BlockData>, JsonDeserializer<BlockData> {
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Override
     public BlockData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

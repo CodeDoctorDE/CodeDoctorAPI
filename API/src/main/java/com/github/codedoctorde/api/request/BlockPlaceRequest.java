@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @author CodeDoctorDE
  */
 public class BlockPlaceRequest extends Request<BlockPlaceRequestEvent> {
-    private static HashMap<Player, BlockPlaceRequest> requests = new HashMap<>();
+    private static final HashMap<Player, BlockPlaceRequest> requests = new HashMap<>();
     private JavaPlugin plugin;
     private BlockPlaceRequestEvent blockPlaceRequestEvent;
 

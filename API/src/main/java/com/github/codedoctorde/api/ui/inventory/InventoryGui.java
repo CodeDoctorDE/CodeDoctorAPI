@@ -22,8 +22,8 @@ public class InventoryGui implements Listener {
     static HashMap<Player, ItemStack[]> playerItemsHashMap = new HashMap<>();
     protected final JavaPlugin plugin;
     private final InventoryGuiEvent guiEvent;
-    private HashMap<Integer, InventoryGuiItem> guiItems = new HashMap<>();
-    private HashMap<Player, Integer> taskID = new HashMap<>();
+    private final HashMap<Integer, InventoryGuiItem> guiItems = new HashMap<>();
+    private final HashMap<Player, Integer> taskID = new HashMap<>();
 
     public InventoryGui(JavaPlugin javaPlugin) {
         guiEvent = new InventoryGuiEvent() {

@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
  * @author CodeDoctorDE
  */
 public class ItemStackTypeAdapter implements JsonSerializer<ItemStack>, JsonDeserializer<ItemStack> {
-    private Gson gson;
+    private final Gson gson;
 
     public ItemStackTypeAdapter() {
         gson = new GsonBuilder().create();

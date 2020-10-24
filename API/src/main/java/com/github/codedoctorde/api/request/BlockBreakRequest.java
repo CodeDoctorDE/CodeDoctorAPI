@@ -13,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 
 public class BlockBreakRequest extends Request<BlockBreakRequestEvent> {
-    private static HashMap<Player, BlockBreakRequest> requests = new HashMap<>();
+    private static final HashMap<Player, BlockBreakRequest> requests = new HashMap<>();
 
     public BlockBreakRequest(final JavaPlugin plugin, final Player player, final BlockBreakRequestEvent blockBreakRequestEvent) {
         super(plugin, player, blockBreakRequestEvent);

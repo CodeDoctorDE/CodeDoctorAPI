@@ -22,7 +22,7 @@ public class BlobConfig extends JsonConfig {
     private final Connection connection;
     private final String table;
     private JsonObject jsonObject;
-    private List<String> changes = new ArrayList<>();
+    private final List<String> changes = new ArrayList<>();
 
     public BlobConfig(Connection connection, String table) throws SQLException {
         this.table = table;

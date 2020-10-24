@@ -17,7 +17,7 @@ import java.util.Objects;
  * @author CodeDoctorDE
  */
 public class ItemRequest extends Request<ItemRequestEvent> {
-    private static HashMap<Player, ItemRequest> requests = new HashMap<>();
+    private static final HashMap<Player, ItemRequest> requests = new HashMap<>();
 
     public ItemRequest(final JavaPlugin plugin, final Player player, final ItemRequestEvent itemRequestEvent) {
         super(plugin, player, itemRequestEvent);

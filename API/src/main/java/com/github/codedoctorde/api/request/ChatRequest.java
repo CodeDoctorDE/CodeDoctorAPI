@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @author CodeDoctorDE
  */
 public class ChatRequest extends Request<ChatRequestEvent> {
-    private static HashMap<Player, ChatRequest> requests = new HashMap<>();
+    private static final HashMap<Player, ChatRequest> requests = new HashMap<>();
 
     public ChatRequest(final JavaPlugin plugin, final Player player, final ChatRequestEvent chatRequestEvent) {
         super(plugin, player, chatRequestEvent);

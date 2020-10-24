@@ -23,7 +23,7 @@ import java.util.*;
  * @author CodeDoctorDE
  */
 public class ItemStackBuilder {
-    private static Gson gson = new GsonBuilder().create();
+    private static final Gson gson = new GsonBuilder().create();
     private ItemStack itemStack;
 
     public ItemStackBuilder() {

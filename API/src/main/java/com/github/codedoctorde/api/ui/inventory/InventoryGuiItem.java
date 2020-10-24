@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class InventoryGuiItem {
     private ItemStack itemStack;
-    private InventoryGuiItemEvent guiItemEvent;
+    private final InventoryGuiItemEvent guiItemEvent;
 
     public InventoryGuiItem(final ItemStack itemStack, final InventoryGuiItemEvent guiItemEvent) {
         this.itemStack = itemStack;

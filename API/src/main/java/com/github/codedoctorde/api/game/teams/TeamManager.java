@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author CodeDoctorDE
  */
 public class TeamManager<T extends Team> {
-    private List<T> teams = new ArrayList<>();
+    private final List<T> teams = new ArrayList<>();
 
     public TeamManager() {
 
