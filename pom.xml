@@ -7,7 +7,7 @@
     <groupId>com.github.codedoctorde</groupId>
     <artifactId>CodeDoctorAPI</artifactId>
     <packaging>pom</packaging>
-    <version>1.2_${build.number}</version>
+    <version>1.2</version>
     <modules>
         <module>API</module>
     </modules>

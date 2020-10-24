@@ -239,7 +239,7 @@ public class Gui implements Listener {
     }
 
     public int[] getFreeSpaces(){
-        return IntStream.range(0, size).filter(i -> !guiItems.containsKey(i)).boxed().collect(Collectors.toList()).stream().mapToInt(i->i).toArray();
+        return IntStream.range(0, size - 1).filter(guiItems::containsKey).boxed().collect(Collectors.toList()).stream().mapToInt(i->i).toArray();
     }
 
     public void putGuiItem(final int place, final GuiItem guiItem){
