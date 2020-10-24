@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public interface GuiListEvent {
-    String title(int index);
+    String title(int index, int size);
 
     GuiItem[] pages(String output);
 

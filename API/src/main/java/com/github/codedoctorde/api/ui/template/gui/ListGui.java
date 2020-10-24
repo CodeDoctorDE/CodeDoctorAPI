@@ -70,7 +70,7 @@ public class ListGui {
         int size = 6;
         for (GuiItem item : items) {
             if (guiPages.size() == 0 || guiPages.get(guiPages.size() - 1).getFreeSpaces().length == 0) {
-                Gui current = new Gui(plugin, listEvent.title(guiPages.size()), size);
+                Gui current = new Gui(plugin, listEvent.title(guiPages.size() + 1, (int) Math.ceil(items.length / (double) size)), size);
 
                 Arrays.stream(listEvent.buildHeader(this, current, guiPages.size() - 1, backGui, searchText)).forEach(current::addGuiItem);
                 GuiItem[] footer = listEvent.buildFooter(this, current, guiPages.size() - 1, backGui, searchText);
