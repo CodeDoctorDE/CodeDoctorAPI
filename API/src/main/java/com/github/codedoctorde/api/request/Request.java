@@ -36,6 +36,7 @@ public abstract class Request<T, E extends Event> implements Listener {
 
     public void raise(T output) {
         Bukkit.getScheduler().runTask(plugin, () -> requestEvent.onEvent(player, output));
+        unregister();
     }
 
     public void unregister() {
@@ -67,7 +68,7 @@ public abstract class Request<T, E extends Event> implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (requests.containsKey(event.getPlayer().getUniqueId()))
-            requests.get(event.getPlayer().getUniqueId()).cancel();;
+            requests.get(event.getPlayer().getUniqueId()).cancel();
     }
     @EventHandler
     public abstract void onEvent(E event);
