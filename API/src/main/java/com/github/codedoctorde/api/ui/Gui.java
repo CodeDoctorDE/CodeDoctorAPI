@@ -242,104 +242,10 @@ public class Gui implements Listener {
         return IntStream.range(0, size * 9 - 1).filter(i -> !guiItems.containsKey(i)).boxed().mapToInt(i->i).toArray();
     }
 
-    public void putGuiItem(final int place, final GuiItem guiItem){
-        getGuiItems().put(place, guiItem);
-    }
-    public GuiItem putGuiItem(final int place, final ItemStack itemStack, final GuiItemEvent event){
-        GuiItem guiItem = new GuiItem(itemStack, event);
-        putGuiItem(place, guiItem);
-        return guiItem;
-    }
-    public GuiItem putGuiItem(final int place, final ItemStackBuilder itemStackBuilder, final GuiItemEvent event){
-        return putGuiItem(place, itemStackBuilder.build(), event);
-    }
-    public GuiItem putGuiItem(final int place, final JsonObject jsonObject, final GuiItemEvent event){
-        return putGuiItem(place, new ItemStackBuilder(jsonObject).build(), event);
-    }
-    public GuiItem putGuiItem(final int place, final ItemStack itemStack){
-        return putGuiItem(place, itemStack, null);
-    }
-    public GuiItem putGuiItem(final int place, final ItemStackBuilder itemStackBuilder){
-        return putGuiItem(place, itemStackBuilder, null);
-    }
-    public GuiItem putGuiItem(final int place, final JsonObject jsonObject){
-        return putGuiItem(place, jsonObject, null);
-    }
-    public void putInputItem(final int place, final InputItem inputItem){
-        getGuiItems().put(place, inputItem.build());
-    }
-    public InputItem putInputItem(final int place, final ItemStack itemStack, final InputItemEvent event){
-        InputItem inputItem = new InputItem(itemStack, event);
-        putInputItem(place, inputItem);
-        return inputItem;
-    }
-    public InputItem putInputItem(final int place, final ItemStackBuilder itemStackBuilder, final InputItemEvent event){
-        return putInputItem(place, itemStackBuilder.build(), event);
-    }
-    public InputItem putInputItem(final int place, final JsonObject jsonObject, final InputItemEvent event){
-        return putInputItem(place, new ItemStackBuilder(jsonObject).build(), event);
-    }
-    public InputItem putValueItem(final int place, final ItemStack itemStack, final float value, final float defaultValue, final ValueItemEvent event){
-        ValueItem valueItem = new ValueItem(itemStack, value, defaultValue, event);
-        putInputItem(place, valueItem);
-        return valueItem;
-    }
-    public InputItem putValueItem(final int place, final ItemStackBuilder itemStackBuilder, final float value, final float defaultValue, final ValueItemEvent event){
-        return putValueItem(place, itemStackBuilder.build(), value, defaultValue, event);
-    }
-    public InputItem putValueItem(final int place, final JsonObject jsonObject, final float value, final float defaultValue, final ValueItemEvent event){
-        return putValueItem(place, new ItemStackBuilder(jsonObject).build(), value, defaultValue, event);
-    }
-
     public void addGuiItem(final GuiItem guiItem){
         int[] freeSpaces = getFreeSpaces();
         if(freeSpaces.length > 0)
         getGuiItems().put(freeSpaces[0], guiItem);
-    }
-    public GuiItem addGuiItem(final ItemStack itemStack, final GuiItemEvent event){
-        GuiItem guiItem = new GuiItem(itemStack, event);
-        addGuiItem(guiItem);
-        return guiItem;
-    }
-    public GuiItem addGuiItem(final ItemStackBuilder itemStackBuilder, final GuiItemEvent event){
-        return addGuiItem(itemStackBuilder.build(), event);
-    }
-    public GuiItem addGuiItem(final JsonObject jsonObject, final GuiItemEvent event){
-        return addGuiItem(new ItemStackBuilder(jsonObject).build(), event);
-    }
-    public GuiItem addGuiItem(final ItemStack itemStack){
-        return addGuiItem(itemStack, null);
-    }
-    public GuiItem addGuiItem(final ItemStackBuilder itemStackBuilder){
-        return addGuiItem(itemStackBuilder, null);
-    }
-    public GuiItem addGuiItem(final JsonObject jsonObject){
-        return addGuiItem(jsonObject, null);
-    }
-    public void addInputItem(final InputItem inputItem){
-        addGuiItem(inputItem.build());
-    }
-    public InputItem addInputItem(final ItemStack itemStack, final InputItemEvent event){
-        InputItem inputItem = new InputItem(itemStack, event);
-        addInputItem(inputItem);
-        return inputItem;
-    }
-    public InputItem addInputItem(final ItemStackBuilder itemStackBuilder, final InputItemEvent event){
-        return addInputItem(itemStackBuilder.build(), event);
-    }
-    public InputItem addInputItem(final JsonObject jsonObject, final InputItemEvent event){
-        return addInputItem(new ItemStackBuilder(jsonObject).build(), event);
-    }
-    public InputItem addValueItem(final ItemStack itemStack, final float value, final float defaultValue, final ValueItemEvent event){
-        ValueItem valueItem = new ValueItem(itemStack, value, defaultValue, event);
-        addInputItem(valueItem);
-        return valueItem;
-    }
-    public InputItem addValueItem(final ItemStackBuilder itemStackBuilder, final float value, final float defaultValue, final ValueItemEvent event){
-        return addValueItem(itemStackBuilder.build(), value, defaultValue, event);
-    }
-    public InputItem addValueItem(final JsonObject jsonObject, final float value, final float defaultValue, final ValueItemEvent event){
-        return addValueItem(new ItemStackBuilder(jsonObject).build(), value, defaultValue, event);
     }
     public Inventory build() {
         inventory = build(inventory);
