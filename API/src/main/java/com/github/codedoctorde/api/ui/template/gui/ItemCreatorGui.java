@@ -1,7 +1,7 @@
 package com.github.codedoctorde.api.ui.template.gui;
 
 import com.github.codedoctorde.api.request.ChatRequest;
-import com.github.codedoctorde.api.request.ChatRequestEvent;
+import com.github.codedoctorde.api.request.RequestEvent;
 import com.github.codedoctorde.api.server.Version;
 import com.github.codedoctorde.api.ui.Gui;
 import com.github.codedoctorde.api.ui.GuiItem;
@@ -99,7 +99,7 @@ public class ItemCreatorGui {
                         case LEFT:
                             gui.close((Player) event.getWhoClicked());
                             event.getWhoClicked().sendMessage(guiTranslation.getAsJsonObject("displayname").get("message").getAsString());
-                            new ChatRequest(plugin, (Player) event.getWhoClicked(), new ChatRequestEvent() {
+                            new ChatRequest(plugin, (Player) event.getWhoClicked(), new RequestEvent<String>() {
                                 @Override
                                 public void onEvent(Player player, String output) {
                                     output = ChatColor.translateAlternateColorCodes('&', output);
@@ -138,7 +138,7 @@ public class ItemCreatorGui {
                         case LEFT:
                             gui.close((Player) event.getWhoClicked());
                             event.getWhoClicked().sendMessage(guiTranslation.getAsJsonObject("lore").get("message").getAsString());
-                            new ChatRequest(plugin, (Player) event.getWhoClicked(), new ChatRequestEvent() {
+                            new ChatRequest(plugin, (Player) event.getWhoClicked(), new RequestEvent<String>() {
                                 @Override
                                 public void onEvent(Player player, String output) {
                                     output = ChatColor.translateAlternateColorCodes('&', output);

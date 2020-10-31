@@ -15,52 +15,16 @@ import java.util.HashMap;
 /**
  * @author CodeDoctorDE
  */
-public class BlockPlaceRequest extends Request<BlockPlaceRequestEvent> {
-    private static final HashMap<Player, BlockPlaceRequest> requests = new HashMap<>();
-    private JavaPlugin plugin;
-    private BlockPlaceRequestEvent blockPlaceRequestEvent;
-
-    public BlockPlaceRequest(final JavaPlugin plugin, final Player player, final BlockPlaceRequestEvent blockPlaceRequestEvent) {
+public class BlockPlaceRequest extends Request<Block, BlockPlaceEvent> {
+    public BlockPlaceRequest(final JavaPlugin plugin, final Player player, final RequestEvent<Block> blockPlaceRequestEvent) {
         super(plugin, player, blockPlaceRequestEvent);
-        if (requests.containsKey(player))
-            requests.get(player).cancel();
-        requests.remove(player);
-        requests.put(player, this);
     }
 
-    public void event(Player player, Block output) {
-        blockPlaceRequestEvent.onEvent(player, output);
-    }
-
-    @EventHandler
-    private void onBlockPlaced(BlockPlaceEvent event) {
-        Player player = event.getPlayer();
-        if (requests.containsKey(player)) {
-            Bukkit.getScheduler().runTask(plugin, () -> {
-                if (requests.containsKey(player))
-                    requests.get(player).event(player, event.getBlockPlaced());
-                requests.remove(player);
-            });
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    private void onPlayerInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        if (event.getAction() != Action.LEFT_CLICK_AIR)
+    public void onEvent(BlockPlaceEvent event) {
+        Player current = event.getPlayer();
+        if(!player.getUniqueId().equals(current.getUniqueId()))
             return;
-        if (requests.containsKey(player)) {
-            event.setCancelled(true);
-            requests.get(player).cancel();
-            requests.remove(player);
-        }
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        if (requests.containsKey(event.getPlayer()))
-            requests.get(event.getPlayer()).cancel();
-        requests.remove(event.getPlayer());
+        raise(event.getBlockPlaced());
+        event.setCancelled(true);
     }
 }
