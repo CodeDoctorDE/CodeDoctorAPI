@@ -74,7 +74,7 @@ public class ListGui {
 
                 Arrays.stream(listEvent.buildHeader(this, current, guiPages.size() - 1, backGui, searchText)).forEach(current::addGuiItem);
                 GuiItem[] footer = listEvent.buildFooter(this, current, guiPages.size() - 1, backGui, searchText);
-                IntStream.range(0, footer.length).forEach(i -> current.putGuiItem(current.getSize() - 1 - i, footer[i]));
+                IntStream.range(0, footer.length).forEach(i -> current.getGuiItems().put(current.getSize() - 1 - i, footer[i]));
                 guiPages.add(current);
             }
             guiPages.get(guiPages.size() - 1).addGuiItem(item);
