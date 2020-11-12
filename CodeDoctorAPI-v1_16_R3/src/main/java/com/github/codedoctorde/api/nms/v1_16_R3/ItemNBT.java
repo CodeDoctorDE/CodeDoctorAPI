@@ -1,17 +1,17 @@
-package com.github.codedoctorde.api.nms.v1_16_R1;
+package com.github.codedoctorde.api.nms.v1_16_R3;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.server.v1_16_R1.BlockPosition;
-import net.minecraft.server.v1_16_R1.MojangsonParser;
-import net.minecraft.server.v1_16_R1.NBTTagCompound;
-import net.minecraft.server.v1_16_R1.TileEntity;
+import net.minecraft.server.v1_16_R3.BlockPosition;
+import net.minecraft.server.v1_16_R3.MojangsonParser;
+import net.minecraft.server.v1_16_R3.NBTTagCompound;
+import net.minecraft.server.v1_16_R3.TileEntity;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 
 /**
  * @author CodeDoctorDE
  */
-public class ItemNBT_v16 {
+public class ItemNBT {
     public static String getNbt(Block block) {
         CraftWorld ws = (CraftWorld) block.getWorld();
         NBTTagCompound ntc = null;

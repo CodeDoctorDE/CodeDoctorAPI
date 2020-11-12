@@ -18,9 +18,9 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>CodeDoctorAPI-v1_14_R1</module>
+                <module>CodeDoctorAPI-v1_16_R3</module>
                 <module>CodeDoctorAPI-v1_15_R1</module>
-                <module>CodeDoctorAPI-v1_16_R1</module>
+                <module>CodeDoctorAPI-v1_14_R1</module>
             </modules>
         </profile>
     </profiles>

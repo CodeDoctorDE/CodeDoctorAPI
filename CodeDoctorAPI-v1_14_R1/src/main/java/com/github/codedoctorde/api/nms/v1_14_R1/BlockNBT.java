@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * @author CodeDoctorDE
  */
-public class BlockNBT_v14 {
+public class BlockNBT {
     public static String getNbt(Block block) {
         CraftWorld ws = (CraftWorld) block.getWorld();
         NBTTagCompound ntc = null;

@@ -11,7 +11,7 @@ import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
 /**
  * @author CodeDoctorDE
  */
-public class ItemNBT_v15 {
+public class ItemNBT {
     public static String getNbt(Block block) {
         CraftWorld ws = (CraftWorld) block.getWorld();
         NBTTagCompound ntc = null;

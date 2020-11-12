@@ -40,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>CodeDoctorAPI-v1_16_R1</artifactId>
+            <artifactId>CodeDoctorAPI-v1_16_R3</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
