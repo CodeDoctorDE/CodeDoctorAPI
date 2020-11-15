@@ -70,6 +70,5 @@ public abstract class Request<T, E extends Event> implements Listener {
         if (requests.containsKey(event.getPlayer().getUniqueId()))
             requests.get(event.getPlayer().getUniqueId()).cancel();
     }
-    @EventHandler
     public abstract void onEvent(E event);
 }

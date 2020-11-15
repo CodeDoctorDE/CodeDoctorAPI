@@ -67,6 +67,7 @@ public class ValueRequest extends Request<Float, PlayerInteractEvent> {
     }
 
     @Override
+    @EventHandler
     public void onEvent(PlayerInteractEvent event) {
         if(!event.getPlayer().getUniqueId().equals(player.getUniqueId()))
             return;

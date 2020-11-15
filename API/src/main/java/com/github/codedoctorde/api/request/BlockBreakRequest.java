@@ -17,6 +17,7 @@ public class BlockBreakRequest extends Request<Block, BlockBreakEvent> {
         super(plugin, player, blockBreakRequestEvent);
     }
 
+    @EventHandler
     public void onEvent(BlockBreakEvent event) {
         Player current = event.getPlayer();
         if(!player.getUniqueId().equals(current.getUniqueId()))

@@ -20,6 +20,7 @@ public class ChatRequest extends Request<String, AsyncPlayerChatEvent> {
         super(plugin, player, chatRequestEvent);
     }
 
+    @EventHandler
     public void onEvent(AsyncPlayerChatEvent event) {
         Player current = event.getPlayer();
         if(!player.getUniqueId().equals(current.getUniqueId()))

@@ -20,6 +20,7 @@ public class BlockPlaceRequest extends Request<Block, BlockPlaceEvent> {
         super(plugin, player, blockPlaceRequestEvent);
     }
 
+    @EventHandler
     public void onEvent(BlockPlaceEvent event) {
         Player current = event.getPlayer();
         if(!player.getUniqueId().equals(current.getUniqueId()))
