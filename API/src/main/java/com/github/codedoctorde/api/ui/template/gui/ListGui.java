@@ -68,7 +68,8 @@ public class ListGui {
         GuiItem[] items = listEvent.pages(searchText);
 
         int size = 6;
-        for (GuiItem item : items) {
+        int index = 0;
+        do{
             if (guiPages.size() == 0 || guiPages.get(guiPages.size() - 1).getFreeSpaces().length == 0) {
                 Gui current = new Gui(plugin, listEvent.title(guiPages.size() + 1, (int) Math.ceil(items.length / (double) size)), size);
 
@@ -77,8 +78,12 @@ public class ListGui {
                 IntStream.range(0, footer.length).forEach(i -> current.getGuiItems().put(current.getSize() - 1 - i, footer[i]));
                 guiPages.add(current);
             }
-            guiPages.get(guiPages.size() - 1).addGuiItem(item);
-        }
+            if(items.length > index) {
+                GuiItem item = items[index];
+                guiPages.get(guiPages.size() - 1).addGuiItem(item);
+            }
+            index++;
+        } while(items.length > index);
 
         return guiPages.toArray(new Gui[0]);
     }
