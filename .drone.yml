@@ -21,7 +21,7 @@ steps:
   - name: Create settings.xml
     image: alpine:latest
     environment:
-      REPO_ID: sytm-nexus
+      REPO_ID: ossrh
       REPO_USERNAME:
         from_secret: repo_username
       REPO_PASSWORD:
