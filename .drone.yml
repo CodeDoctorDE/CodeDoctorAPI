@@ -1,0 +1,41 @@
+kind: pipeline
+type: docker
+name: default
+trigger:
+  branch:
+    - master
+steps:
+  - name: Build
+    image: maven:3-jdk-8
+    volumes:
+      - name: web
+        path: /public
+    commands:
+      - mv assets docs
+      - mv ./*.md docs
+      - mkdocs build
+      - mkdir public
+      - mv site/* public
+      - mvn javadoc:javadoc
+      - mv target/site/* public
+  - name: Create settings.xml
+    image: alpine:latest
+    environment:
+      REPO_ID: sytm-nexus
+      REPO_USERNAME:
+        from_secret: repo_username
+      REPO_PASSWORD:
+        from_secret: repo_password
+    commands:
+      - echo '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd"><servers><server><id>'$REPO_ID'</id><username>'$REPO_USERNAME'</username><password>'$REPO_PASSWORD'</password></server></servers></settings>' > settings.xml
+  - name: Deploy
+    image: maven:3-jdk-8
+    commands:
+      - mvn deploy
+volumes:
+  - name: web
+    host:
+      path: /var/www/codedoctor/api
+platform:
+  os: linux
+  arch: arm
