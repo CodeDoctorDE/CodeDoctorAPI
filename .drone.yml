@@ -11,11 +11,7 @@ steps:
       - name: web
         path: /public
     commands:
-      - mv assets docs
-      - mv ./*.md docs
-      - mkdocs build
       - mkdir public
-      - mv site/* public
       - mvn javadoc:javadoc
       - mv target/site/* public
   - name: Create settings.xml
