@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gui-templates</artifactId>
+    <artifactId>ui-templates</artifactId>
     <dependencies>
         <dependency>
             <groupId>tk.codedoctor.minecraft</groupId>
