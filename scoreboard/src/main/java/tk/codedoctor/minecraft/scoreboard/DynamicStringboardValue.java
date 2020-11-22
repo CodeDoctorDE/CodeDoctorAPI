@@ -1,4 +1,4 @@
-package scoreboard;
+package tk.codedoctor.minecraft.scoreboard;
 
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;

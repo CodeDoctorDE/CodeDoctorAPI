@@ -1,4 +1,4 @@
-package scoreboard;
+package tk.codedoctor.minecraft.scoreboard;
 
 /**
  * @author CodeDoctorDE
