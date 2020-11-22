@@ -13,7 +13,7 @@ steps:
     commands:
       - mkdir public
       - mvn javadoc:aggregate
-      - mv target/site/* public
+      - mv target/site/* /public
   - name: Create settings.xml
     image: alpine:latest
     environment:
