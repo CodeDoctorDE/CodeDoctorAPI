@@ -8,6 +8,37 @@
     <artifactId>API</artifactId>
     <packaging>pom</packaging>
     <version>2.0</version>
+    <licenses>
+        <license>
+            <name>Apache License, Version 3.0</name>
+            <url>https://git.codedoctor.tk/Minecraft/api/raw/branch/master/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <name>CodeDoctorAPI</name>
+    <description>Useful libraries for minecraft</description>
+    <url>https://git.codedoctor.tk/Minecraft/api</url>
+
+    <organization>
+        <name>tk.codedoctor.minecraft</name>
+        <url>https://git.codedoctor.tk/Minecraft</url>
+    </organization>
+
+    <scm>
+        <url>https://git.codedoctor.tk/Minecraft/api</url>
+        <connection>
+            scm:git:git://git.codedoctor.tk/Minecraft/api.git
+        </connection>
+        <developerConnection>
+            scm:git:ssh://git@git.codedoctor.tk:Minecraft/api.git
+        </developerConnection>
+    </scm>
+    <developers>
+        <developer>
+            <name>CodeDoctor</name>
+        </developer>
+    </developers>
     <modules>
         <module>ui</module>
         <module>server</module>
@@ -112,21 +143,51 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.7.1</version>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>2.9.1</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.8</version>
+                <version>1.6.7</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
