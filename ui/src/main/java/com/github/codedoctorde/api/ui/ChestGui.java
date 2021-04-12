@@ -2,22 +2,11 @@ package com.github.codedoctorde.api.ui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.*;
-import java.util.stream.IntStream;
 
 public class ChestGui extends Gui {;
     private final String title;
-    private final HashMap<Integer, StaticItem> guiItems = new HashMap<>();
 
 
     public ChestGui() {
@@ -31,12 +20,37 @@ public class ChestGui extends Gui {;
     }
 
     public ChestGui(String title, int size) {
-        super(size, 9);
+        super(9, size);
         this.title = title;
     }
 
     @Override
     public void reload(Player... players) {
+        for (Player player : players) {
+            if (hasGui(player)) {
+                Inventory inventory = player.getOpenInventory().getTopInventory();
+                buildInventory(inventory);
+            }
+        }
+    }
 
+    @Override
+    protected void register(Player player) {
+        Inventory inventory = Bukkit.createInventory(player, InventoryType.CHEST, title);
+        buildInventory(inventory);
+    }
+
+    public void buildInventory(Inventory inventory){
+        for (int x = 0; x < guiItems.length; x++) {
+            GuiItem[] row = guiItems[x];
+            for (int y = 0; y < row.length; y++) {
+                GuiItem item = row[y];
+                inventory.setItem(x + y * 9, item.build());
+            }
+        }
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

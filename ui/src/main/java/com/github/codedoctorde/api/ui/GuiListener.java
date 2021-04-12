@@ -1,7 +1,10 @@
 package com.github.codedoctorde.api.ui;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -19,5 +22,16 @@ public class GuiListener implements Listener {
         Bukkit.getPluginManager().registerEvents(instance,
                 JavaPlugin.getProvidingPlugin(instance.getClass()));
         registered = true;
+    }
+
+    @EventHandler
+    public void onChestGuiItemClicked(InventoryClickEvent event){
+        if(!(event.getWhoClicked() instanceof Player))
+            return;
+        Gui gui = Gui.getGui((Player)event.getWhoClicked());
+        int slot = event.getSlot();
+        int x = slot % 9;
+        int y = slot / 9;
+        gui.getItem(x, y).onClick(event);
     }
 }

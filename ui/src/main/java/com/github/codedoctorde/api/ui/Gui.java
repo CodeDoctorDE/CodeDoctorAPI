@@ -3,31 +3,35 @@ package com.github.codedoctorde.api.ui;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 
 public abstract class Gui {
     private Consumer<Player> openAction;
     private Consumer<Player> closeAction;
-    private final GuiItem[][] guiItems;
-    private final List<UUID> openedPlayers = new ArrayList<>();
+    protected final GuiItem[][] guiItems;
+    private static final Map<UUID, Gui> playerGuis = new HashMap<>();
 
-    public Gui(int height, int width){
-        guiItems = new GuiItem[height][width];
+    public Gui(int width, int height){
+        guiItems = new GuiItem[width][height];
         GuiListener.register();
+    }
+
+    public static Gui getGui(Player player) {
+        return playerGuis.get(player.getUniqueId());
     }
 
     public void show(Player... players){
         for (Player player : players) {
-            openedPlayers.add(player.getUniqueId());
+            if(hasGui(player))
+
+            playerGuis.put(player.getUniqueId(), this);
             register(player);
         }
     }
     public void hide(Player... players){
         for (Player player : players) {
-            openedPlayers.remove(player.getUniqueId());
+            playerGuis.remove(player.getUniqueId());
             unregister(player);
         }
     }
@@ -43,13 +47,18 @@ public abstract class Gui {
     public abstract void reload(Player... players);
 
     public Player[] getOpenedPlayers() {
-        return openedPlayers.stream().map(Bukkit::getPlayer).toArray(Player[]::new);
+        return playerGuis.entrySet().stream().filter(uuidGuiEntry -> uuidGuiEntry.getValue().equals(this)).map(Map.Entry::getKey).map(Bukkit::getPlayer).toArray(Player[]::new);
     }
 
-    public boolean hasGui(Player player){
-        return openedPlayers.contains(player.getUniqueId());
+    public static boolean hasGui(Player player){
+        return playerGuis.containsKey(player.getUniqueId());
     }
 
+    public boolean hasCurrentGui(final Player player) {
+        if(!playerGuis.containsKey(player.getUniqueId()))
+            return false;
+        return playerGuis.get(player.getUniqueId()).equals(this);
+    }
     public void setOpenAction(Consumer<Player> openAction) {
         this.openAction = openAction;
     }
@@ -65,15 +74,15 @@ public abstract class Gui {
         closeAction.accept(player);
     }
 
-    public void registerItem(int height, int width, GuiItem item){
-        guiItems[height][width] = item;
+    public void registerItem(int x, int y, GuiItem item){
+        guiItems[x][y] = item;
     }
 
-    public GuiItem getItem(int height, int width){
-        return guiItems[height][width];
+    public GuiItem getItem(int x, int y){
+        return guiItems[x][y];
     }
 
-    public void unregisterItem(int height, int width){
-        guiItems[height][width] = null;
+    public void unregisterItem(int x, int y){
+        guiItems[x][y] = null;
     }
 }

@@ -37,17 +37,17 @@ public class StaticItem implements GuiItem {
     }
 
     @Override
-    public ItemStack build(ChestGui gui) {
+    public ItemStack build() {
         return getItemStack();
     }
 
     @Override
-    public void onClick(ChestGui gui, InventoryClickEvent event) {
+    public void onClick(InventoryClickEvent event) {
 
     }
 
     @Override
-    public void onTick(ChestGui gui) {
+    public void onTick() {
 
     }
 }
