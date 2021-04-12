@@ -1,4 +1,4 @@
-package tk.codedoctor.minecraft.utils;
+package com.github.codedoctorde.api.utils;
 
 import com.google.common.collect.Multimap;
 import com.google.gson.*;

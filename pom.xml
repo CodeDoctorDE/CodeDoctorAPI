@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>tk.codedoctor.minecraft</groupId>
+    <groupId>com.github.codedoctorde.api</groupId>
     <artifactId>API</artifactId>
     <packaging>pom</packaging>
-    <version>2.0</version>
+    <version>3.0</version>
     <licenses>
         <license>
             <name>Apache License, Version 3.0</name>
@@ -21,22 +21,22 @@
     <url>https://git.codedoctor.tk/Minecraft/api</url>
 
     <organization>
-        <name>tk.codedoctor.minecraft</name>
+        <name>com.github.codedoctorde.api</name>
         <url>https://git.codedoctor.tk/Minecraft</url>
     </organization>
 
     <scm>
-        <url>https://git.codedoctor.tk/Minecraft/api</url>
+        <url>https://github.com/CodeDoctorDE/CodeDoctorAPI</url>
         <connection>
-            scm:git:git://git.codedoctor.tk/Minecraft/api.git
+            scm:git:git://github.com/CodeDoctorDE/CodeDoctorAPI
         </connection>
         <developerConnection>
-            scm:git:ssh://git@git.codedoctor.tk:Minecraft/api.git
+            scm:git:ssh://git@github.com:CodeDoctorDE/CodeDoctorAPI.git
         </developerConnection>
     </scm>
     <developers>
         <developer>
-            <name>CodeDoctor</name>
+            <name>CodeDoctorDE</name>
         </developer>
     </developers>
     <modules>
@@ -51,7 +51,6 @@
         <module>animation</module>
         <module>region</module>
         <module>utils</module>
-        <module>nbt</module>
         <module>ui-templates</module>
     </modules>
     <properties>
@@ -82,7 +81,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <version>1.16.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 

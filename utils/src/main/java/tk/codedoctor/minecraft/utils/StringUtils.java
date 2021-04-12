@@ -1,4 +1,4 @@
-package tk.codedoctor.minecraft.utils;
+package com.github.codedoctorde.api.utils;
 
 import java.util.ArrayList;
 import java.util.List;
