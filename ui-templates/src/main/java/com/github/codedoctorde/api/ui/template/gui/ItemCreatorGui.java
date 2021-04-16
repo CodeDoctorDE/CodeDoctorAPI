@@ -2,6 +2,7 @@ package com.github.codedoctorde.api.ui.template.gui;
 
 import com.github.codedoctorde.api.request.ChatRequest;
 import com.github.codedoctorde.api.request.RequestEvent;
+import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.StaticItem;
 import com.github.codedoctorde.api.ui.template.gui.events.ItemCreatorEvent;
 import com.github.codedoctorde.api.ui.template.item.InputItem;
@@ -23,49 +24,47 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class ItemCreatorGui {
-
-    private final JavaPlugin plugin;
-    private final ItemStackBuilder itemStackBuilder;
-    private final ItemCreatorEvent creatorEvent;
+public class ItemCreatorGui extends ChestGui {
     private StaticItem previewStaticItem;
+    private ItemStackBuilder itemStackBuilder;
+    private Consumer<ItemStack> onSubmit;
+    private Runnable onCancel;
 
-    public ItemCreatorGui(JavaPlugin plugin, ItemStackBuilder itemStackBuilder, ItemCreatorEvent creatorEvent) {
-        this.itemStackBuilder = itemStackBuilder;
-        this.plugin = plugin;
-        this.creatorEvent = creatorEvent;
+    public void setOnCancel(Runnable onCancel) {
+        this.onCancel = onCancel;
     }
 
-    public ItemCreatorGui(JavaPlugin plugin, ItemStack itemStack, ItemCreatorEvent creatorEvent) {
-        this.plugin = plugin;
-        this.itemStackBuilder = new ItemStackBuilder(itemStack);
-        this.creatorEvent = creatorEvent;
+    public void setOnSubmit(Consumer<ItemStack> onSubmit) {
+        this.onSubmit = onSubmit;
     }
 
-    public void rebuildItemStack(ChestGui gui){
-        previewStaticItem.setItemStack(itemStackBuilder.build());
-        gui.reload(4);
-    }
-
-    public ChestGui createGui(JsonObject guiTranslation) {
-        previewStaticItem = new StaticItem(itemStackBuilder.build(), new GuiItemEvent() {
-
-            @Override
-            public void onEvent(ChestGui gui, StaticItem staticItem, InventoryClickEvent event) {
-                if (event.getCursor() != null)
-                    if (event.getCursor().getType() != Material.AIR) {
-                        itemStackBuilder.setItemStack(event.getCursor().clone());
-                        event.getWhoClicked().setItemOnCursor(new ItemStack(Material.AIR));
-                        rebuildItemStack(gui);
-                    } else
-                        event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
-                else
+    public ItemCreatorGui(ItemStack itemStack, Translation translation, String namespace) {
+        super(translation.getTranslation(namespace + ".title"), 5);
+        itemStackBuilder = new ItemStackBuilder(itemStack);
+        previewStaticItem = new StaticItem(itemStackBuilder.build());
+        previewStaticItem.setClickAction(event -> {
+            if (event.getCursor() != null)
+                if (event.getCursor().getType() != Material.AIR) {
+                    itemStackBuilder.setItemStack(event.getCursor().clone());
+                    event.getWhoClicked().setItemOnCursor(new ItemStack(Material.AIR));
+                } else
                     event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
-            }
+            else
+                event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
         });
+        StaticItem placeholder = new StaticItem(new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE).build());
+
+        StaticItem backButton = new StaticItem(new ItemStackBuilder(Material.BARRIER).build());
+        backButton.setClickAction(event -> {
+            if(onCancel == null)
+                hide();
+            onCancel.run();
+        });
+        registerItem(0, 0, );
+
         return new ChestGui(plugin, guiTranslation.get("title").getAsString(), 5) {{
-            StaticItem placeholder = new StaticItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("placeholder")).build());
             getGuiItems().put(0, new StaticItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("back")).build(), new GuiItemEvent() {
                 @Override
                 public void onEvent(ChestGui gui, StaticItem staticItem, InventoryClickEvent event) {

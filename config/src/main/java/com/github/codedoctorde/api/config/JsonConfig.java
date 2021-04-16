@@ -4,27 +4,43 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.File;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author CodeDoctorDE
  */
-public abstract class JsonConfig {
-    Gson gson = new Gson();
-    JsonObject jsonObject;
+public class JsonConfig extends FileConfig {
+    private Gson gson = new Gson();
+    protected JsonObject jsonObject;
 
-    public abstract void reload();
+    public JsonConfig(File file) {
+        super(file);
+    }
 
-    public abstract void save();
+    public JsonConfig(Gson gson, File file){
+        this(file);
+        this.gson = gson;
+    }
 
-    public JsonObject getJsonObject(String... path) {
-        JsonObject current = jsonObject;
+    @Override
+    protected String getData() {
+        return jsonObject.toString();
+    }
+
+    @Override
+    protected void read(BufferedReader reader) {
+        jsonObject = gson.fromJson(reader, JsonObject.class);
+    }
+
+    public JsonElement getJsonElement(String path) {
+        JsonElement current = jsonObject;
         for (String currentPath:
-             path)
-            current = current.getAsJsonObject(currentPath);
+             path.split("\\."))
+            current = current.getAsJsonObject().get(currentPath);
         return current;
     }
 
@@ -34,6 +50,35 @@ public abstract class JsonConfig {
 
     public void setGson(Gson gson) {
         this.gson = gson;
+    }
+
+    public JsonObject createObject(String path){
+        JsonObject current = jsonObject;
+        for (String currentPath : path.split("\\.")) {
+            if(!current.has(currentPath))
+                current.add(currentPath, new JsonObject());
+            current = current.getAsJsonObject(currentPath);
+        }
+        return current;
+    }
+
+    public void setObject(String path, JsonElement value){
+        String[] paths = path.split("\\.");
+        JsonObject namespace = createObject(String.join(".", Arrays.copyOfRange(paths, 0, paths.length - 1))).getAsJsonObject();
+        namespace.add(paths[paths.length - 1], value);
+    }
+
+    public boolean has(String path){
+        JsonElement current = jsonObject;
+        for (String currentPath:
+                path.split("\\.")) {
+            if(current.isJsonObject())
+                if(current.getAsJsonObject().has(currentPath))
+                    current = current.getAsJsonObject().get(currentPath);
+                else
+                    return false;
+        }
+        return true;
     }
 
     /**
@@ -48,31 +93,30 @@ public abstract class JsonConfig {
             setDefault(entry.getKey(), entry.getValue());
     }
 
-    public void setDefault(String key, JsonElement value) {
-        setDefault(new String[0], key, value);
-    }
-
     /**
      * Set default values
      * ! Only available if the json element is a json object !
      *
-     * @param path
      * @param key
      * @param value
      */
-    private void setDefault(String[] path, String key, JsonElement value) {
-        JsonObject currentObject = jsonObject.getAsJsonObject();
-        List<String> nextPath = new ArrayList<>(Arrays.asList(path));
-        nextPath.add(key);
-        for (String current :
-                path) {
-            if (currentObject.get(current) == null || currentObject.get(current).isJsonNull())
-                currentObject.add(current, new JsonObject());
-            currentObject = currentObject.getAsJsonObject(current);
+    private void setDefault(String key, JsonElement value) {
+        if(!has(key))
+            setObject(key, value);
+    }
+
+    public Map<String, JsonElement> getValues(){
+        return getValues("", jsonObject);
+    }
+    public Map<String, JsonElement> getValues(String path, JsonObject jsonObject){
+        Map<String, JsonElement> map = new HashMap<>();
+        for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+            String currentPath = path + "." + entry.getKey();
+            if(entry.getValue().isJsonObject())
+                map.putAll(getValues(currentPath, entry.getValue().getAsJsonObject()));
+            else
+                map.put(currentPath, entry.getValue());
         }
-        if (currentObject.get(key) == null || currentObject.get(key).isJsonNull()) currentObject.add(key, value);
-        else if (value.isJsonObject()) for (Map.Entry<String, JsonElement> entry :
-                value.getAsJsonObject().entrySet())
-            setDefault(nextPath.toArray(new String[0]), entry.getKey(), entry.getValue());
+        return map;
     }
 }

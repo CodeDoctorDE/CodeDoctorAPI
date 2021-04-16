@@ -38,6 +38,14 @@ public class ChestGui extends Gui {;
     protected void register(Player player) {
         Inventory inventory = Bukkit.createInventory(player, InventoryType.CHEST, title);
         buildInventory(inventory);
+        for (GuiItem[] row : guiItems)
+            for (GuiItem guiItem : row) guiItem.onOpen(player);
+    }
+
+    @Override
+    protected void unregister(Player player) {
+        player.closeInventory();
+        for (GuiItem[] row : guiItems) for (GuiItem guiItem : row) guiItem.onClose(player);
     }
 
     public void buildInventory(Inventory inventory){

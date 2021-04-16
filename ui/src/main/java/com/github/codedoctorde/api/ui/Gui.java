@@ -24,15 +24,17 @@ public abstract class Gui {
     public void show(Player... players){
         for (Player player : players) {
             if(hasGui(player))
-
+                getGui(player).hide();
             playerGuis.put(player.getUniqueId(), this);
             register(player);
         }
     }
     public void hide(Player... players){
         for (Player player : players) {
-            playerGuis.remove(player.getUniqueId());
-            unregister(player);
+            if(playerGuis.containsKey(player.getUniqueId())) {
+                playerGuis.remove(player.getUniqueId());
+                unregister(player);
+            }
         }
     }
     protected void register(Player player) {
@@ -52,6 +54,10 @@ public abstract class Gui {
 
     public static boolean hasGui(Player player){
         return playerGuis.containsKey(player.getUniqueId());
+    }
+
+    public static void hideAll(Player... players){
+        Arrays.stream(players).filter(Gui::hasGui).forEach(player -> getGui(player).hide(player));
     }
 
     public boolean hasCurrentGui(final Player player) {

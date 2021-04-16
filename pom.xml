@@ -52,6 +52,7 @@
         <module>region</module>
         <module>utils</module>
         <module>ui-templates</module>
+        <module>translations</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

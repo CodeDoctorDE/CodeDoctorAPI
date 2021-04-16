@@ -43,11 +43,6 @@ public class StaticItem implements GuiItem {
 
     @Override
     public void onClick(InventoryClickEvent event) {
-
-    }
-
-    @Override
-    public void onTick() {
-
+        clickAction.accept(event);
     }
 }
