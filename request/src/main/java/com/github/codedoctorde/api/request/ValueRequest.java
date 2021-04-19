@@ -44,35 +44,6 @@ public class ValueRequest extends Request<Float> {
         this.fastSteps = fastSteps;
     }
 
-    @EventHandler
-    public void onChange(PlayerItemHeldEvent event){
-        if(!event.getPlayer().getUniqueId().equals(player.getUniqueId()))
-            return;
-        float current = (event.getPreviousSlot() > event.getNewSlot() ? event.getPreviousSlot() - event.getNewSlot() : event.getNewSlot() - event.getPreviousSlot()) * skip;
-        if(event.getPlayer().isSneaking())
-            current *= fastSteps;
-        value = current;
-        event.setCancelled(true);
-        player.sendTitle(null, String.valueOf(value), 20, 70, 10);
-        player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
-    }
-    @EventHandler
-    public void onDrop(PlayerDropItemEvent event){
-        if(!event.getPlayer().getUniqueId().equals(player.getUniqueId()))
-            return;
-        value = defaultValue;
-        event.setCancelled(true);
-    }
-
-    @Override
-    @EventHandler
-    public void onEvent(PlayerInteractEvent event) {
-        if(!event.getPlayer().getUniqueId().equals(player.getUniqueId()))
-            return;
-        if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
-            raise(value);
-    }
-
     public float getValue() {
         return value;
     }
@@ -83,5 +54,9 @@ public class ValueRequest extends Request<Float> {
 
     public float getDefaultValue() {
         return defaultValue;
+    }
+
+    public void submit() {
+        raise(value);
     }
 }

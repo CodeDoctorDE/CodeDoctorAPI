@@ -1,104 +1,71 @@
 package com.github.codedoctorde.api.ui.template.gui;
 
-import com.github.codedoctorde.api.ui.GuiEvent;
+import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.ChestGui;
-import com.github.codedoctorde.api.ui.StaticItem;
-import com.github.codedoctorde.api.ui.template.gui.events.GuiListEvent;
-import com.google.gson.JsonObject;
-import org.bukkit.plugin.java.JavaPlugin;
+import com.github.codedoctorde.api.ui.GuiCollection;
+import com.github.codedoctorde.api.ui.GuiItem;
+import com.github.codedoctorde.api.ui.GuiPane;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.function.Function;
 
-public class ListGui {
-    private final GuiItemEvent createEvent;
-    private final GuiListEvent listEvent;
-    private final JavaPlugin plugin;
-    private final GuiEvent guiEvent;
-    private final boolean search;
-    private final JsonObject guiTranslation;
-    private int size = 5;
+public class ListGui extends GuiCollection {
+    private final List<Object> placeholders = new ArrayList<>();
+    private final Function<String, GuiItem[]> itemBuilder;
+    private final int size;
+    private final GuiPane controls;
+    private final Translation translation;
 
-    public ListGui(JsonObject guiTranslation, JavaPlugin plugin, GuiItemEvent createEvent, GuiListEvent listEvent, GuiEvent guiEvent, boolean search) {
-        this.plugin = plugin;
-        this.listEvent = listEvent;
-        this.guiEvent = guiEvent;
-        this.createEvent = createEvent;
-        this.search = search;
-        this.guiTranslation = guiTranslation;
-    }
-
-    public ListGui(JsonObject guiTranslation, JavaPlugin plugin, GuiListEvent listEvent, GuiEvent guiEvent, boolean search) {
-        this(guiTranslation, plugin, null, listEvent, guiEvent, search);
-    }
-
-    public ListGui(JsonObject guiTranslation, JavaPlugin plugin, GuiItemEvent createEvent, GuiListEvent listEvent, GuiEvent guiEvent) {
-        this(guiTranslation, plugin, createEvent, listEvent, guiEvent, true);
-    }
-
-    public ListGui(JsonObject guiTranslation, JavaPlugin plugin, GuiListEvent listEvent, GuiEvent guiEvent) {
-        this(guiTranslation, plugin, null, listEvent, guiEvent, true);
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
+    public ListGui(Translation translation, int size, GuiPane controls, Function<String, GuiItem[]> itemBuilder){
+        this.itemBuilder = itemBuilder;
+        this.controls = controls;
         this.size = size;
+        this.translation = translation;
+        rebuild();
+    }
+    public ListGui(Translation translation, GuiPane controls, Function<String, GuiItem[]> itemBuilder){
+        this(translation, 5, controls, itemBuilder);
     }
 
-    public ChestGui[] createGuis() {
-        return createGuis(null, "");
+    public void setPlaceholders(Object... placeholders){
+        this.placeholders.clear();
+        this.placeholders.addAll(Collections.singleton(placeholders));
     }
 
-    public ChestGui[] createGuis(String searchText) {
-        return createGuis(null, searchText);
+    public Object[] getPlaceholders() {
+        return placeholders.toArray();
     }
 
-    public ChestGui[] createGuis(ChestGui backGui) {
-        return createGuis(backGui, "");
+    public void rebuild(){
+        rebuild("");
     }
+    public void rebuild(String searchText){
+        GuiItem[] items = itemBuilder.apply(searchText);
+        int controlsCount = controls.getItemCount();
+        int freeSlots = size * 9 - controlsCount;
+        int pageCount = (int) Math.ceil(items.length / (float) freeSlots);
 
-    public ChestGui[] createGuis(ChestGui backGui, String searchText) {
-        List<ChestGui> guiPages = new ArrayList<>();
-        StaticItem[] items = listEvent.pages(searchText);
+        int currentPage = 1;
 
-        int size = 6;
-        int index = 0;
-        do{
-            if (guiPages.size() == 0 || guiPages.get(guiPages.size() - 1).getFreeSpaces().length == 0) {
-                ChestGui current = new ChestGui(plugin, listEvent.title(guiPages.size() + 1, items.length <= 0 ? 1 : (int) Math.ceil(items.length / (double) size)), size);
+        ChestGui currentGui = buildGui(currentPage, pageCount);
+        clearGuis();
+        registerGui(currentGui);
 
-                Arrays.stream(listEvent.buildHeader(this, current, guiPages.size() - 1, backGui, searchText)).forEach(current::addGuiItem);
-                StaticItem[] footer = listEvent.buildFooter(this, current, guiPages.size() - 1, backGui, searchText);
-                IntStream.range(0, footer.length).forEach(i -> current.getGuiItems().put(current.getSize() - 1 - i, footer[i]));
-                guiPages.add(current);
+        for (int i = 0, pageItemCount = 0; i < items.length; i++) {
+            if(size * 9 >= pageItemCount + controlsCount) {
+                currentPage++;
+                currentGui = buildGui(currentPage, pageCount);
+                registerGui(currentGui);
             }
-            if(items.length > index) {
-                StaticItem item = items[index];
-                guiPages.get(guiPages.size() - 1).addGuiItem(item);
-            }
-            index++;
-        } while(items.length > index);
-
-        return guiPages.toArray(new ChestGui[0]);
+            currentGui.addItem(items[i]);
+            pageItemCount++;
+        }
     }
-
-    public boolean isSearch() {
-        return search;
-    }
-    public boolean isCreate() {
-        return createEvent != null;
-    }
-
-    public GuiItemEvent getCreateEvent() {
-        return createEvent;
-    }
-
-    public JsonObject getGuiTranslation() {
-        return guiTranslation;
+    private ChestGui buildGui(int currentPage, int pageCount){
+        ChestGui gui = new ChestGui(translation.getTranslation("title", currentPage, pageCount, placeholders));
+        gui.addPane(controls);
+        return gui;
     }
 }

@@ -21,6 +21,10 @@ public class GuiCollection {
         guis.remove(gui);
     }
 
+    public void clearGuis(){
+        guis.clear();
+    }
+
     public void show(Player... players) {
         if(hasAccess())
             getGui().show(players);

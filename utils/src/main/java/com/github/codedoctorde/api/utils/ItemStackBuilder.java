@@ -16,7 +16,6 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.text.MessageFormat;
 import java.util.*;
 
 /**
@@ -43,7 +42,7 @@ public class ItemStackBuilder {
     }
 
     public ItemStackBuilder(final ItemStack itemStack) {
-        this.itemStack = itemStack;
+        this.itemStack = itemStack.clone();
     }
 
     public ItemStackBuilder(JsonObject value) {
@@ -278,9 +277,9 @@ public class ItemStackBuilder {
     }
 
     public ItemStackBuilder format(Object... arguments) {
-        displayName(MessageFormat.format(getDisplayName(), arguments));
+        displayName(String.format(getDisplayName(), arguments));
         List<String> formattedLore = new ArrayList<>();
-        getLore().stream().map(line -> Arrays.asList(MessageFormat.format(line, arguments).split("\n"))).forEach(formattedLore::addAll);
+        getLore().stream().map(line -> Arrays.asList(String.format(line, arguments).split("\n"))).forEach(formattedLore::addAll);
         setLore(formattedLore);
         return this;
     }

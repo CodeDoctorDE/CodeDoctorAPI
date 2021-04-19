@@ -1,15 +1,11 @@
 package com.github.codedoctorde.api.request;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,8 +19,8 @@ import java.util.function.Consumer;
  */
 public abstract class Request<T> implements Listener {
     protected final Player player;
-    protected Consumer<T> submitEvent;
-    protected Runnable cancelEvent;
+    protected Consumer<T> submitAction;
+    protected Runnable cancelAction;
     private static final HashMap<UUID, Request> requests = new HashMap<>();
 
     public Request(final Player player) {
@@ -35,7 +31,7 @@ public abstract class Request<T> implements Listener {
     }
 
     public void raise(T output) {
-        submitEvent.accept(output);
+        submitAction.accept(output);
         unregister();
     }
 
@@ -44,7 +40,7 @@ public abstract class Request<T> implements Listener {
     }
 
     public void cancel() {
-        cancelEvent.run();
+        cancelAction.run();
         unregister();
     }
 
@@ -66,12 +62,12 @@ public abstract class Request<T> implements Listener {
             requests.get(event.getPlayer().getUniqueId()).cancel();
     }
 
-    public void setCancelEvent(Runnable cancelEvent) {
-        this.cancelEvent = cancelEvent;
+    public void setCancelAction(Runnable cancelAction) {
+        this.cancelAction = cancelAction;
     }
 
-    public void setSubmitEvent(Consumer<T> submitEvent) {
-        this.submitEvent = submitEvent;
+    public void setSubmitAction(Consumer<T> submitAction) {
+        this.submitAction = submitAction;
     }
     public static @Nullable Request getRequest(@NotNull Player player) {
         return requests.get(player.getUniqueId());

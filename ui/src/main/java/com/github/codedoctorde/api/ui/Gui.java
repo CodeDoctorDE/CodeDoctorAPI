@@ -8,14 +8,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 
-public abstract class Gui {
+public abstract class Gui extends GuiPane {
     private Consumer<Player> openAction;
     private Consumer<Player> closeAction;
-    protected final GuiItem[][] guiItems;
     private static final Map<UUID, Gui> playerGuis = new HashMap<>();
 
     public Gui(int width, int height){
-        guiItems = new GuiItem[width][height];
+        super(width, height);
         GuiListener.register();
     }
 
@@ -42,7 +41,7 @@ public abstract class Gui {
     protected void unregister(@NotNull Player player){
 
     }
-    public void reload(){
+    public void reloadAll(){
         reload(getOpenedPlayers());
     }
     public abstract void reload(@NotNull Player... players);
@@ -80,34 +79,5 @@ public abstract class Gui {
     }
     protected void onClose(@NotNull Player player){
         closeAction.accept(player);
-    }
-
-    public void registerItem(int x, int y, @Nullable GuiItem item){
-        guiItems[x][y] = item;
-    }
-
-    public GuiItem getItem(int x, int y){
-        return guiItems[x][y];
-    }
-
-    public void unregisterItem(int x, int y){
-        guiItems[x][y] = null;
-    }
-
-    public void fillItems(int startX, int startY, int endX, int endY, @Nullable GuiItem item) {
-        for (int x = startX; x < endX; x++) for (int y = startY; y < endY; y++) registerItem(x, y, item);
-    }
-
-    public boolean containsItem(int x, int y){
-        return guiItems[x][y] != null;
-    }
-
-    public void addItem(@NotNull GuiItem item){
-        for (int x = 0; x < guiItems.length; x++)
-            for (int y = 0; y < guiItems[x].length; y++)
-                if (!containsItem(x, y)) {
-                    registerItem(x, y, item);
-                    return;
-                }
     }
 }

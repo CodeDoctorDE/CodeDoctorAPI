@@ -1,14 +1,17 @@
 package com.github.codedoctorde.api.request;
 
+import jdk.vm.ci.meta.Value;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -78,14 +81,23 @@ public class RequestListener implements Listener {
         Request request = Request.getRequest(player);
         if(request instanceof ValueRequest) {
             ValueRequest valueRequest = (ValueRequest) request;
-            float current = (event.getPreviousSlot() > event.getNewSlot() ? event.getPreviousSlot() - event.getNewSlot() : event.getNewSlot() - event.getPreviousSlot()) * .getSteps();
+            float current = (event.getPreviousSlot() > event.getNewSlot() ? event.getPreviousSlot() - event.getNewSlot() : event.getNewSlot() - event.getPreviousSlot()) * valueRequest.getSteps();
             if(event.getPlayer().isSneaking())
                 current *= valueRequest.getFastSteps();
             valueRequest.setValue(current);
             event.setCancelled(true);
-            player.sendTitle(null, String.valueOf(value), 20, 70, 10);
+            player.sendTitle(null, String.valueOf(valueRequest.getValue()), 20, 70, 10);
             player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
             event.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void onValueSubmit(PlayerInteractEvent event){
+        Player player = event.getPlayer();
+        Request request = Request.getRequest(player);
+        if(request instanceof ValueRequest) {
+            if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
+                ((ValueRequest) request).submit();
         }
     }
 }

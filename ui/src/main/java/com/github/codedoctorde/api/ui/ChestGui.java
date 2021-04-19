@@ -6,7 +6,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
-public class ChestGui extends Gui {;
+public class ChestGui extends Gui {
     private final String title;
 
 
