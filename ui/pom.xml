@@ -9,8 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.codedoctorde.api.ui</groupId>
-    <artifactId>gui</artifactId>
+    <artifactId>ui</artifactId>
     <version>3.0-SNAPSHOT</version>
     <dependencies>
         <dependency>
