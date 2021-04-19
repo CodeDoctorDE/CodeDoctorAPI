@@ -10,50 +10,46 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * @author CodeDoctorDE
  */
-public abstract class Request<T, E extends Event> implements Listener {
-    protected final JavaPlugin plugin;
+public abstract class Request<T> implements Listener {
     protected final Player player;
-    protected final RequestEvent<T> requestEvent;
+    protected Consumer<T> submitEvent;
+    protected Runnable cancelEvent;
     private static final HashMap<UUID, Request> requests = new HashMap<>();
 
-    public Request(final JavaPlugin plugin, final Player player, final RequestEvent<T> requestEvent) {
-        this.requestEvent = requestEvent;
+    public Request(final Player player) {
         this.player = player;
-        this.plugin = plugin;
         if(requests.containsKey(player.getUniqueId()))
             requests.get(player.getUniqueId()).cancel();
         requests.put(player.getUniqueId(), this);
-        Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     public void raise(T output) {
-        Bukkit.getScheduler().runTask(plugin, () -> requestEvent.onEvent(player, output));
+        submitEvent.accept(output);
         unregister();
     }
 
     public void unregister() {
-        HandlerList.unregisterAll(this);
         requests.remove(player.getUniqueId());
     }
 
     public void cancel() {
-        requestEvent.onCancel(player);
+        cancelEvent.run();
         unregister();
     }
 
     public Player getPlayer() {
         return player;
-    }
-
-    public JavaPlugin getPlugin() {
-        return plugin;
     }
 
     @EventHandler
@@ -69,5 +65,26 @@ public abstract class Request<T, E extends Event> implements Listener {
         if (requests.containsKey(event.getPlayer().getUniqueId()))
             requests.get(event.getPlayer().getUniqueId()).cancel();
     }
-    public abstract void onEvent(E event);
+
+    public void setCancelEvent(Runnable cancelEvent) {
+        this.cancelEvent = cancelEvent;
+    }
+
+    public void setSubmitEvent(Consumer<T> submitEvent) {
+        this.submitEvent = submitEvent;
+    }
+    public static @Nullable Request getRequest(@NotNull Player player) {
+        return requests.get(player.getUniqueId());
+    }
+    public static boolean hasRequest(@NotNull Player player){
+        return requests.containsKey(player.getUniqueId());
+    }
+
+    public static void cancelAll(@NotNull Player... players){
+        Arrays.stream(players).filter(Request::hasRequest).forEach(player -> {
+            Request request = getRequest(player);
+            if(request != null)
+                request.cancel();
+        });
+    }
 }

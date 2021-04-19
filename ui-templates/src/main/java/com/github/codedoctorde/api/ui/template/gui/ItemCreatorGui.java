@@ -1,25 +1,22 @@
 package com.github.codedoctorde.api.ui.template.gui;
 
 import com.github.codedoctorde.api.request.ChatRequest;
-import com.github.codedoctorde.api.request.RequestEvent;
 import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.StaticItem;
-import com.github.codedoctorde.api.ui.template.gui.events.ItemCreatorEvent;
 import com.github.codedoctorde.api.ui.template.item.InputItem;
+import com.github.codedoctorde.api.ui.template.item.TranslationItem;
 import com.github.codedoctorde.api.ui.template.item.ValueItem;
 import com.github.codedoctorde.api.ui.template.item.events.InputItemEvent;
 import com.github.codedoctorde.api.ui.template.item.events.ValueItemEvent;
 import com.github.codedoctorde.api.server.Version;
 import com.github.codedoctorde.api.ui.ChestGui;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
-import com.google.gson.JsonObject;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -54,15 +51,59 @@ public class ItemCreatorGui extends ChestGui {
             else
                 event.getWhoClicked().getInventory().addItem(itemStackBuilder.build());
         });
-        StaticItem placeholder = new StaticItem(new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE).build());
+        StaticItem placeholder = new StaticItem(new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE).setDisplayName(" ").build());
 
-        StaticItem backButton = new StaticItem(new ItemStackBuilder(Material.BARRIER).build());
+        StaticItem backButton = new TranslationItem(translation, new ItemStackBuilder(Material.BARRIER).setDisplayName("back").build());
         backButton.setClickAction(event -> {
             if(onCancel == null)
                 hide();
             onCancel.run();
         });
-        registerItem(0, 0, );
+        registerItem(0, 0, backButton);
+
+        fillItems(1, 0, 7, 0, placeholder);
+
+        registerItem(4, 0, previewStaticItem);
+        registerItem(6, 0, new TranslationItem(translation, new ItemStackBuilder(Material.PAPER).setDisplayName("paper").build()));
+        registerItem(8, 0, new TranslationItem(translation, new ItemStackBuilder(Material.GREEN_DYE).setDisplayName("submit").build()));
+        addItem(new TranslationItem(translation, new ItemStackBuilder(Material.NAME_TAG).setDisplayName("displayname.name").setLore("displayname.lore").build()){{
+            registerPlaceholders(itemStackBuilder.getDisplayName());
+            setClickAction(event -> {
+                switch (event.getClick()) {
+                    case LEFT:
+                        hide((Player) event.getWhoClicked());
+                        event.getWhoClicked().sendMessage(translation.getTranslation("displayname.message"));
+                        new ChatRequest(plugin, (Player) event.getWhoClicked(), new RequestEvent<String>() {
+                            @Override
+                            public void onEvent(Player player, String output) {
+                                output = ChatColor.translateAlternateColorCodes('&', output);
+                                itemStackBuilder.displayName(output);
+                                player.sendMessage(MessageFormat.format(guiTranslation.getAsJsonObject("displayname").get("success").getAsString(), output));
+                                inputItem.setFormat(itemStackBuilder.getDisplayName());
+                                staticItem.setItemStack(inputItem.getFormattedItemStack());
+                                rebuildItemStack(gui);
+                                gui.open(player);
+                            }
+
+                            @Override
+                            public void onCancel(Player player) {
+                                player.sendMessage(guiTranslation.getAsJsonObject("displayname").get("cancel").getAsString());
+                                gui.open(player);
+                            }
+                        });
+                        break;
+                    case RIGHT:
+                        itemStackBuilder.displayName(null);
+                        event.getWhoClicked().sendMessage(guiTranslation.getAsJsonObject("displayname").get("remove").getAsString());
+                        inputItem.setFormat(itemStackBuilder.getDisplayName());
+                        staticItem.setItemStack(inputItem.getFormattedItemStack());
+                        rebuildItemStack(gui);
+                        break;
+                }
+            });
+        }});
+
+
 
         return new ChestGui(plugin, guiTranslation.get("title").getAsString(), 5) {{
             getGuiItems().put(0, new StaticItem(new ItemStackBuilder(guiTranslation.getAsJsonObject("back")).build(), new GuiItemEvent() {

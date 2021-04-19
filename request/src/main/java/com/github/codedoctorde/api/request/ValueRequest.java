@@ -1,5 +1,6 @@
 package com.github.codedoctorde.api.request;
 
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -11,34 +12,36 @@ import org.bukkit.plugin.java.JavaPlugin;
 /**
  * @author CodeDoctorDE
  */
-public class ValueRequest extends Request<Float, PlayerInteractEvent> {
+public class ValueRequest extends Request<Float> {
     private final float defaultValue;
-    private float fastSkip = 5;
-    private float skip = 1;
+    private float fastSteps = 5;
+    private float steps = 1;
     private float value;
 
-    public ValueRequest(final JavaPlugin plugin, final Player player, float value, float defaultValue, ValueRequestEvent valueRequestEvent) {
-        super(plugin, player, valueRequestEvent);
-        this.value = value;
-        this.defaultValue = defaultValue;
+    public ValueRequest(final Player player, float initialValue) {
+        super(player);
+        value = initialValue;
+        defaultValue = value;
     }
 
-    public ValueRequest setSkip(float skip) {
-        this.skip = skip;
-        return this;
+    public ValueRequest(final Player player) {
+        this(player, 0);
     }
 
-    public float getSkip() {
-        return skip;
+    public float getSteps() {
+        return steps;
     }
 
-    public ValueRequest setFastSkip(float fastSkip) {
-        this.fastSkip = fastSkip;
-        return this;
+    public void setSteps(float steps) {
+        this.steps = steps;
     }
 
-    public float getFastSkip() {
-        return fastSkip;
+    public float getFastSteps() {
+        return fastSteps;
+    }
+
+    public void setFastSteps(float fastSteps) {
+        this.fastSteps = fastSteps;
     }
 
     @EventHandler
@@ -47,10 +50,11 @@ public class ValueRequest extends Request<Float, PlayerInteractEvent> {
             return;
         float current = (event.getPreviousSlot() > event.getNewSlot() ? event.getPreviousSlot() - event.getNewSlot() : event.getNewSlot() - event.getPreviousSlot()) * skip;
         if(event.getPlayer().isSneaking())
-            current *= fastSkip;
+            current *= fastSteps;
         value = current;
         event.setCancelled(true);
-        ((ValueRequestEvent)requestEvent).onChange(player, value);
+        player.sendTitle(null, String.valueOf(value), 20, 70, 10);
+        player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
     }
     @EventHandler
     public void onDrop(PlayerDropItemEvent event){
@@ -67,5 +71,17 @@ public class ValueRequest extends Request<Float, PlayerInteractEvent> {
             return;
         if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
             raise(value);
+    }
+
+    public float getValue() {
+        return value;
+    }
+
+    public void setValue(float value) {
+        this.value = value;
+    }
+
+    public float getDefaultValue() {
+        return defaultValue;
     }
 }

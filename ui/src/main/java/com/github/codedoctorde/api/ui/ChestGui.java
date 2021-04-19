@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 public class ChestGui extends Gui {;
     private final String title;
@@ -35,7 +36,7 @@ public class ChestGui extends Gui {;
     }
 
     @Override
-    protected void register(Player player) {
+    protected void register(@NotNull Player player) {
         Inventory inventory = Bukkit.createInventory(player, InventoryType.CHEST, title);
         buildInventory(inventory);
         for (GuiItem[] row : guiItems)
@@ -43,7 +44,7 @@ public class ChestGui extends Gui {;
     }
 
     @Override
-    protected void unregister(Player player) {
+    protected void unregister(@NotNull Player player) {
         player.closeInventory();
         for (GuiItem[] row : guiItems) for (GuiItem guiItem : row) guiItem.onClose(player);
     }

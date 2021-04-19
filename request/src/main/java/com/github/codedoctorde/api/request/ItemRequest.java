@@ -11,19 +11,10 @@ import java.util.HashMap;
 /**
  * @author CodeDoctorDE
  */
-public class ItemRequest extends Request<ItemStack, PlayerDropItemEvent> {
+public class ItemRequest extends Request<ItemStack> {
     private static final HashMap<Player, ItemRequest> requests = new HashMap<>();
 
-    public ItemRequest(final JavaPlugin plugin, final Player player, final RequestEvent<ItemStack> requestEvent) {
-        super(plugin, player, requestEvent);
-    }
-
-    @EventHandler
-    public void onEvent(PlayerDropItemEvent event) {
-        Player current = event.getPlayer();
-        if(!player.getUniqueId().equals(current.getUniqueId()))
-            return;
-        raise(event.getItemDrop().getItemStack());
-        event.setCancelled(true);
+    public ItemRequest(final Player player) {
+        super(player);
     }
 }
