@@ -2,13 +2,16 @@ package com.github.codedoctorde.api.utils;
 
 import com.google.common.collect.Multimap;
 import com.google.gson.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.jetbrains.annotations.Nullable;
@@ -39,6 +42,29 @@ public class ItemStackBuilder {
 
     public ItemStackBuilder(String material) {
         itemStack = new ItemStack(Objects.requireNonNull(Material.getMaterial(material)));
+    }
+    public ItemStackBuilder(UUID uuid) {
+        this(Material.PLAYER_HEAD);
+        setOwner(uuid);
+    }
+
+    public OfflinePlayer getOwningPlayer(){
+        return ((SkullMeta) Objects.requireNonNull(itemStack.getItemMeta())).getOwningPlayer();
+    }
+
+    public UUID getOwner(){
+        return getOwningPlayer().getUniqueId();
+    }
+
+    public ItemStackBuilder setOwningPlayer(OfflinePlayer player) {
+        SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
+        assert meta != null;
+        meta.setOwningPlayer(player);
+        itemStack.setItemMeta(meta);
+        return this;
+    }
+    public ItemStackBuilder setOwner(UUID uuid) {
+        return setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
     }
 
     public ItemStackBuilder(final ItemStack itemStack) {
