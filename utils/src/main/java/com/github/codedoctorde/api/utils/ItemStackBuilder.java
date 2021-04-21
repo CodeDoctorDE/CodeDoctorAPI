@@ -281,12 +281,13 @@ public class ItemStackBuilder {
 
     public boolean hasAttributeModifier(Attribute attribute) {
         ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
 
 
         return (itemMeta.getAttributeModifiers() != null) && Objects.requireNonNull(itemMeta.getAttributeModifiers()).containsKey(attribute);
     }
 
-    public void setSkullId(String skullId){
+    public ItemStackBuilder setSkullId(String skullId){
         try {
             SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
             GameProfile profile = new GameProfile(UUID.randomUUID(), null);
@@ -305,6 +306,7 @@ public class ItemStackBuilder {
             itemStack.setItemMeta(skullMeta);
         } catch (IllegalStateException ignored) {
         }
+        return this;
     }
 
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers() {
