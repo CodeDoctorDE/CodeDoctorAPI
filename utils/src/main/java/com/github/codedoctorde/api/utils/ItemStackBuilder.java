@@ -23,7 +23,7 @@ import java.util.*;
  */
 public class ItemStackBuilder {
     private static final Gson gson = new GsonBuilder().create();
-    private ItemStack itemStack;
+    protected ItemStack itemStack;
 
     public ItemStackBuilder() {
         itemStack = new ItemStack(Material.AIR);
