@@ -17,6 +17,7 @@ public class ListGui extends GuiCollection {
     private final int size;
     private final Function<ListGui, GuiPane> controlsBuilder;
     private final Translation translation;
+    private String searchText;
 
     public ListGui(Translation translation, int size, Function<ListGui, GuiPane> controlsBuilder, Function<String, GuiItem[]> itemBuilder){
         this.itemBuilder = itemBuilder;
@@ -39,9 +40,6 @@ public class ListGui extends GuiCollection {
     }
 
     public void rebuild(){
-        rebuild("");
-    }
-    public void rebuild(String searchText){
         GuiItem[] items = itemBuilder.apply(searchText);
         GuiPane controls = controlsBuilder.apply(this);
         int controlsCount = controls.getItemCount();
@@ -68,5 +66,14 @@ public class ListGui extends GuiCollection {
         ChestGui gui = new ChestGui(translation.getTranslation("title", currentPage, pageCount, placeholders));
         gui.addPane(controls);
         return gui;
+    }
+
+    public String getSearchText() {
+        return searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
+        rebuild();
     }
 }
