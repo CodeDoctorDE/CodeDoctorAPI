@@ -18,8 +18,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.codedoctorde.api.api</groupId>
-            <artifactId>gui</artifactId>
+            <groupId>com.github.codedoctorde.api</groupId>
+            <artifactId>ui</artifactId>
             <version>3.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
