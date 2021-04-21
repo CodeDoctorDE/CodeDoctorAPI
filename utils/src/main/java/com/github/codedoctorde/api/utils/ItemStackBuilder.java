@@ -2,6 +2,8 @@ package com.github.codedoctorde.api.utils;
 
 import com.google.common.collect.Multimap;
 import com.google.gson.*;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -19,6 +21,8 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -40,8 +44,9 @@ public class ItemStackBuilder {
         itemStack = new ItemStack(material);
     }
 
-    public ItemStackBuilder(String material) {
-        itemStack = new ItemStack(Objects.requireNonNull(Material.getMaterial(material)));
+    public ItemStackBuilder(String skullId) {
+        this(Material.PLAYER_HEAD);
+        setSkullId(skullId);
     }
     public ItemStackBuilder(UUID uuid) {
         this(Material.PLAYER_HEAD);
@@ -281,6 +286,27 @@ public class ItemStackBuilder {
         return (itemMeta.getAttributeModifiers() != null) && Objects.requireNonNull(itemMeta.getAttributeModifiers()).containsKey(attribute);
     }
 
+    public void setSkullId(String skullId){
+        try {
+            SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
+            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+
+            profile.getProperties().put("textures", new Property("textures", skullId));
+
+            try {
+                assert skullMeta != null;
+                Method mtd = skullMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
+                mtd.setAccessible(true);
+                mtd.invoke(skullMeta, profile);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+                ex.printStackTrace();
+            }
+
+            itemStack.setItemMeta(skullMeta);
+        } catch (IllegalStateException ignored) {
+        }
+    }
+
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers() {
         ItemMeta itemMeta = itemStack.getItemMeta();
         return itemMeta.getAttributeModifiers();
@@ -330,6 +356,8 @@ public class ItemStackBuilder {
         return itemStack;
     }
 
+
+    @Deprecated
     public ItemStack getItemStack() {
         return itemStack;
     }
