@@ -291,7 +291,7 @@ public class ItemStackBuilder {
             SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
             GameProfile profile = new GameProfile(UUID.randomUUID(), null);
 
-            profile.getProperties().put("textures", new Property("textures", skullId));
+            profile.getProperties().put("textures", new Property("textures", "https://textures.minecraft.net/texture/" + skullId));
 
             try {
                 assert skullMeta != null;
