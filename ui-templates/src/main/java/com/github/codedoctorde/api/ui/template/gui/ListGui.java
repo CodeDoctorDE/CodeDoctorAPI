@@ -17,7 +17,7 @@ public class ListGui extends GuiCollection {
     private final int size;
     private final Function<ListGui, GuiPane> controlsBuilder;
     private final Translation translation;
-    private String searchText;
+    private String searchText = "";
 
     public ListGui(Translation translation, int size, Function<ListGui, GuiPane> controlsBuilder, Function<String, GuiItem[]> itemBuilder){
         this.itemBuilder = itemBuilder;
