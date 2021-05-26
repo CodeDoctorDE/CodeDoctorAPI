@@ -34,6 +34,18 @@ public class TranslationConfig extends JsonConfig {
         return translation;
     }
 
+    public String getTranslation(String key, Object... placeholder) {
+        return translation.getTranslation(key, placeholder);
+    }
+
+    public boolean hasTranslation(String key) {
+        return translation.hasTranslation(key);
+    }
+
+    public Translation subTranslation(String namespace){
+        return translation.subTranslation(namespace);
+    }
+
     @Override
     public void reload() {
         super.reload();
