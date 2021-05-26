@@ -26,8 +26,8 @@ public class Translation {
     public Translation subTranslation(String namespace){
         Map<String, String> map = new HashMap<>();
         translations.forEach((key, value) -> {
-            if (key.startsWith(namespace))
-                map.put(key.substring(namespace.length()), value);
+            if (key.startsWith(namespace + "."))
+                map.put(key.substring((namespace + ".").length()), value);
         });
         return new Translation(map);
     }
