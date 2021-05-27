@@ -5,11 +5,14 @@ import com.github.codedoctorde.api.ui.ChestGui;
 import com.github.codedoctorde.api.ui.GuiCollection;
 import com.github.codedoctorde.api.ui.GuiItem;
 import com.github.codedoctorde.api.ui.GuiPane;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class ListGui extends GuiCollection {
     private final List<Object> placeholders = new ArrayList<>();
@@ -53,7 +56,7 @@ public class ListGui extends GuiCollection {
         registerGui(currentGui);
 
         for (int i = 0, pageItemCount = 0; i < items.length; i++) {
-            if(size * 9 >= pageItemCount + controlsCount) {
+            if (size * 9 >= pageItemCount + controlsCount) {
                 currentPage++;
                 currentGui = buildGui(currentPage, pageCount, controls);
                 registerGui(currentGui);
@@ -61,6 +64,7 @@ public class ListGui extends GuiCollection {
             currentGui.addItem(items[i]);
             pageItemCount++;
         }
+        show(getOpenedPlayers());
     }
     private ChestGui buildGui(int currentPage, int pageCount, GuiPane controls){
         ChestGui gui = new ChestGui(translation.getTranslation("title", currentPage, pageCount, placeholders));
@@ -75,5 +79,9 @@ public class ListGui extends GuiCollection {
     public void setSearchText(String searchText) {
         this.searchText = searchText;
         rebuild();
+    }
+
+    public Translation getTranslation() {
+        return translation;
     }
 }

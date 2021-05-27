@@ -61,16 +61,24 @@ public class GuiCollection {
         return current;
     }
     public void next() {
+        Player[] players = getOpenedPlayers();
         current++;
+        show(players);
     }
     public void previous() {
+        Player[] players = getOpenedPlayers();
         current--;
+        show(players);
     }
     public void toFirst() {
+        Player[] players = getOpenedPlayers();
         current = 0;
+        show(players);
     }
     public void toLast() {
+        Player[] players = getOpenedPlayers();
         current = guis.size() - 1;
+        show(players);
     }
 
     public boolean isFirst() {
