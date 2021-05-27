@@ -23,7 +23,7 @@ public class VerticalListControls extends GuiPane {
         super(9, 2);
         this.detailed = detailed;
     }
-    Function<ListGui, GuiPane> buildControlsBuilder() {
+    public Function<ListGui, GuiPane> buildControlsBuilder() {
         return gui -> {
             Translation translation = gui.getTranslation();
             StaticItem previousPage = new TranslationItem(translation, new ItemStackBuilder(Material.ARROW).setDisplayName("previous").build());

@@ -24,7 +24,7 @@ public class HorizontalListControls extends GuiPane {
         super(9, height);
         this.detailed = detailed;
     }
-    Function<ListGui, GuiPane> buildControlsBuilder() {
+    public Function<ListGui, GuiPane> buildControlsBuilder() {
         return gui -> {
             Translation translation = gui.getTranslation();
             int height = guiItems[0].length;
