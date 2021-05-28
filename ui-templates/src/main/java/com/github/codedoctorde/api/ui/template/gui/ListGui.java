@@ -5,6 +5,7 @@ import com.github.codedoctorde.api.ui.ChestGui;
 import com.github.codedoctorde.api.ui.GuiCollection;
 import com.github.codedoctorde.api.ui.GuiItem;
 import com.github.codedoctorde.api.ui.GuiPane;
+import com.github.codedoctorde.api.ui.template.gui.pane.list.ListControls;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -18,34 +19,42 @@ public class ListGui extends GuiCollection {
     private final List<Object> placeholders = new ArrayList<>();
     private final Function<String, GuiItem[]> itemBuilder;
     private final int size;
-    private final Function<ListGui, GuiPane> controlsBuilder;
+    private Function<ListGui, GuiPane> controlsBuilder;
     private final Translation translation;
     private String searchText = "";
 
-    public ListGui(Translation translation, int size, Function<ListGui, GuiPane> controlsBuilder, Function<String, GuiItem[]> itemBuilder){
+    public ListGui(Translation translation, int size, Function<String, GuiItem[]> itemBuilder) {
         this.itemBuilder = itemBuilder;
-        this.controlsBuilder = controlsBuilder;
         this.size = size;
         this.translation = translation;
         rebuild();
     }
-    public ListGui(Translation translation, Function<ListGui, GuiPane> controlsBuilder, Function<String, GuiItem[]> itemBuilder){
-        this(translation, 5, controlsBuilder, itemBuilder);
+
+    public ListGui(Translation translation, Function<String, GuiItem[]> itemBuilder) {
+        this(translation, 5, itemBuilder);
     }
 
-    public void setPlaceholders(Object... placeholders){
+    public void setPlaceholders(Object... placeholders) {
         this.placeholders.clear();
         this.placeholders.addAll(Collections.singleton(placeholders));
+    }
+
+    public void setControlsBuilder(Function<ListGui, GuiPane> controlsBuilder) {
+        this.controlsBuilder = controlsBuilder;
+    }
+
+    public void setListControls(ListControls controls) {
+        controlsBuilder = controls.buildControlsBuilder();
     }
 
     public Object[] getPlaceholders() {
         return placeholders.toArray();
     }
 
-    public void rebuild(){
+    public void rebuild() {
         GuiItem[] items = itemBuilder.apply(searchText);
-        GuiPane controls = controlsBuilder.apply(this);
-        int controlsCount = controls.getItemCount();
+        GuiPane controls = controlsBuilder == null ? null : controlsBuilder.apply(this);
+        int controlsCount = controls == null ? 0 : controls.getItemCount();
         int freeSlots = size * 9 - controlsCount;
         int pageCount = (int) Math.ceil(items.length / (float) freeSlots);
 
@@ -66,9 +75,11 @@ public class ListGui extends GuiCollection {
         }
         show(getOpenedPlayers());
     }
-    private ChestGui buildGui(int currentPage, int pageCount, GuiPane controls){
+
+    private ChestGui buildGui(int currentPage, int pageCount, GuiPane controls) {
         ChestGui gui = new ChestGui(translation.getTranslation("title", currentPage, pageCount, placeholders));
-        gui.addPane(controls);
+        if (controls != null)
+            gui.addPane(controls);
         return gui;
     }
 

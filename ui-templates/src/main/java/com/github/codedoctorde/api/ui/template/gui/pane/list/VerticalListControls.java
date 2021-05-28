@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 public class VerticalListControls extends ListControls {
     public VerticalListControls(int height) {
-        this(true, height);;
+        this(true, height);
     }
 
     public VerticalListControls(boolean detailed, int height) {

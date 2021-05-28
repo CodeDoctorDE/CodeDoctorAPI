@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
  * @author CodeDoctorDE
  */
 public abstract class FileConfig {
-    private File file;
+    private final File file;
 
     public FileConfig(final File file) {
         this.file = file;

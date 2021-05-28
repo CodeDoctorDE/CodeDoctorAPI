@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ItemCreatorGui extends ChestGui {
-    private StaticItem previewStaticItem;
-    private ItemStackBuilder itemStackBuilder;
+    private final StaticItem previewStaticItem;
+    private final ItemStackBuilder itemStackBuilder;
     private Consumer<ItemStack> submitAction;
     private Runnable cancelAction;
 

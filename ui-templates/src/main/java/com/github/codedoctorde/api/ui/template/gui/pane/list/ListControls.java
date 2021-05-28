@@ -17,7 +17,7 @@ public abstract class ListControls extends GuiPane {
     protected Runnable createAction;
 
     public ListControls(int width, int height) {
-        this(true, width, height);;
+        this(true, width, height);
     }
 
     public ListControls(boolean detailed, int width, int height) {
@@ -78,5 +78,9 @@ public abstract class ListControls extends GuiPane {
 
     protected StaticItem getPlaceholderItem() {
         return new StaticItem(new ItemStackBuilder(Material.IRON_BARS).setDisplayName(" ").build());
+    }
+
+    public ListControls offset(int x, int y) {
+        return (ListControls) super.offset(x, y);
     }
 }
