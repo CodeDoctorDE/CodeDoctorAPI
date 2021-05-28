@@ -1,58 +1,32 @@
 package com.github.codedoctorde.api.ui.template.gui.pane.list;
 
-import com.github.codedoctorde.api.request.ChatRequest;
-import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.GuiPane;
-import com.github.codedoctorde.api.ui.StaticItem;
 import com.github.codedoctorde.api.ui.template.gui.ListGui;
-import com.github.codedoctorde.api.ui.template.item.TranslationItem;
-import com.github.codedoctorde.api.utils.ItemStackBuilder;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 
 import java.util.function.Function;
 
-public class VerticalListControls extends GuiPane {
-    private final boolean detailed;
-
-    public VerticalListControls() {
-        this(true);
+public class VerticalListControls extends ListControls {
+    public VerticalListControls(int height) {
+        this(true, height);;
     }
-    public VerticalListControls(boolean detailed) {
-        super(9, 2);
-        this.detailed = detailed;
+
+    public VerticalListControls(boolean detailed, int height) {
+        super(detailed, detailed ? 2 : 1, height);
     }
     public Function<ListGui, GuiPane> buildControlsBuilder() {
         return gui -> {
-            Translation translation = gui.getTranslation();
-            StaticItem previousPage = new TranslationItem(translation, new ItemStackBuilder(Material.ARROW).setDisplayName("previous").build());
-            StaticItem nextPage = new TranslationItem(translation, new ItemStackBuilder(Material.ARROW).setDisplayName("next").build());
-            StaticItem searchPage = new TranslationItem(translation, new ItemStackBuilder(Material.COMPASS).setDisplayName("search.title").addLore("search.description").build()){{
-                setClickAction(event -> {
-                    Player player = (Player) event.getWhoClicked();
-                    if (event.getClick() == ClickType.LEFT) {
-                        gui.hide(player);
-                        player.sendMessage(translation.getTranslation("search.input"));
-                        ChatRequest request = new ChatRequest(player);
-                        request.setSubmitAction(gui::setSearchText);
-                    } else if (event.getClick() == ClickType.RIGHT) gui.setSearchText("");
-                    else if(event.getClick() == ClickType.DROP) gui.rebuild();
-                });
-            }};
-            StaticItem placeholderPage = new StaticItem(new ItemStackBuilder(Material.IRON_BARS).build());
-            fillItems(0, 0, 8, 1, placeholderPage);
-            registerItem(0, 0, previousPage);
-            registerItem(0, 4, searchPage);
-            registerItem(8, 8, previousPage);
+            int height = guiItems[0].length;
+            if(height < 3) return this;
+            fillItems(0, 0, isDetailed() ? 1 : 0, height, getPlaceholderItem());
+            registerItem(1, 0, getPreviousItem(gui));
+            registerItem(1, height / 2 -1, getSearchItem(gui));
+            registerItem(1, height - 1, getNextItem(gui));
+            if(createAction != null && height > 3)
+                registerItem(1, height / 2, getCreateItem(gui));
 
-            if(detailed) {
-                registerItem(0, 1, new TranslationItem(translation, new ItemStackBuilder(Material.BLAZE_ROD).setDisplayName("first").build()){{
-                    setClickAction(event -> gui.toFirst());
-                }});
-                registerItem(8, 7, new TranslationItem(translation, new ItemStackBuilder(Material.BLAZE_ROD).setDisplayName("last").build()){{
-                    setClickAction(event -> gui.toLast());
-                }});
+            if(height >= 5 && isDetailed()) {
+                registerItem(1, 1, getFirstItem(gui));
+                registerItem(1, height - 2, getLastItem(gui));
             }
             return this;
         };
