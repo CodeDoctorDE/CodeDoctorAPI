@@ -4,7 +4,7 @@ import com.github.codedoctorde.api.request.ChatRequest;
 import com.github.codedoctorde.api.ui.GuiPane;
 import com.github.codedoctorde.api.ui.StaticItem;
 import com.github.codedoctorde.api.ui.template.gui.ListGui;
-import com.github.codedoctorde.api.ui.template.item.TranslationItem;
+import com.github.codedoctorde.api.ui.template.item.TranslatedItem;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -36,15 +36,15 @@ public abstract class ListControls extends GuiPane {
     public abstract Function<ListGui, GuiPane> buildControlsBuilder();
 
     protected StaticItem getPreviousItem(ListGui gui) {
-        return new TranslationItem(gui.getTranslation(), new ItemStackBuilder(Material.ARROW).setDisplayName("previous").build());
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.ARROW).setDisplayName("previous").build());
     }
 
     protected StaticItem getNextItem(ListGui gui) {
-        return new TranslationItem(gui.getTranslation(), new ItemStackBuilder(Material.ARROW).setDisplayName("next").build());
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.ARROW).setDisplayName("next").build());
     }
 
     protected StaticItem getSearchItem(ListGui gui) {
-        return new TranslationItem(gui.getTranslation(), new ItemStackBuilder(Material.COMPASS).setDisplayName("search.title").addLore("search.description").build()){{
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.COMPASS).setDisplayName("search.title").addLore("search.description").build()){{
             setClickAction(event -> {
                 Player player = (Player) event.getWhoClicked();
                 if (event.getClick() == ClickType.LEFT) {
@@ -59,19 +59,19 @@ public abstract class ListControls extends GuiPane {
     }
 
     protected StaticItem getFirstItem(ListGui gui) {
-        return new TranslationItem(gui.getTranslation(), new ItemStackBuilder(Material.BLAZE_ROD).setDisplayName("first").build()){{
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.BLAZE_ROD).setDisplayName("first").build()){{
             setClickAction(event -> gui.toFirst());
         }};
     }
 
     protected StaticItem getLastItem(ListGui gui) {
-        return new TranslationItem(gui.getTranslation(), new ItemStackBuilder(Material.BLAZE_ROD).setDisplayName("last").build()){{
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.BLAZE_ROD).setDisplayName("last").build()){{
             setClickAction(event -> gui.toLast());
         }};
     }
 
     protected StaticItem getCreateItem(ListGui gui) {
-        return new TranslationItem(gui.getTranslation(), new ItemStackBuilder(Material.KNOWLEDGE_BOOK).setDisplayName("create").build()){{
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.KNOWLEDGE_BOOK).setDisplayName("create").build()){{
             setClickAction(event -> createAction.run());
         }};
     }

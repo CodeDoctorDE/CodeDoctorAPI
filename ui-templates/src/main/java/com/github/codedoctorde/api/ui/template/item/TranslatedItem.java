@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 /**
  * @author CodeDoctorDE
  */
-public class TranslationItem extends StaticItem {
+public class TranslatedItem extends StaticItem {
     private final Translation translation;
 
-    public TranslationItem(Translation translation, ItemStack itemStack) {
+    public TranslatedItem(Translation translation, ItemStack itemStack) {
         super(itemStack);
         this.translation = translation;
     }
