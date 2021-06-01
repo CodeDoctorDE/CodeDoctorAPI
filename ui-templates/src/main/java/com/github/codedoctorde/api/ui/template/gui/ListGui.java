@@ -12,25 +12,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ListGui extends GuiCollection {
     private final List<Object> placeholders = new ArrayList<>();
-    private final Function<String, GuiItem[]> itemBuilder;
+    private final BiFunction<String, Translation, GuiItem[]> itemBuilder;
     private final int size;
     private Function<ListGui, GuiPane> controlsBuilder;
     private final Translation translation;
     private String searchText = "";
 
-    public ListGui(Translation translation, int size, Function<String, GuiItem[]> itemBuilder) {
+    public ListGui(Translation translation, int size, BiFunction<String, Translation, GuiItem[]> itemBuilder) {
         this.itemBuilder = itemBuilder;
         this.size = size;
         this.translation = translation;
         rebuild();
     }
 
-    public ListGui(Translation translation, Function<String, GuiItem[]> itemBuilder) {
+    public ListGui(Translation translation, BiFunction<String, Translation, GuiItem[]> itemBuilder) {
         this(translation, 5, itemBuilder);
     }
 
@@ -52,7 +53,7 @@ public class ListGui extends GuiCollection {
     }
 
     public void rebuild() {
-        GuiItem[] items = itemBuilder.apply(searchText);
+        GuiItem[] items = itemBuilder.apply(searchText, translation);
         GuiPane controls = controlsBuilder == null ? null : controlsBuilder.apply(this);
         int controlsCount = controls == null ? 0 : controls.getItemCount();
         int freeSlots = size * 9 - controlsCount;
