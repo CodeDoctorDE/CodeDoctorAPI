@@ -48,19 +48,6 @@ public abstract class Request<T> implements Listener {
         return player;
     }
 
-    @EventHandler
-    private void onPlayerInteract(PlayerInteractEvent event) {
-        Player current = event.getPlayer();
-        if (event.getAction() != Action.LEFT_CLICK_AIR)
-            return;
-        if(player.getUniqueId().equals(current.getUniqueId()))
-            cancel();
-    }
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        if (requests.containsKey(event.getPlayer().getUniqueId()))
-            requests.get(event.getPlayer().getUniqueId()).cancel();
-    }
 
     public void setCancelAction(Runnable cancelAction) {
         this.cancelAction = cancelAction;

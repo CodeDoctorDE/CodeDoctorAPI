@@ -8,10 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -19,22 +16,25 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class RequestListener implements Listener {
     private static boolean registered = false;
-    public static boolean isRegistered(){
+
+    public static boolean isRegistered() {
         return registered;
     }
+
     public static void register() {
-        if(!isRegistered())
+        if (!isRegistered())
             return;
         RequestListener instance = new RequestListener();
         Bukkit.getPluginManager().registerEvents(instance,
                 JavaPlugin.getProvidingPlugin(instance.getClass()));
         registered = true;
     }
+
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event){
+    public void onChat(AsyncPlayerChatEvent event) {
         Player current = event.getPlayer();
-        Request request = Request.getRequest(current);
-        if(request instanceof ChatRequest) {
+        Object request = Request.getRequest(current);
+        if (request instanceof ChatRequest) {
             ChatRequest itemRequest = (ChatRequest) request;
             itemRequest.raise(event.getMessage());
             event.setCancelled(true);
@@ -42,10 +42,10 @@ public class RequestListener implements Listener {
     }
 
     @EventHandler
-    public void onItemDrop(PlayerDropItemEvent event){
+    public void onItemDrop(PlayerDropItemEvent event) {
         Player current = event.getPlayer();
-        Request request = Request.getRequest(current);
-        if(request instanceof ItemRequest) {
+        Request<?> request = Request.getRequest(current);
+        if (request instanceof ItemRequest) {
             ItemRequest itemRequest = (ItemRequest) request;
             itemRequest.raise(event.getItemDrop().getItemStack());
             event.setCancelled(true);
@@ -53,10 +53,10 @@ public class RequestListener implements Listener {
     }
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent event){
+    public void onBlockBreak(BlockBreakEvent event) {
         Player current = event.getPlayer();
-        Request request = Request.getRequest(current);
-        if(request instanceof BlockBreakRequest) {
+        Request<?> request = Request.getRequest(current);
+        if (request instanceof BlockBreakRequest) {
             BlockBreakRequest blockBreakRequest = (BlockBreakRequest) request;
             blockBreakRequest.raise(event.getBlock());
             event.setCancelled(true);
@@ -64,10 +64,30 @@ public class RequestListener implements Listener {
     }
 
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event){
+    private void onPlayerInteract(PlayerInteractEvent event) {
         Player current = event.getPlayer();
-        Request request = Request.getRequest(current);
-        if(request instanceof BlockPlaceRequest) {
+        if (event.getAction() != Action.LEFT_CLICK_AIR)
+            return;
+        Request<?> request = Request.getRequest(current);
+        if (request instanceof ChatRequest) {
+            request.cancel();
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player current = event.getPlayer();
+        Request<?> request = Request.getRequest(current);
+        if (request != null)
+            request.cancel();
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        Player current = event.getPlayer();
+        Request<?> request = Request.getRequest(current);
+        if (request instanceof BlockPlaceRequest) {
             BlockPlaceRequest blockBreakRequest = (BlockPlaceRequest) request;
             blockBreakRequest.raise(event.getBlockPlaced());
             event.setCancelled(true);
@@ -75,13 +95,13 @@ public class RequestListener implements Listener {
     }
 
     @EventHandler
-    public void onValueChange(PlayerItemHeldEvent event){
+    public void onValueChange(PlayerItemHeldEvent event) {
         Player player = event.getPlayer();
         Request request = Request.getRequest(player);
-        if(request instanceof ValueRequest) {
+        if (request instanceof ValueRequest) {
             ValueRequest valueRequest = (ValueRequest) request;
             float current = (event.getPreviousSlot() > event.getNewSlot() ? event.getPreviousSlot() - event.getNewSlot() : event.getNewSlot() - event.getPreviousSlot()) * valueRequest.getSteps();
-            if(event.getPlayer().isSneaking())
+            if (event.getPlayer().isSneaking())
                 current *= valueRequest.getFastSteps();
             valueRequest.setValue(current);
             event.setCancelled(true);
@@ -90,11 +110,12 @@ public class RequestListener implements Listener {
             event.setCancelled(true);
         }
     }
+
     @EventHandler
-    public void onValueSubmit(PlayerInteractEvent event){
+    public void onValueSubmit(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Request request = Request.getRequest(player);
-        if(request instanceof ValueRequest) {
+        if (request instanceof ValueRequest) {
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
                 ((ValueRequest) request).submit();
         }
