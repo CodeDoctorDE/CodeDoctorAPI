@@ -9,6 +9,9 @@ import java.util.Map;
 public class Translation {
     private final Map<String, String> translations;
 
+    public Translation() {
+        this(new HashMap<>());
+    }
     public Translation(Map<String, String> translations) {
         this.translations = translations;
     }

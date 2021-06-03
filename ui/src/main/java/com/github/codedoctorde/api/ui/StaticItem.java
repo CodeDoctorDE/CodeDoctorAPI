@@ -17,8 +17,8 @@ import java.util.function.Consumer;
 public class StaticItem implements GuiItem {
     private ItemStack itemStack;
     private List<Object> placeholders = new ArrayList<>();
-    private Consumer<InventoryClickEvent> clickAction;
-    private Runnable renderAction;
+    protected Consumer<InventoryClickEvent> clickAction;
+    protected Consumer<Gui> renderAction;
 
     public StaticItem(final ItemStack itemStack) {
         this.itemStack = itemStack;
@@ -36,7 +36,7 @@ public class StaticItem implements GuiItem {
      * Set the action which will be perform if the gui opens
      * @param renderAction The method which will be called
      */
-    public void setRenderAction(Runnable renderAction) {
+    public void setRenderAction(Consumer<Gui> renderAction) {
         this.renderAction = renderAction;
     }
 
@@ -78,8 +78,8 @@ public class StaticItem implements GuiItem {
      * @return The current item stack with the formatted placeholders
      */
     @Override
-    public ItemStack build() {
-        renderAction.run();
+    public ItemStack build(Gui gui) {
+        renderAction.accept(gui);
         return new ItemStackBuilder(itemStack).format(placeholders).build();
     }
 
