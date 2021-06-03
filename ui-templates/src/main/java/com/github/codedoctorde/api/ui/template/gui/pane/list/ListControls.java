@@ -9,12 +9,14 @@ import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public abstract class ListControls extends GuiPane {
     private final boolean detailed;
-    protected Runnable createAction;
+    protected Consumer<InventoryClickEvent> createAction;
 
     public ListControls(int width, int height) {
         this(true, width, height);
@@ -29,7 +31,7 @@ public abstract class ListControls extends GuiPane {
         return detailed;
     }
 
-    public void setCreateAction(Runnable createAction) {
+    public void setCreateAction(Consumer<InventoryClickEvent> createAction) {
         this.createAction = createAction;
     }
 
@@ -72,7 +74,7 @@ public abstract class ListControls extends GuiPane {
 
     protected StaticItem getCreateItem(ListGui gui) {
         return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.KNOWLEDGE_BOOK).setDisplayName("create").build()){{
-            setClickAction(event -> createAction.run());
+            setClickAction(event -> createAction.accept(event));
         }};
     }
 
