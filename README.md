@@ -6,4 +6,4 @@
 
 My own com.github.codedoctorde.api for my plugins.
 
-Docs: <https://codedoctorde.github.io/codedoctorapi/>
+Docs: <https://codedoctor.tk/CodeDoctorAPI>

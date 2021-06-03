@@ -58,7 +58,7 @@ public class StaticItem implements GuiItem {
     }
 
     /**
-     * Set the placeholder which will formattedf the itemstack
+     * Set the placeholder which will formatted the itemstack
      * @param placeholders All placeholders which can be replaced from the display name and the lore
      */
     public void setPlaceholders(Object... placeholders) {
