@@ -22,6 +22,7 @@ public class TranslatedGuiItem extends TranslatedItem {
     @Override
     public ItemStack build(Gui gui) {
         if (gui instanceof TranslatedObject) {
+            renderAction.accept(gui);
             TranslatedObject to = (TranslatedObject) gui;
             ItemStackBuilder itemStackBuilder = new ItemStackBuilder(getItemStack());
             itemStackBuilder.setDisplayName(to.getTranslation().getTranslation(itemStackBuilder.getDisplayName()));

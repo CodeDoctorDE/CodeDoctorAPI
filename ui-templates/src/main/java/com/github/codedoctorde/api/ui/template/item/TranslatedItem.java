@@ -22,6 +22,7 @@ public class TranslatedItem extends StaticItem implements TranslatedObject {
 
     @Override
     public ItemStack build(Gui gui) {
+        renderAction.accept(gui);
         ItemStackBuilder itemStackBuilder = new ItemStackBuilder(getItemStack());
         itemStackBuilder.setDisplayName(getTranslation().getTranslation(itemStackBuilder.getDisplayName()));
         itemStackBuilder.setLore(itemStackBuilder.getLore().stream().map(s -> getTranslation().getTranslation(s, getPlaceholders())).collect(Collectors.toList()));
