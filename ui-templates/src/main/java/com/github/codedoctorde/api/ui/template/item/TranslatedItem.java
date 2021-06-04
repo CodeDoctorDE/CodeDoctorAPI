@@ -5,6 +5,7 @@ import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.Gui;
 import com.github.codedoctorde.api.ui.item.StaticItem;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.stream.Collectors;
@@ -14,6 +15,10 @@ import java.util.stream.Collectors;
  */
 public class TranslatedItem extends StaticItem implements TranslatedObject {
     private final Translation translation;
+    
+    public TranslatedItem(Translation translation) {
+        this(translation, new ItemStack(Material.AIR));
+    }
 
     public TranslatedItem(Translation translation, ItemStack itemStack) {
         super(itemStack);

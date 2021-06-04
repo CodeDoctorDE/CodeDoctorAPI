@@ -2,6 +2,7 @@ package com.github.codedoctorde.api.ui.item;
 
 import com.github.codedoctorde.api.ui.Gui;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
+import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,6 +21,10 @@ public class StaticItem implements GuiItem {
     protected Consumer<Gui> renderAction;
     private ItemStack itemStack;
     private List<Object> placeholders = new ArrayList<>();
+
+    public StaticItem() {
+        this(new ItemStack(Material.AIR));
+    }
 
     public StaticItem(final ItemStack itemStack) {
         this.itemStack = itemStack;
