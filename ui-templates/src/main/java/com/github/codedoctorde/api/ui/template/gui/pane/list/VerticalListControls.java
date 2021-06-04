@@ -6,6 +6,10 @@ import com.github.codedoctorde.api.ui.template.gui.ListGui;
 import java.util.function.Function;
 
 public class VerticalListControls extends ListControls {
+    public VerticalListControls() {
+        this(3);
+    }
+
     public VerticalListControls(int height) {
         this(true, height);
     }
