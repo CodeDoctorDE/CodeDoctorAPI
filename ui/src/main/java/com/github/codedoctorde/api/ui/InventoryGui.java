@@ -1,7 +1,6 @@
 package com.github.codedoctorde.api.ui;
 
 import com.github.codedoctorde.api.ui.item.GuiItem;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +41,7 @@ public class InventoryGui extends Gui {
     protected void unregister(@NotNull Player player) {
         player.closeInventory();
         for (GuiItem[] row : guiItems) for (GuiItem guiItem : row) guiItem.onClose(player);
-        if(!savedPlayerInventories.containsKey(player.getUniqueId()))
+        if (!savedPlayerInventories.containsKey(player.getUniqueId()))
             return;
         player.getInventory().setContents(savedPlayerInventories.get(player.getUniqueId()));
         savedPlayerInventories.remove(player.getUniqueId());

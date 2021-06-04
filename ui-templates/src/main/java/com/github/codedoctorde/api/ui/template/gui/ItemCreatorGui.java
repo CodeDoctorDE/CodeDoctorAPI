@@ -24,8 +24,8 @@ public class ItemCreatorGui extends ChestGui {
     private Consumer<ItemStack> submitAction;
     private Runnable cancelAction;
 
-    public ItemCreatorGui(ItemStack itemStack, Translation translation, String namespace) {
-        super(translation.getTranslation(namespace + ".title"), 5);
+    public ItemCreatorGui(ItemStack itemStack, Translation translation) {
+        super(translation.getTranslation("title"), 5);
         itemStackBuilder = new ItemStackBuilder(itemStack);
         previewStaticItem = new StaticItem(new ItemStackBuilder().build());
         previewStaticItem.setRenderAction((gui) -> {
