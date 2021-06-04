@@ -1,5 +1,6 @@
 package com.github.codedoctorde.api.ui;
 
+import com.github.codedoctorde.api.ui.item.GuiItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

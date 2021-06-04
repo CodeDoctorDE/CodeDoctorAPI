@@ -3,7 +3,7 @@ package com.github.codedoctorde.api.ui.template.item;
 import com.github.codedoctorde.api.translations.TranslatedObject;
 import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.Gui;
-import com.github.codedoctorde.api.ui.StaticItem;
+import com.github.codedoctorde.api.ui.item.StaticItem;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.inventory.ItemStack;
 

@@ -1,8 +1,4 @@
-package com.github.codedoctorde.api.ui.template.gui;
-
-import com.github.codedoctorde.api.ui.Gui;
-import com.github.codedoctorde.api.ui.GuiCollection;
-import com.github.codedoctorde.api.ui.GuiPane;
+package com.github.codedoctorde.api.ui;
 
 import java.util.function.Function;
 

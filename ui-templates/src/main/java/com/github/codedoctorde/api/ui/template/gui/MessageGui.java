@@ -1,7 +1,7 @@
 package com.github.codedoctorde.api.ui.template.gui;
 
 import com.github.codedoctorde.api.translations.Translation;
-import com.github.codedoctorde.api.ui.GuiItem;
+import com.github.codedoctorde.api.ui.item.GuiItem;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;

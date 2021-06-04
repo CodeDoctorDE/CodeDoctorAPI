@@ -3,7 +3,7 @@ package com.github.codedoctorde.api.ui.template.gui;
 import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.ChestGui;
 import com.github.codedoctorde.api.ui.GuiCollection;
-import com.github.codedoctorde.api.ui.GuiItem;
+import com.github.codedoctorde.api.ui.item.GuiItem;
 import com.github.codedoctorde.api.ui.GuiPane;
 import com.github.codedoctorde.api.ui.template.gui.pane.list.ListControls;
 

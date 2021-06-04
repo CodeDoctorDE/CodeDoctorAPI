@@ -2,7 +2,7 @@ package com.github.codedoctorde.api.ui.template.gui.pane.list;
 
 import com.github.codedoctorde.api.request.ChatRequest;
 import com.github.codedoctorde.api.ui.GuiPane;
-import com.github.codedoctorde.api.ui.StaticItem;
+import com.github.codedoctorde.api.ui.item.StaticItem;
 import com.github.codedoctorde.api.ui.template.gui.ListGui;
 import com.github.codedoctorde.api.ui.template.item.TranslatedItem;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;

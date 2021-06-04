@@ -5,7 +5,7 @@ import com.github.codedoctorde.api.request.ValueRequest;
 import com.github.codedoctorde.api.server.Version;
 import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.ChestGui;
-import com.github.codedoctorde.api.ui.StaticItem;
+import com.github.codedoctorde.api.ui.item.StaticItem;
 import com.github.codedoctorde.api.ui.template.item.TranslatedItem;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.ChatColor;

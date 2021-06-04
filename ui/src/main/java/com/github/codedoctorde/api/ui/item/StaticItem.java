@@ -1,5 +1,6 @@
-package com.github.codedoctorde.api.ui;
+package com.github.codedoctorde.api.ui.item;
 
+import com.github.codedoctorde.api.ui.Gui;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;

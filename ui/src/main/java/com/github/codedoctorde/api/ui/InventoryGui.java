@@ -4,27 +4,19 @@ import com.github.codedoctorde.api.ui.item.GuiItem;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.NotNull;
 
-public class ChestGui extends Gui {
-    private final String title;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
+public class InventoryGui extends Gui {
+    private final Map<UUID, ItemStack[]> savedPlayerInventories = new HashMap<>();
 
-    public ChestGui() {
-        this("", 3);
-    }
-
-    public ChestGui(String title) {
-        this(title, 3);
-    }
-
-    public ChestGui(int size) {
-        this("", size);
-    }
-
-    public ChestGui(String title, int size) {
-        super(9, size);
-        this.title = title;
+    public InventoryGui() {
+        super(9, 4);
     }
 
     @Override
@@ -39,7 +31,8 @@ public class ChestGui extends Gui {
 
     @Override
     protected void register(@NotNull Player player) {
-        Inventory inventory = Bukkit.createInventory(player, getHeight(), getTitle());
+        PlayerInventory inventory = player.getInventory();
+        savedPlayerInventories.put(player.getUniqueId(), inventory.getContents());
         buildInventory(inventory);
         for (GuiItem[] row : guiItems)
             for (GuiItem guiItem : row) guiItem.onOpen(player);
@@ -49,9 +42,14 @@ public class ChestGui extends Gui {
     protected void unregister(@NotNull Player player) {
         player.closeInventory();
         for (GuiItem[] row : guiItems) for (GuiItem guiItem : row) guiItem.onClose(player);
+        if(!savedPlayerInventories.containsKey(player.getUniqueId()))
+            return;
+        player.getInventory().setContents(savedPlayerInventories.get(player.getUniqueId()));
+        savedPlayerInventories.remove(player.getUniqueId());
     }
 
     public void buildInventory(Inventory inventory) {
+        inventory.clear();
         for (int x = 0; x < guiItems.length; x++) {
             GuiItem[] row = guiItems[x];
             for (int y = 0; y < row.length; y++) {
@@ -59,9 +57,5 @@ public class ChestGui extends Gui {
                 inventory.setItem(x + y * 9, item.build(this));
             }
         }
-    }
-
-    public String getTitle() {
-        return title;
     }
 }
