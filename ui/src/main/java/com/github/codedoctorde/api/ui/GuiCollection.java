@@ -10,8 +10,11 @@ import java.util.List;
  */
 public class GuiCollection {
     private int current;
-    private final List<Gui> guis = new ArrayList<>();
+    protected final List<Gui> guis = new ArrayList<>();
 
+    public GuiCollection() {
+
+    }
 
     public void registerGui(Gui gui) {
         guis.add(gui);
