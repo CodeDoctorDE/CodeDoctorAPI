@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class TranslatedItem extends StaticItem implements TranslatedObject {
     private final Translation translation;
-    
+
     public TranslatedItem(Translation translation) {
         this(translation, new ItemStack(Material.AIR));
     }
@@ -30,7 +30,7 @@ public class TranslatedItem extends StaticItem implements TranslatedObject {
         renderAction.accept(gui);
         ItemStackBuilder itemStackBuilder = new ItemStackBuilder(getItemStack());
         itemStackBuilder.setDisplayName(getTranslation().getTranslation(itemStackBuilder.getDisplayName()));
-        itemStackBuilder.setLore(itemStackBuilder.getLore().stream().map(s -> getTranslation().getTranslation(s, getPlaceholders())).collect(Collectors.toList()));
+        itemStackBuilder.setLore(itemStackBuilder.getLore().stream().map(s -> getTranslation().getTranslation(s, getPlaceholders())).collect(Collectors.toList())).format(getPlaceholders());
         return itemStackBuilder.build();
     }
 

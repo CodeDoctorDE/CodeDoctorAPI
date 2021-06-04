@@ -30,7 +30,7 @@ public class TranslatedGuiItem extends TranslatedItem {
             TranslatedObject to = (TranslatedObject) gui;
             ItemStackBuilder itemStackBuilder = new ItemStackBuilder(getItemStack());
             itemStackBuilder.setDisplayName(to.getTranslation().getTranslation(itemStackBuilder.getDisplayName()));
-            itemStackBuilder.setLore(itemStackBuilder.getLore().stream().map(s -> to.getTranslation().getTranslation(s, getPlaceholders())).collect(Collectors.toList()));
+            itemStackBuilder.setLore(itemStackBuilder.getLore().stream().map(s -> to.getTranslation().getTranslation(s, getPlaceholders())).collect(Collectors.toList())).format(getPlaceholders());
             return itemStackBuilder.build();
         }
         return super.build(gui);
