@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -336,6 +337,43 @@ public class ItemStackBuilder {
         getLore().stream().map(line -> Arrays.asList(String.format(line, arguments).split("\n"))).forEach(formattedLore::addAll);
         setLore(formattedLore);
         return this;
+    }
+
+    public ItemStackBuilder addEnchant(Enchantment enchantment, int level) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.addEnchant(enchantment, level, true);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public ItemStackBuilder removeEnchant(Enchantment enchantment) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.removeEnchant(enchantment);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public boolean hasEnchant(Enchantment enchantment) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
+        return itemMeta.hasEnchant(enchantment);
+    }
+
+    public ItemStackBuilder setEnchanted(boolean enchanted) {
+        if(enchanted) {
+            addEnchant(Enchantment.DURABILITY, 1);
+            addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        } else {
+            removeEnchant(Enchantment.DURABILITY);
+            removeItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+        return this;
+    }
+
+    public boolean isEnchanted() {
+        return hasEnchant(Enchantment.DURABILITY);
     }
 
     public String serialize() {
