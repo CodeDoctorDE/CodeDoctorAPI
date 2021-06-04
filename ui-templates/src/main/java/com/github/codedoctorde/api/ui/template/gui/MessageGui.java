@@ -2,6 +2,8 @@ package com.github.codedoctorde.api.ui.template.gui;
 
 import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.GuiItem;
+import com.github.codedoctorde.api.utils.ItemStackBuilder;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
@@ -43,6 +45,8 @@ public class MessageGui extends TranslatedChestGui {
     public void buildInventory(Inventory inventory) {
         super.buildInventory(inventory);
         int lastSlot = getHeight() * 9;
+        Translation t = getTranslation();
+        inventory.setItem(4, new ItemStackBuilder(Material.OAK_SIGN).setDisplayName(t.getTranslation("title")).setLore(t.getTranslation("description")).build());
         for (int i = 0; i < actions.length; i++) inventory.setItem(lastSlot - i - 1, actions[i].build(this));
     }
 }
