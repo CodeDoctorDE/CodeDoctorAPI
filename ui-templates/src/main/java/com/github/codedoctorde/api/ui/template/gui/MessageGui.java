@@ -18,11 +18,11 @@ public class MessageGui extends TranslatedChestGui {
         super(translation, size);
     }
 
-    public void setItems(GuiItem... actions) {
+    public void setActions(GuiItem... actions) {
         this.actions = actions;
     }
 
-    public void addItems(GuiItem... actions){
+    public void addActions(GuiItem... actions){
         this.actions = Stream.concat(Arrays.stream(this.actions), Arrays.stream(actions)).toArray(GuiItem[]::new);
     }
 
