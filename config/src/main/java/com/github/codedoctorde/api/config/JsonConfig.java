@@ -14,14 +14,14 @@ import java.util.Map;
  * @author CodeDoctorDE
  */
 public class JsonConfig extends FileConfig {
-    private Gson gson = new Gson();
     protected JsonObject jsonObject;
+    private Gson gson = new Gson();
 
     public JsonConfig(File file) {
         super(file);
     }
 
-    public JsonConfig(Gson gson, File file){
+    public JsonConfig(Gson gson, File file) {
         this(file);
         this.gson = gson;
     }
@@ -38,8 +38,8 @@ public class JsonConfig extends FileConfig {
 
     public JsonElement getJsonElement(String path) {
         JsonElement current = jsonObject;
-        for (String currentPath:
-             path.split("\\."))
+        for (String currentPath :
+                path.split("\\."))
             current = current.getAsJsonObject().get(currentPath);
         return current;
     }
@@ -52,28 +52,28 @@ public class JsonConfig extends FileConfig {
         this.gson = gson;
     }
 
-    public JsonObject createObject(String path){
+    public JsonObject createObject(String path) {
         JsonObject current = jsonObject;
         for (String currentPath : path.split("\\.")) {
-            if(!current.has(currentPath))
+            if (!current.has(currentPath))
                 current.add(currentPath, new JsonObject());
             current = current.getAsJsonObject(currentPath);
         }
         return current;
     }
 
-    public void setObject(String path, JsonElement value){
+    public void setObject(String path, JsonElement value) {
         String[] paths = path.split("\\.");
         JsonObject namespace = createObject(String.join(".", Arrays.copyOfRange(paths, 0, paths.length - 1))).getAsJsonObject();
         namespace.add(paths[paths.length - 1], value);
     }
 
-    public boolean has(String path){
+    public boolean has(String path) {
         JsonElement current = jsonObject;
-        for (String currentPath:
+        for (String currentPath :
                 path.split("\\.")) {
-            if(current.isJsonObject())
-                if(current.getAsJsonObject().has(currentPath))
+            if (current.isJsonObject())
+                if (current.getAsJsonObject().has(currentPath))
                     current = current.getAsJsonObject().get(currentPath);
                 else
                     return false;
@@ -101,18 +101,19 @@ public class JsonConfig extends FileConfig {
      * @param value
      */
     private void setDefault(String key, JsonElement value) {
-        if(!has(key))
+        if (!has(key))
             setObject(key, value);
     }
 
-    public Map<String, JsonElement> getValues(){
+    public Map<String, JsonElement> getValues() {
         return getValues("", jsonObject);
     }
-    public Map<String, JsonElement> getValues(String path, JsonObject jsonObject){
+
+    public Map<String, JsonElement> getValues(String path, JsonObject jsonObject) {
         Map<String, JsonElement> map = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
             String currentPath = path + "." + entry.getKey();
-            if(entry.getValue().isJsonObject())
+            if (entry.getValue().isJsonObject())
                 map.putAll(getValues(currentPath, entry.getValue().getAsJsonObject()));
             else
                 map.put(currentPath, entry.getValue());

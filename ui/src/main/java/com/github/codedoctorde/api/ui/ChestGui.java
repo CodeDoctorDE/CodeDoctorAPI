@@ -2,7 +2,6 @@ package com.github.codedoctorde.api.ui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,9 +12,11 @@ public class ChestGui extends Gui {
     public ChestGui() {
         this("", 3);
     }
+
     public ChestGui(String title) {
         this(title, 3);
     }
+
     public ChestGui(int size) {
         this("", size);
     }
@@ -49,7 +50,7 @@ public class ChestGui extends Gui {
         for (GuiItem[] row : guiItems) for (GuiItem guiItem : row) guiItem.onClose(player);
     }
 
-    public void buildInventory(Inventory inventory){
+    public void buildInventory(Inventory inventory) {
         for (int x = 0; x < guiItems.length; x++) {
             GuiItem[] row = guiItems[x];
             for (int y = 0; y < row.length; y++) {

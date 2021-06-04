@@ -3,8 +3,6 @@ package com.github.codedoctorde.api.ui;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-
 /**
  * @author CodeDoctorDE
  */

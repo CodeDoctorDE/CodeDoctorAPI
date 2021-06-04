@@ -27,6 +27,7 @@ public abstract class FileConfig {
     }
 
     protected abstract String getData();
+
     protected abstract void read(BufferedReader reader);
 
     public void save() {
@@ -41,6 +42,7 @@ public abstract class FileConfig {
             e.printStackTrace();
         }
     }
+
     public void reload() {
         BufferedReader br = null;
         try {

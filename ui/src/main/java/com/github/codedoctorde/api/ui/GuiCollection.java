@@ -9,8 +9,8 @@ import java.util.List;
  * @author CodeDoctorDE
  */
 public class GuiCollection {
-    private int current;
     protected final List<Gui> guis = new ArrayList<>();
+    private int current;
 
     public GuiCollection() {
 
@@ -24,22 +24,22 @@ public class GuiCollection {
         guis.remove(gui);
     }
 
-    public void clearGuis(){
+    public void clearGuis() {
         guis.clear();
     }
 
     public void show(Player... players) {
-        if(hasAccess())
+        if (hasAccess())
             getGui().show(players);
     }
 
     public void hide(Player... players) {
-        if(hasAccess())
+        if (hasAccess())
             getGui().hide(players);
     }
 
     public Player[] getOpenedPlayers() {
-        if(hasAccess())
+        if (hasAccess())
             return getGui().getOpenedPlayers();
         return new Player[0];
     }
@@ -63,21 +63,25 @@ public class GuiCollection {
     public int getCurrent() {
         return current;
     }
+
     public void next() {
         Player[] players = getOpenedPlayers();
         current++;
         show(players);
     }
+
     public void previous() {
         Player[] players = getOpenedPlayers();
         current--;
         show(players);
     }
+
     public void toFirst() {
         Player[] players = getOpenedPlayers();
         current = 0;
         show(players);
     }
+
     public void toLast() {
         Player[] players = getOpenedPlayers();
         current = guis.size() - 1;

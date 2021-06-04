@@ -5,7 +5,6 @@ import com.github.codedoctorde.api.ui.ChestGui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class TranslatedChestGui extends ChestGui {
@@ -15,6 +14,7 @@ public class TranslatedChestGui extends ChestGui {
     public TranslatedChestGui(Translation translation) {
         this(translation, 3);
     }
+
     public TranslatedChestGui(Translation translation, int size) {
         super("title", size);
 
@@ -27,7 +27,7 @@ public class TranslatedChestGui extends ChestGui {
     }
 
     @Override
-    public String getTitle(){
+    public String getTitle() {
         return translation.getTranslation(super.getTitle(), placeholders);
     }
 
@@ -35,11 +35,11 @@ public class TranslatedChestGui extends ChestGui {
         return super.getTitle();
     }
 
-    public void setPlaceholders(Object... placeholders){
-        this.placeholders = Arrays.asList(placeholders);
-    }
-
     public Object[] getPlaceholders() {
         return placeholders.toArray();
+    }
+
+    public void setPlaceholders(Object... placeholders) {
+        this.placeholders = Arrays.asList(placeholders);
     }
 }

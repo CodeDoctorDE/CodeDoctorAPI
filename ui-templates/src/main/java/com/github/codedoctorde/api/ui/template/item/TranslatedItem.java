@@ -7,8 +7,6 @@ import com.github.codedoctorde.api.ui.StaticItem;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**

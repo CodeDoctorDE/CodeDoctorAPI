@@ -6,19 +6,19 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
 /**
  * Create a new normal item which can be added in the gui
+ *
  * @author CodeDoctorDE
  */
 public class StaticItem implements GuiItem {
-    private ItemStack itemStack;
-    private List<Object> placeholders = new ArrayList<>();
     protected Consumer<InventoryClickEvent> clickAction;
     protected Consumer<Gui> renderAction;
+    private ItemStack itemStack;
+    private List<Object> placeholders = new ArrayList<>();
 
     public StaticItem(final ItemStack itemStack) {
         this.itemStack = itemStack;
@@ -26,6 +26,7 @@ public class StaticItem implements GuiItem {
 
     /**
      * Set the action which will be perform if the player clicks on this item
+     *
      * @param clickAction The method which will be called
      */
     public void setClickAction(Consumer<InventoryClickEvent> clickAction) {
@@ -34,6 +35,7 @@ public class StaticItem implements GuiItem {
 
     /**
      * Set the action which will be perform if the gui opens
+     *
      * @param renderAction The method which will be called
      */
     public void setRenderAction(Consumer<Gui> renderAction) {
@@ -42,6 +44,7 @@ public class StaticItem implements GuiItem {
 
     /**
      * Get the current item stack of the item
+     *
      * @return The rendered item stack
      */
     public ItemStack getItemStack() {
@@ -51,6 +54,7 @@ public class StaticItem implements GuiItem {
     /**
      * Set the item stack of the gui item
      * This does not perform a rerender of the gui
+     *
      * @param itemStack The item stack which will be rendered
      */
     public void setItemStack(ItemStack itemStack) {
@@ -58,15 +62,8 @@ public class StaticItem implements GuiItem {
     }
 
     /**
-     * Set the placeholder which will formatted the itemstack
-     * @param placeholders All placeholders which can be replaced from the display name and the lore
-     */
-    public void setPlaceholders(Object... placeholders) {
-        this.placeholders = Arrays.asList(placeholders);
-    }
-
-    /**
      * Get all placeholders
+     *
      * @return Returns the placeholder list
      */
     public Object[] getPlaceholders() {
@@ -74,7 +71,17 @@ public class StaticItem implements GuiItem {
     }
 
     /**
+     * Set the placeholder which will formatted the itemstack
+     *
+     * @param placeholders All placeholders which can be replaced from the display name and the lore
+     */
+    public void setPlaceholders(Object... placeholders) {
+        this.placeholders = Arrays.asList(placeholders);
+    }
+
+    /**
      * Build the item stack
+     *
      * @return The current item stack with the formatted placeholders
      */
     @Override
@@ -85,6 +92,7 @@ public class StaticItem implements GuiItem {
 
     /**
      * Call the click action
+     *
      * @param event The inventory event
      */
     @Override

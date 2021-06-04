@@ -49,28 +49,10 @@ public class ItemStackBuilder {
         this(Material.PLAYER_HEAD);
         setSkullId(skullId);
     }
+
     public ItemStackBuilder(UUID uuid) {
         this(Material.PLAYER_HEAD);
         setOwner(uuid);
-    }
-
-    public OfflinePlayer getOwningPlayer(){
-        return ((SkullMeta) Objects.requireNonNull(itemStack.getItemMeta())).getOwningPlayer();
-    }
-
-    public UUID getOwner(){
-        return getOwningPlayer().getUniqueId();
-    }
-
-    public ItemStackBuilder setOwningPlayer(OfflinePlayer player) {
-        SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
-        assert meta != null;
-        meta.setOwningPlayer(player);
-        itemStack.setItemMeta(meta);
-        return this;
-    }
-    public ItemStackBuilder setOwner(UUID uuid) {
-        return setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
     }
 
     public ItemStackBuilder(final ItemStack itemStack) {
@@ -115,6 +97,26 @@ public class ItemStackBuilder {
             }
         } else
             return new ItemStackBuilder();
+    }
+
+    public OfflinePlayer getOwningPlayer() {
+        return ((SkullMeta) Objects.requireNonNull(itemStack.getItemMeta())).getOwningPlayer();
+    }
+
+    public ItemStackBuilder setOwningPlayer(OfflinePlayer player) {
+        SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
+        assert meta != null;
+        meta.setOwningPlayer(player);
+        itemStack.setItemMeta(meta);
+        return this;
+    }
+
+    public UUID getOwner() {
+        return getOwningPlayer().getUniqueId();
+    }
+
+    public ItemStackBuilder setOwner(UUID uuid) {
+        return setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
     }
 
     public Material getMaterial() {
@@ -215,6 +217,7 @@ public class ItemStackBuilder {
     @Nullable
     public Integer getCustomModelData() {
         ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
         return (itemMeta.hasCustomModelData()) ? itemMeta.getCustomModelData() : null;
     }
 
@@ -288,7 +291,7 @@ public class ItemStackBuilder {
         return (itemMeta.getAttributeModifiers() != null) && Objects.requireNonNull(itemMeta.getAttributeModifiers()).containsKey(attribute);
     }
 
-    public ItemStackBuilder setSkullId(String skullId){
+    public ItemStackBuilder setSkullId(String skullId) {
         try {
             SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
             GameProfile profile = new GameProfile(UUID.randomUUID(), null);
@@ -320,10 +323,12 @@ public class ItemStackBuilder {
         assert itemMeta != null;
         return Objects.requireNonNull(itemMeta.getAttributeModifiers()).get(attribute);
     }
-    public boolean isUnbreakable(){
+
+    public boolean isUnbreakable() {
         return Objects.requireNonNull(itemStack.getItemMeta()).isUnbreakable();
     }
-    public ItemStackBuilder setUnbreakable(boolean unbreakable){
+
+    public ItemStackBuilder setUnbreakable(boolean unbreakable) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         assert itemMeta != null;
         itemMeta.setUnbreakable(unbreakable);
@@ -361,8 +366,12 @@ public class ItemStackBuilder {
         return itemMeta.hasEnchant(enchantment);
     }
 
+    public boolean isEnchanted() {
+        return hasEnchant(Enchantment.DURABILITY);
+    }
+
     public ItemStackBuilder setEnchanted(boolean enchanted) {
-        if(enchanted) {
+        if (enchanted) {
             addEnchant(Enchantment.DURABILITY, 1);
             addItemFlags(ItemFlag.HIDE_ENCHANTS);
         } else {
@@ -370,10 +379,6 @@ public class ItemStackBuilder {
             removeItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         return this;
-    }
-
-    public boolean isEnchanted() {
-        return hasEnchant(Enchantment.DURABILITY);
     }
 
     public String serialize() {

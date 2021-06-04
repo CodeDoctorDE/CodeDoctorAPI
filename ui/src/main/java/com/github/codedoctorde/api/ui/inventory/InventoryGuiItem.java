@@ -11,8 +11,8 @@ import org.bukkit.inventory.ItemStack;
  * @author CodeDoctorDE
  */
 public class InventoryGuiItem {
-    private ItemStack itemStack;
     private final InventoryGuiItemEvent guiItemEvent;
+    private ItemStack itemStack;
 
     public InventoryGuiItem(final ItemStack itemStack, final InventoryGuiItemEvent guiItemEvent) {
         this.itemStack = itemStack;

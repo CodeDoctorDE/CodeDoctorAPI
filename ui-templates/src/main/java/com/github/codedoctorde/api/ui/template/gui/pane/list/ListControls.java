@@ -46,7 +46,7 @@ public abstract class ListControls extends GuiPane {
     }
 
     protected StaticItem getSearchItem(ListGui gui) {
-        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.COMPASS).setDisplayName("search.title").addLore("search.description").build()){{
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.COMPASS).setDisplayName("search.title").addLore("search.description").build()) {{
             setClickAction(event -> {
                 Player player = (Player) event.getWhoClicked();
                 if (event.getClick() == ClickType.LEFT) {
@@ -55,25 +55,25 @@ public abstract class ListControls extends GuiPane {
                     ChatRequest request = new ChatRequest(player);
                     request.setSubmitAction(gui::setSearchText);
                 } else if (event.getClick() == ClickType.RIGHT) gui.setSearchText("");
-                else if(event.getClick() == ClickType.DROP) gui.rebuild();
+                else if (event.getClick() == ClickType.DROP) gui.rebuild();
             });
         }};
     }
 
     protected StaticItem getFirstItem(ListGui gui) {
-        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.BLAZE_ROD).setDisplayName("first").build()){{
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.BLAZE_ROD).setDisplayName("first").build()) {{
             setClickAction(event -> gui.toFirst());
         }};
     }
 
     protected StaticItem getLastItem(ListGui gui) {
-        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.BLAZE_ROD).setDisplayName("last").build()){{
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.BLAZE_ROD).setDisplayName("last").build()) {{
             setClickAction(event -> gui.toLast());
         }};
     }
 
     protected StaticItem getCreateItem(ListGui gui) {
-        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.KNOWLEDGE_BOOK).setDisplayName("create").build()){{
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.KNOWLEDGE_BOOK).setDisplayName("create").build()) {{
             setClickAction(event -> createAction.accept(event));
         }};
     }

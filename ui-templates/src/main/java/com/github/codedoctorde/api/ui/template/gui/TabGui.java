@@ -19,7 +19,7 @@ public class TabGui extends GuiCollection {
 
     public void registerGui(Gui gui) {
         super.registerGui(gui);
-        if(tabsBuilder != null)
+        if (tabsBuilder != null)
             gui.addPane(tabsBuilder.apply(getGuis().length));
     }
 }

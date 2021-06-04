@@ -14,11 +14,13 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class GuiListener implements Listener {
     private static boolean registered = false;
-    public static boolean isRegistered(){
+
+    public static boolean isRegistered() {
         return registered;
     }
+
     public static void register() {
-        if(!isRegistered())
+        if (!isRegistered())
             return;
         GuiListener instance = new GuiListener();
         Bukkit.getPluginManager().registerEvents(instance,
@@ -27,22 +29,23 @@ public class GuiListener implements Listener {
     }
 
     @EventHandler
-    public void onChestGuiItemClicked(InventoryClickEvent event){
-        if(!(event.getWhoClicked() instanceof Player))
+    public void onChestGuiItemClicked(InventoryClickEvent event) {
+        if (!(event.getWhoClicked() instanceof Player))
             return;
-        Gui gui = Gui.getGui((Player)event.getWhoClicked());
+        Gui gui = Gui.getGui((Player) event.getWhoClicked());
         int slot = event.getSlot();
         int x = slot % 9;
         int y = slot / 9;
         gui.getItem(x, y).onClick(event);
     }
+
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event){
+    public void onPlayerQuit(PlayerQuitEvent event) {
         Gui.getGui(event.getPlayer()).hide(event.getPlayer());
     }
 
     @EventHandler
-    public void onChestGuiClosed(InventoryCloseEvent event){
+    public void onChestGuiClosed(InventoryCloseEvent event) {
         Gui.getGui((Player) event.getPlayer()).onClose((Player) event.getPlayer());
     }
 }

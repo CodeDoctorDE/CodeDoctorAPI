@@ -6,22 +6,19 @@ import com.github.codedoctorde.api.ui.GuiCollection;
 import com.github.codedoctorde.api.ui.GuiItem;
 import com.github.codedoctorde.api.ui.GuiPane;
 import com.github.codedoctorde.api.ui.template.gui.pane.list.ListControls;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class ListGui extends GuiCollection {
     private final List<Object> placeholders = new ArrayList<>();
     private final BiFunction<String, Translation, GuiItem[]> itemBuilder;
     private final int size;
-    private Function<ListGui, GuiPane> controlsBuilder;
     private final Translation translation;
+    private Function<ListGui, GuiPane> controlsBuilder;
     private String searchText = "";
 
     public ListGui(Translation translation, int size, BiFunction<String, Translation, GuiItem[]> itemBuilder) {
@@ -35,11 +32,6 @@ public class ListGui extends GuiCollection {
         this(translation, 5, itemBuilder);
     }
 
-    public void setPlaceholders(Object... placeholders) {
-        this.placeholders.clear();
-        this.placeholders.addAll(Collections.singleton(placeholders));
-    }
-
     public void setControlsBuilder(Function<ListGui, GuiPane> controlsBuilder) {
         this.controlsBuilder = controlsBuilder;
     }
@@ -50,6 +42,11 @@ public class ListGui extends GuiCollection {
 
     public Object[] getPlaceholders() {
         return placeholders.toArray();
+    }
+
+    public void setPlaceholders(Object... placeholders) {
+        this.placeholders.clear();
+        this.placeholders.addAll(Collections.singleton(placeholders));
     }
 
     public void rebuild() {

@@ -31,7 +31,8 @@ public class UpdateChecker {
     public void getVersion(final Consumer<String> consumer) {
         Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
             try (InputStream inputStream = new URL("https://api.spiget.org/v2/resources/" + this.resourceId + "/versions/latest").openStream(); Scanner scanner = new Scanner(inputStream)) {
-                if (scanner.hasNext()) consumer.accept(new Gson().fromJson(scanner.next(), JsonObject.class).get("name").getAsString());
+                if (scanner.hasNext())
+                    consumer.accept(new Gson().fromJson(scanner.next(), JsonObject.class).get("name").getAsString());
             } catch (IOException exception) {
                 this.plugin.getLogger().info("Cannot look for updates: " + exception.getMessage());
             }

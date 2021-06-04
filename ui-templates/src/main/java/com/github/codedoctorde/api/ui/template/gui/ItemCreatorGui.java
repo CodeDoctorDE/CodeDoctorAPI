@@ -24,14 +24,6 @@ public class ItemCreatorGui extends ChestGui {
     private Consumer<ItemStack> submitAction;
     private Runnable cancelAction;
 
-    public void setCancelAction(Runnable cancelAction) {
-        this.cancelAction = cancelAction;
-    }
-
-    public void setSubmitAction(Consumer<ItemStack> submitAction) {
-        this.submitAction = submitAction;
-    }
-
     public ItemCreatorGui(ItemStack itemStack, Translation translation, String namespace) {
         super(translation.getTranslation(namespace + ".title"), 5);
         itemStackBuilder = new ItemStackBuilder(itemStack);
@@ -209,5 +201,13 @@ public class ItemCreatorGui extends ChestGui {
                 reloadAll();
             });
         }});
+    }
+
+    public void setCancelAction(Runnable cancelAction) {
+        this.cancelAction = cancelAction;
+    }
+
+    public void setSubmitAction(Consumer<ItemStack> submitAction) {
+        this.submitAction = submitAction;
     }
 }
