@@ -37,7 +37,7 @@ public class ChestGui extends Gui {
 
     @Override
     protected void register(@NotNull Player player) {
-        Inventory inventory = Bukkit.createInventory(player, InventoryType.CHEST, getTitle());
+        Inventory inventory = Bukkit.createInventory(player, getHeight(), getTitle());
         buildInventory(inventory);
         for (GuiItem[] row : guiItems)
             for (GuiItem guiItem : row) guiItem.onOpen(player);
