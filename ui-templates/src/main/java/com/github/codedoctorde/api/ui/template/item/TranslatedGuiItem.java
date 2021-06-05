@@ -7,8 +7,6 @@ import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.stream.Collectors;
-
 /**
  * An translated item which use the translation from the parent gui
  *
@@ -29,8 +27,7 @@ public class TranslatedGuiItem extends TranslatedItem {
             renderAction.accept(gui);
             TranslatedObject to = (TranslatedObject) gui;
             ItemStackBuilder itemStackBuilder = new ItemStackBuilder(getItemStack());
-            itemStackBuilder.setDisplayName(to.getTranslation().getTranslation(itemStackBuilder.getDisplayName()));
-            itemStackBuilder.setLore(itemStackBuilder.getLore().stream().map(s -> to.getTranslation().getTranslation(s, getPlaceholders())).collect(Collectors.toList())).format(getPlaceholders());
+            to.getTranslation().translate(itemStackBuilder, getPlaceholders());
             return itemStackBuilder.build();
         }
         return super.build(gui);

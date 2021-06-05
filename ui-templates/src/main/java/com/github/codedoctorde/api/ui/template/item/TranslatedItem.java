@@ -8,8 +8,6 @@ import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.stream.Collectors;
-
 /**
  * @author CodeDoctorDE
  */
@@ -29,8 +27,7 @@ public class TranslatedItem extends StaticItem implements TranslatedObject {
     public ItemStack build(Gui gui) {
         renderAction.accept(gui);
         ItemStackBuilder itemStackBuilder = new ItemStackBuilder(getItemStack());
-        itemStackBuilder.setDisplayName(getTranslation().getTranslation(itemStackBuilder.getDisplayName()));
-        itemStackBuilder.setLore(itemStackBuilder.getLore().stream().map(s -> getTranslation().getTranslation(s, getPlaceholders())).collect(Collectors.toList())).format(getPlaceholders());
+        getTranslation().translate(itemStackBuilder, getPlaceholders());
         return itemStackBuilder.build();
     }
 

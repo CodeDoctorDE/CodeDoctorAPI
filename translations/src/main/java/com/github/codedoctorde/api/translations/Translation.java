@@ -1,5 +1,7 @@
 package com.github.codedoctorde.api.translations;
 
+import com.github.codedoctorde.api.utils.ItemStackBuilder;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,9 +19,9 @@ public class Translation {
         this.translations = translations;
     }
 
-    public String getTranslation(String key, Object... placeholder) {
+    public String getTranslation(String key, Object... placeholders) {
         if (translations.containsKey(key))
-            return String.format(translations.get(key), placeholder);
+            return String.format(translations.get(key), placeholders);
         return key;
     }
 
@@ -34,5 +36,10 @@ public class Translation {
                 map.put(key.substring((namespace + ".").length()), value);
         });
         return new Translation(map);
+    }
+
+    public void translate(ItemStackBuilder itemStackBuilder, Object... placeholders) {
+        itemStackBuilder.setDisplayName(getTranslation(itemStackBuilder.getDisplayName(), placeholders));
+        itemStackBuilder.setLore(getTranslation(String.join("\n", itemStackBuilder.getLore()), placeholders));
     }
 }
