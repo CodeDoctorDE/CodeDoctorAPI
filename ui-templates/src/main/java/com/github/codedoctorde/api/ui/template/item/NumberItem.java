@@ -5,9 +5,11 @@ import com.github.codedoctorde.api.utils.NumberManager;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 public class NumberItem extends StaticItem {
     private final NumberManager manager;
+    private Consumer<Float> changeAction;
 
     public NumberItem(ItemStack itemStack) {
         this(itemStack, 1);
@@ -16,7 +18,11 @@ public class NumberItem extends StaticItem {
     public NumberItem(ItemStack itemStack, int defaultValue) {
         super(itemStack);
         manager = new NumberManager(defaultValue);
-        setClickAction(manager::handleEvent);
+        setClickAction(event -> {
+            manager.handleEvent(event);
+            if(changeAction != null)
+            changeAction.accept(getValue());
+        });
     }
 
     public NumberManager getManager() {
@@ -25,6 +31,10 @@ public class NumberItem extends StaticItem {
 
     public float getValue() {
         return manager.getValue();
+    }
+
+    public void setChangeAction(Consumer<Float> changeAction) {
+        this.changeAction = changeAction;
     }
 
     @Override
