@@ -20,8 +20,8 @@ public class NumberItem extends StaticItem {
         manager = new NumberManager(defaultValue);
         setClickAction(event -> {
             manager.handleEvent(event);
-            if(changeAction != null)
-            changeAction.accept(getValue());
+            if (changeAction != null)
+                changeAction.accept(getValue());
         });
     }
 

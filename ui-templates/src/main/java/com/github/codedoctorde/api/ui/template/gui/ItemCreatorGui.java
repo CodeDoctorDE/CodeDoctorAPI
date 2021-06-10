@@ -55,7 +55,16 @@ public class ItemCreatorGui extends ChestGui {
         fillItems(1, 0, 7, 0, placeholder);
 
         registerItem(4, 0, previewStaticItem);
-        registerItem(6, 0, new TranslatedItem(translation, new ItemStackBuilder(Material.PAPER).setDisplayName("paper").build()));
+        registerItem(6, 0, new TranslatedItem(translation, new ItemStackBuilder(Material.PAPER).setDisplayName("nbt").build()) {{
+            setClickAction(event -> {
+                hide((Player) event.getWhoClicked());
+                var request = new ChatRequest((Player) event.getWhoClicked());
+                request.setSubmitAction(s ->  {
+                    show((Player) event.getWhoClicked());
+                });
+                request.setCancelAction(() -> show((Player) event.getWhoClicked()));
+            });
+        }});
         registerItem(8, 0, new TranslatedItem(translation, new ItemStackBuilder(Material.GREEN_DYE).setDisplayName("submit").build()) {{
             setClickAction(event -> submitAction.accept(itemStackBuilder.build()));
         }});

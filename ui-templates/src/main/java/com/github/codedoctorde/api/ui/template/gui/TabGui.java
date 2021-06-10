@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.function.Function;
 
 public class TabGui extends GuiCollection {
-    private Function<Integer, GuiPane> tabsBuilder;
     private final List<Object> placeholders = new ArrayList<>();
+    private Function<Integer, GuiPane> tabsBuilder;
 
     public TabGui() {
         super();
@@ -24,11 +24,12 @@ public class TabGui extends GuiCollection {
 
     public void registerGui(Gui gui) {
         super.registerGui(gui);
-        if(gui instanceof TranslatedObject)
+        if (gui instanceof TranslatedObject)
             ((TranslatedObject) gui).setPlaceholders(placeholders);
         if (tabsBuilder != null)
             gui.addPane(tabsBuilder.apply(getGuis().length));
     }
+
     public Object[] getPlaceholders() {
         return placeholders.toArray();
     }
