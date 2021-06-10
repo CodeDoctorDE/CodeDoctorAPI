@@ -1,7 +1,5 @@
-plugins {
-    id 'maven-publish'
-}
 apply plugin: "java"
+apply plugin: 'maven-publish'
 
 group = "com.github.codedoctorde.api"
 version = "3.0.0"
@@ -35,32 +33,36 @@ dependencies {
     implementation 'org.jetbrains:annotations:21.0.1'
     implementation 'com.google.code.gson:gson:2.8.7'
 }
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifactId = 'CodeDoctorAPI'
-            group = group
+subprojects {
+    apply plugin: "java"
+    apply plugin: 'maven-publish'
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId = 'CodeDoctorAPI'
+                group = group
 
-            from components.java
+                from components.java
+            }
         }
-    }
 
-    repositories {
-        maven {
-            def snapshotUrl = "https://repo.codemc.io/repository/maven-snapshots/"
-            def releaseUrl = "https://repo.codemc.io/repository/maven-releases/"
+        repositories {
+            maven {
+                def snapshotUrl = "https://repo.codemc.io/repository/maven-snapshots/"
+                def releaseUrl = "https://repo.codemc.io/repository/maven-releases/"
 
-            // You can use any other check here to set what URL should be used.
-            url = version.endsWith("SNAPSHOT") ? snapshotUrl : releaseUrl
+                // You can use any other check here to set what URL should be used.
+                url = version.endsWith("SNAPSHOT") ? snapshotUrl : releaseUrl
 
-            // ORG_GRADLE_PROJECT_mavenUsername and ORG_GRADLE_PROJECT_mavenPassword are the enviroments you defined before.
-            def mavenUsername = System.getenv("ORG_GRADLE_PROJECT_mavenUsername") ? System.getenv("ORG_GRADLE_PROJECT_mavenUsername") : null
-            def mavenPassword = System.getenv("ORG_GRADLE_PROJECT_mavenPassword") ? System.getenv("ORG_GRADLE_PROJECT_mavenPassword") : null
+                // ORG_GRADLE_PROJECT_mavenUsername and ORG_GRADLE_PROJECT_mavenPassword are the enviroments you defined before.
+                def mavenUsername = System.getenv("ORG_GRADLE_PROJECT_mavenUsername") ? System.getenv("ORG_GRADLE_PROJECT_mavenUsername") : null
+                def mavenPassword = System.getenv("ORG_GRADLE_PROJECT_mavenPassword") ? System.getenv("ORG_GRADLE_PROJECT_mavenPassword") : null
 
-            if (mavenUsername != null && mavenPassword != null) {
-                credentials {
-                    username = mavenUsername
-                    password = mavenPassword
+                if (mavenUsername != null && mavenPassword != null) {
+                    credentials {
+                        username = mavenUsername
+                        password = mavenPassword
+                    }
                 }
             }
         }
