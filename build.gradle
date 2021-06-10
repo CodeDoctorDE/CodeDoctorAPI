@@ -41,15 +41,19 @@ dependencies {
     implementation 'org.jetbrains:annotations:21.0.1'
     implementation 'com.google.code.gson:gson:2.8.7'
 }
-allprojects {
+subprojects {
+    apply plugin: "java"
+    apply plugin: 'maven-publish'
 
-
+    javadoc {
+        source = sourceSets.main.allJava
+    }
     publishing {
         publications {
             mavenJava(MavenPublication) {
                 groupId = group
                 artifactId = project.description
-                version = project.version
+                version = version
 
                 from components.java
             }
@@ -75,13 +79,5 @@ allprojects {
                 }
             }
         }
-    }
-}
-subprojects {
-    apply plugin: "java"
-    apply plugin: 'maven-publish'
-
-    javadoc {
-        source = sourceSets.main.allJava
     }
 }

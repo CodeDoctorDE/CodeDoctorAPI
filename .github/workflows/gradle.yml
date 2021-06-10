@@ -18,7 +18,7 @@ jobs:
         with:
           java-version: 11
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build aaggregateJavadoc
       - uses: actions/upload-artifact@v1
         with:
           name: "CodeDoctorAPI"
