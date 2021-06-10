@@ -12,7 +12,7 @@ import java.util.Map;
  * @author CodeDoctorDE
  */
 public class TranslationConfig extends JsonConfig {
-    private Translation translation;
+    private Translation translation = new Translation();
 
     public TranslationConfig(File file) {
         super(file);
