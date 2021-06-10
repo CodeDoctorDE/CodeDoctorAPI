@@ -56,9 +56,9 @@
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>8</java.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <build.number>SNAPSHOT</build.number>
     </properties>
 
@@ -82,7 +82,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.4-R0.1-SNAPSHOT</version>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -116,8 +116,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -154,7 +154,7 @@
                         </offlineLink>
                         <offlineLink>
                             <url>https://hub.spigotmc.org/javadocs/bukkit</url>
-                            <location>${basedir}/javadoc/bukkit-1.8</location>
+                            <location>${basedir}/javadoc/bukkit-1.16</location>
                         </offlineLink>
                     </offlineLinks>
                 </configuration>
