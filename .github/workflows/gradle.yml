@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Java CI with Maven
+name: Java CI with Gradle
 
 on:
   push:
@@ -17,12 +17,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Build with Maven
-        run: mvn clean install package javadoc:aggregate
+      - name: Build with Gradle
+        run: ./gradlew build
       - uses: actions/upload-artifact@v1
         with:
-          name: "ItemMods"
-          path: "target"
+          name: "CodeDoctorAPI"
+          path: "build"
   pages:
     runs-on: ubuntu-latest
     needs: build
@@ -35,9 +35,10 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
-          name: "ItemMods"
+          name: "CodeDoctorAPI"
+          path: build/
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: site/apidocs # The folder the action should deploy.
+          folder: build/docs/javadoc # The folder the action should deploy.

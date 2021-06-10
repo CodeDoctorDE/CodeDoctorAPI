@@ -1,8 +1,14 @@
+plugins {
+    id "io.freefair.aggregate-javadoc" version "6.0.0-m2"
+}
+
 apply plugin: "java"
 apply plugin: 'maven-publish'
 
 group = "com.github.codedoctorde.api"
 version = "3.0.0"
+apply plugin: "io.freefair.aggregate-javadoc"
+
 repositories {
     mavenCentral()
     maven {
@@ -36,10 +42,14 @@ dependencies {
 subprojects {
     apply plugin: "java"
     apply plugin: 'maven-publish'
+
+    javadoc {
+        source = sourceSets.main.allJava
+    }
     publishing {
         publications {
             mavenJava(MavenPublication) {
-                artifactId = 'CodeDoctorAPI'
+                artifactId = project.name
                 group = group
 
                 from components.java
