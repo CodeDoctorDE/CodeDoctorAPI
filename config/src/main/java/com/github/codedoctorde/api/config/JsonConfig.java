@@ -14,7 +14,7 @@ import java.util.Map;
  * @author CodeDoctorDE
  */
 public class JsonConfig extends FileConfig {
-    protected JsonObject jsonObject;
+    protected JsonObject jsonObject = new JsonObject();
     private Gson gson = new Gson();
 
     public JsonConfig(File file) {
