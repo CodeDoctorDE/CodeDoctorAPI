@@ -62,7 +62,7 @@ subprojects {
                 def releaseUrl = "https://repo.codemc.io/repository/maven-releases/"
 
                 // You can use any other check here to set what URL should be used.
-                url = version.endsWith("SNAPSHOT") ? snapshotUrl : releaseUrl
+                url = project.version.endsWith("SNAPSHOT") ? snapshotUrl : releaseUrl
 
                 // ORG_GRADLE_PROJECT_mavenUsername and ORG_GRADLE_PROJECT_mavenPassword are the enviroments you defined before.
                 def mavenUsername = System.getenv("ORG_GRADLE_PROJECT_mavenUsername") ? System.getenv("ORG_GRADLE_PROJECT_mavenUsername") : null
