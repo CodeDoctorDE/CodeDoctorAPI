@@ -20,7 +20,7 @@ public class GuiListener implements Listener {
     }
 
     public static void register() {
-        if (!isRegistered())
+        if (isRegistered())
             return;
         GuiListener instance = new GuiListener();
         Bukkit.getPluginManager().registerEvents(instance,

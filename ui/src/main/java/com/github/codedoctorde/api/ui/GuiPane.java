@@ -35,8 +35,8 @@ public class GuiPane {
     }
 
     public void addItem(@NotNull GuiItem item) {
-        for (int x = 0; x < guiItems.length; x++)
-            for (int y = 0; y < guiItems[x].length; y++)
+        for (int y = 0; y < getHeight(); y++)
+            for (int x = 0; x < getWidth(); x++)
                 if (!containsItem(x, y)) {
                     registerItem(x, y, item);
                     return;
