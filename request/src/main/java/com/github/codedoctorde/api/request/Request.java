@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 public abstract class Request<T> implements Listener {
     private static final HashMap<UUID, Request> requests = new HashMap<>();
     protected final Player player;
-    protected Consumer<T> submitAction;
+    protected Consumer<T> submitAction = (output) -> {};
     protected Runnable cancelAction;
 
     public Request(final Player player) {

@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 public abstract class ListControls extends GuiPane {
     private final boolean detailed;
-    protected Consumer<InventoryClickEvent> createAction;
+    protected Consumer<InventoryClickEvent> createAction = (event) -> {};
 
     public ListControls(int width, int height) {
         this(true, width, height);
