@@ -6,7 +6,7 @@ plugins {
 apply plugin: "java"
 apply plugin: 'maven-publish'
 
-version = "3.0.0"
+version = "3.0.0-SNAPSHOT"
 description = "CodeDoctorAPI"
 group = "com.github.codedoctorde.api"
 apply plugin: "io.freefair.aggregate-javadoc"
