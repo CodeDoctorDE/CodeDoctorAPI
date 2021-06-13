@@ -42,13 +42,13 @@ public class ChestGui extends Gui {
         Inventory inventory = Bukkit.createInventory(player, getHeight() * 9, getTitle());
         buildInventory(inventory);
         for (GuiItem[] row : guiItems)
-            for (GuiItem guiItem : row) guiItem.onOpen(player);
+            for (GuiItem guiItem : row) if (guiItem != null) guiItem.onOpen(player);
     }
 
     @Override
     protected void unregister(@NotNull Player player) {
         player.closeInventory();
-        for (GuiItem[] row : guiItems) for (GuiItem guiItem : row) guiItem.onClose(player);
+        for (GuiItem[] row : guiItems) for (GuiItem guiItem : row) if (guiItem != null) guiItem.onClose(player);
     }
 
     public void buildInventory(Inventory inventory) {
