@@ -13,8 +13,8 @@ import java.util.function.Consumer;
 
 public abstract class Gui extends GuiPane {
     private static final Map<UUID, Gui> playerGuis = new HashMap<>();
-    private Consumer<Player> openAction;
-    private Consumer<Player> closeAction;
+    protected Consumer<Player> openAction = player -> {};
+    protected Consumer<Player> closeAction = player -> {};
 
     public Gui(int width, int height) {
         super(width, height);
