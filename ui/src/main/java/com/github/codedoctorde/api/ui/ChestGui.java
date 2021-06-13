@@ -56,7 +56,8 @@ public class ChestGui extends Gui {
             GuiItem[] row = guiItems[x];
             for (int y = 0; y < row.length; y++) {
                 GuiItem item = row[y];
-                inventory.setItem(x + y * 9, item.build(this));
+                if (item != null)
+                    inventory.setItem(x + y * 9, item.build(this));
             }
         }
     }
