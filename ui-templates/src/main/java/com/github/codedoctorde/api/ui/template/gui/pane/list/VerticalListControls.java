@@ -20,20 +20,21 @@ public class VerticalListControls extends ListControls {
 
     public Function<ListGui, GuiPane> buildControlsBuilder() {
         return gui -> {
-            int height = guiItems[0].length;
-            if (height < 3) return this;
-            fillItems(0, 0, isDetailed() ? 1 : 0, height, getPlaceholderItem());
-            registerItem(1, 0, getPreviousItem(gui));
-            registerItem(1, height / 2 - 1, getSearchItem(gui));
-            registerItem(1, height - 1, getNextItem(gui));
+            int height = getHeight();
+            var pane = new GuiPane(getWidth(), height);
+            if (height < 3) return pane;
+            pane.fillItems(0, 0, isDetailed() ? 1 : 0, height, getPlaceholderItem());
+            pane.registerItem(1, 0, getPreviousItem(gui));
+            pane.registerItem(1, height / 2, getSearchItem(gui));
+            pane.registerItem(1, height - 1, getNextItem(gui));
             if (createAction != null && height > 3)
-                registerItem(1, height / 2, getCreateItem(gui));
+                pane.registerItem(1, height / 2, getCreateItem(gui));
 
             if (height >= 5 && isDetailed()) {
-                registerItem(1, 1, getFirstItem(gui));
-                registerItem(1, height - 2, getLastItem(gui));
+                pane.registerItem(1, 1, getFirstItem(gui));
+                pane.registerItem(1, height - 2, getLastItem(gui));
             }
-            return this;
+            return pane;
         };
     }
 }

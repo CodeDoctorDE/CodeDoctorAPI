@@ -19,11 +19,14 @@ public class GuiPane {
     }
 
     public GuiItem getItem(int x, int y) {
-        return guiItems[x][y];
+        if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight())
+            return guiItems[x][y];
+        return null;
     }
 
     public void unregisterItem(int x, int y) {
-        guiItems[x][y] = null;
+        if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight())
+            guiItems[x][y] = null;
     }
 
     public void fillItems(int startX, int startY, int endX, int endY, @Nullable GuiItem item) {
@@ -31,7 +34,9 @@ public class GuiPane {
     }
 
     public boolean containsItem(int x, int y) {
-        return guiItems[x][y] != null;
+        if (x >= 0 && x < getWidth() && y >= 0 && y <getHeight())
+            return guiItems[x][y] != null;
+        return false;
     }
 
     public void addItem(@NotNull GuiItem item) {

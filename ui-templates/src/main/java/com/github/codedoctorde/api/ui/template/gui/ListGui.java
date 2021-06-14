@@ -20,6 +20,7 @@ public class ListGui extends GuiCollection {
     private final Translation translation;
     private Function<ListGui, GuiPane> controlsBuilder;
     private String searchText = "";
+    private int controlsOffsetX = 0, controlsOffsetY = 0;
 
     public ListGui(Translation translation, int size, BiFunction<String, Translation, GuiItem[]> itemBuilder) {
         this.itemBuilder = itemBuilder;
@@ -34,10 +35,11 @@ public class ListGui extends GuiCollection {
 
     public void setControlsBuilder(Function<ListGui, GuiPane> controlsBuilder) {
         this.controlsBuilder = controlsBuilder;
+        rebuild();
     }
 
     public void setListControls(ListControls controls) {
-        controlsBuilder = controls.buildControlsBuilder();
+        setControlsBuilder(controls.buildControlsBuilder());
     }
 
     public Object[] getPlaceholders() {
@@ -50,6 +52,7 @@ public class ListGui extends GuiCollection {
     }
 
     public void rebuild() {
+        clearGuis();
         GuiItem[] items = itemBuilder.apply(searchText, translation);
         GuiPane controls = controlsBuilder == null ? null : controlsBuilder.apply(this);
         int controlsCount = controls == null ? 0 : controls.getItemCount();
@@ -59,7 +62,6 @@ public class ListGui extends GuiCollection {
         int currentPage = 1;
 
         ChestGui currentGui = buildGui(currentPage, pageCount, controls);
-        clearGuis();
         registerGui(currentGui);
 
         for (int i = 0, pageItemCount = 0; i < items.length; i++) {
@@ -77,7 +79,7 @@ public class ListGui extends GuiCollection {
     private ChestGui buildGui(int currentPage, int pageCount, GuiPane controls) {
         ChestGui gui = new ChestGui(translation.getTranslation("title", currentPage, pageCount, placeholders));
         if (controls != null)
-            gui.addPane(controls);
+            gui.addPane(controlsOffsetX, controlsOffsetY, controls);
         return gui;
     }
 
@@ -92,5 +94,10 @@ public class ListGui extends GuiCollection {
 
     public Translation getTranslation() {
         return translation;
+    }
+
+    public void controlsOffset(int x, int y) {
+        controlsOffsetX = x;
+        controlsOffsetY = y;
     }
 }

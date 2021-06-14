@@ -14,17 +14,39 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public abstract class ListControls extends GuiPane {
+public abstract class ListControls {
     private final boolean detailed;
-    protected Consumer<InventoryClickEvent> createAction = (event) -> {};
+    private final int height, width;
+    protected Consumer<InventoryClickEvent> backAction = (event) -> {
+    };
+    protected Consumer<InventoryClickEvent> createAction = (event) -> {
+    };
+    private int offsetX, offsetY;
 
     public ListControls(int width, int height) {
         this(true, width, height);
     }
 
     public ListControls(boolean detailed, int width, int height) {
-        super(width, height);
+        this.width = width;
+        this.height = height;
         this.detailed = detailed;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getOffsetX() {
+        return offsetX;
+    }
+
+    public int getOffsetY() {
+        return offsetY;
     }
 
     public boolean isDetailed() {
@@ -33,6 +55,10 @@ public abstract class ListControls extends GuiPane {
 
     public void setCreateAction(Consumer<InventoryClickEvent> createAction) {
         this.createAction = createAction;
+    }
+
+    public void setBackAction(Consumer<InventoryClickEvent> backAction) {
+        this.backAction = backAction;
     }
 
     public abstract Function<ListGui, GuiPane> buildControlsBuilder();
@@ -55,7 +81,10 @@ public abstract class ListControls extends GuiPane {
                     ChatRequest request = new ChatRequest(player);
                     request.setSubmitAction(gui::setSearchText);
                 } else if (event.getClick() == ClickType.RIGHT) gui.setSearchText("");
-                else if (event.getClick() == ClickType.DROP) gui.rebuild();
+                else if (event.getClick() == ClickType.DROP) {
+                    if (backAction != null) backAction.accept(event);
+                    else gui.hide(player);
+                }
             });
         }};
     }
@@ -82,7 +111,8 @@ public abstract class ListControls extends GuiPane {
         return new StaticItem(new ItemStackBuilder(Material.IRON_BARS).setDisplayName(" ").build());
     }
 
-    public ListControls offset(int x, int y) {
-        return (ListControls) super.offset(x, y);
+    public void offset(int x, int y) {
+        offsetX = x;
+        offsetY = y;
     }
 }
