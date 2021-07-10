@@ -30,9 +30,9 @@ public class Translation {
         String prefix = path + (path.isBlank() ? "" : ".");
         jsonObject.entrySet().forEach(entry -> {
             if(jsonObject.isJsonObject())
-                map.putAll(recursiveJsonMap(jsonObject.getAsJsonObject(), prefix));
+                map.putAll(recursiveJsonMap(entry.getValue().getAsJsonObject(), prefix + entry.getKey()));
             else
-                map.put(jsonObject.getAsString(), prefix + entry.getValue());
+                map.put(entry.getValue().getAsString(), prefix + entry.getKey());
         });
         return map;
     }
