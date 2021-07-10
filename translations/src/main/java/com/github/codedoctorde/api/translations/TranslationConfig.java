@@ -3,6 +3,7 @@ package com.github.codedoctorde.api.translations;
 import com.github.codedoctorde.api.config.JsonConfig;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.util.HashMap;
@@ -23,10 +24,7 @@ public class TranslationConfig extends JsonConfig {
     }
 
     private void reloadTranslation() {
-        Map<String, String> map = new HashMap<>();
-        for (Map.Entry<String, JsonElement> entry : getJsonObject().entrySet())
-            map.put(entry.getKey(), entry.getValue().getAsString());
-        instance = new Translation(map);
+        instance = new Translation(jsonObject);
     }
 
     public Translation getInstance() {

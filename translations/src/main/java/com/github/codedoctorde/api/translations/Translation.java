@@ -1,6 +1,7 @@
 package com.github.codedoctorde.api.translations;
 
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
+import com.google.gson.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,22 @@ public class Translation {
 
     public Translation(Map<String, String> translations) {
         this.translations = translations;
+    }
+
+    public Translation(JsonObject jsonObject) {
+        translations = recursiveJsonMap(jsonObject, "");
+    }
+
+    private Map<String, String> recursiveJsonMap(JsonObject jsonObject, String path) {
+        Map<String, String> map = new HashMap<>();
+        String prefix = path + (path.isBlank() ? "" : ".");
+        jsonObject.entrySet().forEach(entry -> {
+            if(jsonObject.isJsonObject())
+                map.putAll(recursiveJsonMap(jsonObject.getAsJsonObject(), prefix));
+            else
+                map.put(jsonObject.getAsString(), prefix + entry.getValue());
+        });
+        return map;
     }
 
     public Map<String, String> getTranslations() {
