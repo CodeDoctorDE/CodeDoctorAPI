@@ -28,7 +28,7 @@ public class JsonConfig extends FileConfig {
 
     @Override
     protected String getData() {
-        return jsonObject.toString();
+        return gson.toJson(jsonObject);
     }
 
     @Override
