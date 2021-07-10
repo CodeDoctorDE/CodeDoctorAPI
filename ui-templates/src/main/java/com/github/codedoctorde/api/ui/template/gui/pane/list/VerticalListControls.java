@@ -22,10 +22,10 @@ public class VerticalListControls extends ListControls {
             if (height < 3) return pane;
             pane.fillItems(0, 0, isDetailed() ? 1 : 0, height, getPlaceholderItem());
             pane.registerItem(x, 0, getPreviousItem(gui));
-            pane.registerItem(x, height / 2, getSearchItem(gui));
+            pane.registerItem(x, height / 2 - 1, getSearchItem(gui));
             pane.registerItem(x, height - 1, getNextItem(gui));
             if (createAction != null && height > 3)
-                pane.registerItem(x, height / 2 + 1, getCreateItem(gui));
+                pane.registerItem(x, height / 2, getCreateItem(gui));
 
             if (height >= 5 && isDetailed()) {
                 pane.registerItem(x, 1, getFirstItem(gui));
