@@ -4,6 +4,7 @@ import com.github.codedoctorde.api.utils.ItemStackBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -17,6 +18,14 @@ public class Translation {
 
     public Translation(Map<String, String> translations) {
         this.translations = translations;
+    }
+
+    public Map<String, String> getTranslations() {
+        return translations;
+    }
+
+    public Set<String> getTranslationKeys() {
+        return translations.keySet();
     }
 
     public String getTranslation(String key, Object... placeholders) {

@@ -12,7 +12,7 @@ import java.util.Map;
  * @author CodeDoctorDE
  */
 public class TranslationConfig extends JsonConfig {
-    private Translation translation = new Translation();
+    private Translation instance = new Translation();
 
     public TranslationConfig(File file) {
         super(file);
@@ -26,23 +26,35 @@ public class TranslationConfig extends JsonConfig {
         Map<String, String> map = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : getJsonObject().entrySet())
             map.put(entry.getKey(), entry.getValue().getAsString());
-        translation = new Translation(map);
+        instance = new Translation(map);
     }
 
-    public Translation getTranslation() {
-        return translation;
+    public Translation getInstance() {
+        return instance;
+    }
+
+    public void setInstance(Translation instance) {
+        this.instance = instance;
     }
 
     public String getTranslation(String key, Object... placeholder) {
-        return translation.getTranslation(key, placeholder);
+        return instance.getTranslation(key, placeholder);
     }
 
     public boolean hasTranslation(String key) {
-        return translation.hasTranslation(key);
+        return instance.hasTranslation(key);
     }
 
     public Translation subTranslation(String namespace) {
-        return translation.subTranslation(namespace);
+        return instance.subTranslation(namespace);
+    }
+
+    public void setDefault(Translation translation) {
+        var map = new HashMap<>(translation.getTranslations());
+        for (Map.Entry<String, String> entry : translation.getTranslations().entrySet())
+            if (!instance.getTranslationKeys().contains(entry.getKey()))
+                map.put(entry.getKey(), entry.getValue());
+        instance = new Translation(map);
     }
 
     @Override
