@@ -24,9 +24,8 @@ public class TranslationConfig extends JsonConfig {
 
     private void reloadTranslation() {
         Map<String, String> map = new HashMap<>();
-        for (Map.Entry<String, JsonElement> entry : getValues().entrySet()) {
+        for (Map.Entry<String, JsonElement> entry : getJsonObject().entrySet())
             map.put(entry.getKey(), entry.getValue().getAsString());
-        }
         translation = new Translation(map);
     }
 

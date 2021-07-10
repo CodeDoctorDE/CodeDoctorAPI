@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -17,23 +18,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class RequestListener implements Listener {
     private static boolean registered = false;
 
-    public static boolean isRegistered() {
-        return registered;
-    }
-
     public static void register() {
-        if (!isRegistered())
-            return;
         RequestListener instance = new RequestListener();
+        if (instance.isRegistered())
+            return;
         Bukkit.getPluginManager().registerEvents(instance,
                 JavaPlugin.getProvidingPlugin(instance.getClass()));
-        registered = true;
+    }
+
+    public boolean isRegistered() {
+        return HandlerList.getRegisteredListeners(JavaPlugin.getProvidingPlugin(getClass())).stream().anyMatch(registeredListener -> registeredListener.getListener() instanceof RequestListener);
     }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         Player current = event.getPlayer();
-        Object request = Request.getRequest(current);
+        Request<?> request = Request.getRequest(current);
         if (request instanceof ChatRequest) {
             ChatRequest itemRequest = (ChatRequest) request;
             itemRequest.raise(event.getMessage());

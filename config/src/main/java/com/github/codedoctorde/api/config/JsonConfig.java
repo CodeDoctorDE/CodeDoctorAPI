@@ -36,14 +36,6 @@ public class JsonConfig extends FileConfig {
         jsonObject = gson.fromJson(reader, JsonObject.class);
     }
 
-    public JsonElement getJsonElement(String path) {
-        JsonElement current = jsonObject;
-        for (String currentPath :
-                path.split("\\."))
-            current = current.getAsJsonObject().get(currentPath);
-        return current;
-    }
-
     public Gson getGson() {
         return gson;
     }
@@ -52,72 +44,11 @@ public class JsonConfig extends FileConfig {
         this.gson = gson;
     }
 
-    public JsonObject createObject(String path) {
-        JsonObject current = jsonObject;
-        for (String currentPath : path.split("\\.")) {
-            if (!current.has(currentPath))
-                current.add(currentPath, new JsonObject());
-            current = current.getAsJsonObject(currentPath);
-        }
-        return current;
+    public void setJsonObject(JsonObject jsonObject) {
+        this.jsonObject = jsonObject;
     }
 
-    public void setObject(String path, JsonElement value) {
-        String[] paths = path.split("\\.");
-        JsonObject namespace = createObject(String.join(".", Arrays.copyOfRange(paths, 0, paths.length - 1))).getAsJsonObject();
-        namespace.add(paths[paths.length - 1], value);
-    }
-
-    public boolean has(String path) {
-        JsonElement current = jsonObject;
-        for (String currentPath :
-                path.split("\\.")) {
-            if (current.isJsonObject())
-                if (current.getAsJsonObject().has(currentPath))
-                    current = current.getAsJsonObject().get(currentPath);
-                else
-                    return false;
-        }
-        return true;
-    }
-
-    /**
-     * Set default values from the given json object
-     * ! Only available if the json element is a json object !
-     *
-     * @param defaultJsonObject
-     */
-    public void setDefault(JsonObject defaultJsonObject) {
-        for (Map.Entry<String, JsonElement> entry :
-                defaultJsonObject.entrySet())
-            setDefault(entry.getKey(), entry.getValue());
-    }
-
-    /**
-     * Set default values
-     * ! Only available if the json element is a json object !
-     *
-     * @param key
-     * @param value
-     */
-    private void setDefault(String key, JsonElement value) {
-        if (!has(key))
-            setObject(key, value);
-    }
-
-    public Map<String, JsonElement> getValues() {
-        return getValues("", jsonObject);
-    }
-
-    public Map<String, JsonElement> getValues(String path, JsonObject jsonObject) {
-        Map<String, JsonElement> map = new HashMap<>();
-        for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
-            String currentPath = path + "." + entry.getKey();
-            if (entry.getValue().isJsonObject())
-                map.putAll(getValues(currentPath, entry.getValue().getAsJsonObject()));
-            else
-                map.put(currentPath, entry.getValue());
-        }
-        return map;
+    public JsonObject getJsonObject() {
+        return jsonObject;
     }
 }
