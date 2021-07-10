@@ -17,8 +17,10 @@ import java.util.function.Consumer;
  * @author CodeDoctorDE
  */
 public class StaticItem implements GuiItem {
-    protected Consumer<InventoryClickEvent> clickAction = (event) -> {};
-    protected Consumer<Gui> renderAction = (gui) -> {};
+    protected Consumer<InventoryClickEvent> clickAction = (event) -> {
+    };
+    protected Consumer<Gui> renderAction = (gui) -> {
+    };
     private ItemStack itemStack;
     private List<Object> placeholders = new ArrayList<>();
 

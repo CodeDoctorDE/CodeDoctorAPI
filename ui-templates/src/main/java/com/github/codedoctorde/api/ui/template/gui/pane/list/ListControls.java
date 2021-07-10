@@ -25,6 +25,7 @@ public abstract class ListControls {
     public ListControls(boolean detailed) {
         this.detailed = detailed;
     }
+
     public ListControls() {
         this(false);
     }

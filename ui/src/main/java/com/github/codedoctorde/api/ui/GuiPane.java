@@ -15,7 +15,8 @@ public class GuiPane {
     }
 
     public void registerItem(int x, int y, @Nullable GuiItem item) {
-        guiItems[x][y] = item;
+        if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight())
+            guiItems[x][y] = item;
     }
 
     public GuiItem getItem(int x, int y) {
@@ -34,7 +35,7 @@ public class GuiPane {
     }
 
     public boolean containsItem(int x, int y) {
-        if (x >= 0 && x < getWidth() && y >= 0 && y <getHeight())
+        if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight())
             return guiItems[x][y] != null;
         return false;
     }

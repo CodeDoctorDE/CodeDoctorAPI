@@ -21,7 +21,8 @@ import java.util.function.Consumer;
 public class ItemCreatorGui extends ChestGui {
     private final StaticItem previewStaticItem;
     private final ItemStackBuilder itemStackBuilder;
-    private Consumer<ItemStack> submitAction = (item) -> {};
+    private Consumer<ItemStack> submitAction = (item) -> {
+    };
     private Runnable cancelAction;
 
     public ItemCreatorGui(ItemStack itemStack, Translation translation) {
@@ -59,7 +60,7 @@ public class ItemCreatorGui extends ChestGui {
             setClickAction(event -> {
                 hide((Player) event.getWhoClicked());
                 var request = new ChatRequest((Player) event.getWhoClicked());
-                request.setSubmitAction(s ->  {
+                request.setSubmitAction(s -> {
                     show((Player) event.getWhoClicked());
                 });
                 request.setCancelAction(() -> show((Player) event.getWhoClicked()));

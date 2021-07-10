@@ -70,7 +70,7 @@ public class GuiCollection extends Gui {
     }
 
     public Gui getGui() {
-        if(guis.size() < current)
+        if (guis.size() < current)
             return null;
         return guis.get(current);
     }

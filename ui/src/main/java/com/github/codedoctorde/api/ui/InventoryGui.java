@@ -34,19 +34,19 @@ public class InventoryGui extends Gui {
         savedPlayerInventories.put(player.getUniqueId(), inventory.getContents());
         buildInventory(inventory);
         for (GuiItem[] row : guiItems)
-            for (GuiItem guiItem : row) if(guiItem != null) guiItem.onOpen(player);
+            for (GuiItem guiItem : row) if (guiItem != null) guiItem.onOpen(player);
     }
 
     @Override
     protected void unregister(@NotNull Player player) {
         player.closeInventory();
-        for (GuiItem[] row : guiItems) for (GuiItem guiItem : row) if(guiItem != null) guiItem.onClose(player);
+        for (GuiItem[] row : guiItems) for (GuiItem guiItem : row) if (guiItem != null) guiItem.onClose(player);
         if (!savedPlayerInventories.containsKey(player.getUniqueId()))
             return;
         player.getInventory().setContents(savedPlayerInventories.get(player.getUniqueId()));
         savedPlayerInventories.remove(player.getUniqueId());
         for (GuiItem[] row : guiItems)
-            for (GuiItem guiItem : row) if(guiItem != null) guiItem.onClose(player);
+            for (GuiItem guiItem : row) if (guiItem != null) guiItem.onClose(player);
     }
 
     public void buildInventory(Inventory inventory) {
