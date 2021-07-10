@@ -22,8 +22,8 @@ public class ChestGui extends Gui {
         this("", size);
     }
 
-    public ChestGui(String title, int size) {
-        super(9, size);
+    public ChestGui(String title, int height) {
+        super(9, height);
         this.title = title;
     }
 

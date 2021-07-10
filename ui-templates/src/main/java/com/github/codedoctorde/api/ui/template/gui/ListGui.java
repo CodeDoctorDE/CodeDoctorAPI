@@ -77,7 +77,7 @@ public class ListGui extends GuiCollection {
     }
 
     private ChestGui buildGui(int currentPage, int pageCount, GuiPane controls) {
-        ChestGui gui = new ChestGui(translation.getTranslation("title", height, currentPage, pageCount, placeholders));
+        ChestGui gui = new ChestGui(translation.getTranslation("title", currentPage, pageCount, placeholders), height);
         if (controls != null)
             gui.addPane(controlsOffsetX, controlsOffsetY, controls);
         return gui;
