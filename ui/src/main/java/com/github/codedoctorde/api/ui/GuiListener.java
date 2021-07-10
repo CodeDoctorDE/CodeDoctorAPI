@@ -34,6 +34,8 @@ public class GuiListener implements Listener {
             return;
         event.setCancelled(true);
         Gui gui = Gui.getGui((Player) event.getWhoClicked());
+        if (gui == null)
+            return;
         int slot = event.getSlot();
         int x = slot % 9;
         int y = slot / 9;
@@ -44,11 +46,14 @@ public class GuiListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        Gui.getGui(event.getPlayer()).hide(event.getPlayer());
+        var gui = Gui.getGui(event.getPlayer());
+        if (gui != null) gui.hide(event.getPlayer());
     }
 
     @EventHandler
     public void onChestGuiClosed(InventoryCloseEvent event) {
-        Gui.getGui((Player) event.getPlayer()).onClose((Player) event.getPlayer());
+        var gui = Gui.getGui((Player) event.getPlayer());
+        if (gui != null)
+            gui.onClose((Player) event.getPlayer());
     }
 }

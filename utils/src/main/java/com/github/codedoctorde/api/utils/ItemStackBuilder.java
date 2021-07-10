@@ -150,7 +150,7 @@ public class ItemStackBuilder {
     }
 
     public List<String> getLore() {
-        return (itemStack.getItemMeta().getLore() == null) ? new ArrayList<>() : itemStack.getItemMeta().getLore();
+        return (Objects.requireNonNull(itemStack.getItemMeta()).getLore() == null) ? new ArrayList<>() : itemStack.getItemMeta().getLore();
     }
 
     public ItemStackBuilder setLore(String... lore) {
@@ -261,11 +261,13 @@ public class ItemStackBuilder {
 
     public boolean hasItemFlag(ItemFlag itemFlag) {
         ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
         return itemMeta.hasItemFlag(itemFlag);
     }
 
     public Set<ItemFlag> getItemFlags() {
         ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
         return itemMeta.getItemFlags();
     }
 
@@ -315,6 +317,7 @@ public class ItemStackBuilder {
 
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers() {
         ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
         return itemMeta.getAttributeModifiers();
     }
 

@@ -40,6 +40,7 @@ public class Translation {
 
     public void translate(ItemStackBuilder itemStackBuilder, Object... placeholders) {
         itemStackBuilder.setDisplayName(getTranslation(itemStackBuilder.getDisplayName(), placeholders));
+        if(!itemStackBuilder.getLore().isEmpty())
         itemStackBuilder.setLore(getTranslation(String.join("\n", itemStackBuilder.getLore()), placeholders));
     }
 }
