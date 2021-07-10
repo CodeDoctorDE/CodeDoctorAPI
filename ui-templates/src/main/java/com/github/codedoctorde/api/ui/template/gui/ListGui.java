@@ -16,15 +16,15 @@ import java.util.function.Function;
 public class ListGui extends GuiCollection {
     private final List<Object> placeholders = new ArrayList<>();
     private final BiFunction<String, Translation, GuiItem[]> itemBuilder;
-    private final int size;
+    private final int height;
     private final Translation translation;
     private Function<ListGui, GuiPane> controlsBuilder;
     private String searchText = "";
     private int controlsOffsetX = 0, controlsOffsetY = 0;
 
-    public ListGui(Translation translation, int size, BiFunction<String, Translation, GuiItem[]> itemBuilder) {
+    public ListGui(Translation translation, int height, BiFunction<String, Translation, GuiItem[]> itemBuilder) {
         this.itemBuilder = itemBuilder;
-        this.size = size;
+        this.height = height;
         this.translation = translation;
         rebuild();
     }
@@ -56,7 +56,7 @@ public class ListGui extends GuiCollection {
         GuiItem[] items = itemBuilder.apply(searchText, translation);
         GuiPane controls = controlsBuilder == null ? null : controlsBuilder.apply(this);
         int controlsCount = controls == null ? 0 : controls.getItemCount();
-        int freeSlots = size * 9 - controlsCount;
+        int freeSlots = height * 9 - controlsCount;
         int pageCount = (int) Math.ceil(items.length / (float) freeSlots);
 
         int currentPage = 1;
@@ -65,7 +65,7 @@ public class ListGui extends GuiCollection {
         registerGui(currentGui);
 
         for (int i = 0, pageItemCount = 0; i < items.length; i++) {
-            if (size * 9 >= pageItemCount + controlsCount) {
+            if (height * 9 >= pageItemCount + controlsCount) {
                 currentPage++;
                 currentGui = buildGui(currentPage, pageCount, controls);
                 registerGui(currentGui);
@@ -77,7 +77,7 @@ public class ListGui extends GuiCollection {
     }
 
     private ChestGui buildGui(int currentPage, int pageCount, GuiPane controls) {
-        ChestGui gui = new ChestGui(translation.getTranslation("title", size, currentPage, pageCount, placeholders));
+        ChestGui gui = new ChestGui(translation.getTranslation("title", height, currentPage, pageCount, placeholders));
         if (controls != null)
             gui.addPane(controlsOffsetX, controlsOffsetY, controls);
         return gui;
@@ -99,5 +99,15 @@ public class ListGui extends GuiCollection {
     public void controlsOffset(int x, int y) {
         controlsOffsetX = x;
         controlsOffsetY = y;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public int getWidth() {
+        return 9;
     }
 }

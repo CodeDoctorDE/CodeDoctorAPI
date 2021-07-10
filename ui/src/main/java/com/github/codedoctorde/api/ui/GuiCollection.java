@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -69,6 +70,8 @@ public class GuiCollection extends Gui {
     }
 
     public Gui getGui() {
+        if(guis.size() < current)
+            return null;
         return guis.get(current);
     }
 
@@ -120,7 +123,7 @@ public class GuiCollection extends Gui {
 
     @Override
     public int getHeight() {
-        return getGui().getHeight();
+        return Optional.ofNullable(getGui()).map(GuiPane::getHeight).orElse(0);
     }
 
     @Override
