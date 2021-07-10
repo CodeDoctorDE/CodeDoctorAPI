@@ -7,21 +7,16 @@ import java.util.function.Function;
 
 public class VerticalListControls extends ListControls {
     public VerticalListControls() {
-        this(3);
+        super();
     }
 
-    public VerticalListControls(int height) {
-        this(true, height);
+    public VerticalListControls(boolean detailed) {
+        super(true);
     }
-
-    public VerticalListControls(boolean detailed, int height) {
-        super(detailed, detailed ? 2 : 1, height);
-    }
-
     public Function<ListGui, GuiPane> buildControlsBuilder() {
         return gui -> {
-            int height = getHeight();
-            var pane = new GuiPane(getWidth(), height);
+            int height = gui.getHeight();
+            var pane = new GuiPane(gui.getWidth(), height);
             if (height < 3) return pane;
             pane.fillItems(0, 0, isDetailed() ? 1 : 0, height, getPlaceholderItem());
             pane.registerItem(1, 0, getPreviousItem(gui));

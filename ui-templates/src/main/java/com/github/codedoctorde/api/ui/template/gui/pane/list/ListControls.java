@@ -16,29 +16,17 @@ import java.util.function.Function;
 
 public abstract class ListControls {
     private final boolean detailed;
-    private final int height, width;
     protected Consumer<InventoryClickEvent> backAction = (event) -> {
     };
     protected Consumer<InventoryClickEvent> createAction = (event) -> {
     };
     private int offsetX, offsetY;
 
-    public ListControls(int width, int height) {
-        this(true, width, height);
-    }
-
-    public ListControls(boolean detailed, int width, int height) {
-        this.width = width;
-        this.height = height;
+    public ListControls(boolean detailed) {
         this.detailed = detailed;
     }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
+    public ListControls() {
+        this(false);
     }
 
     public int getOffsetX() {

@@ -30,7 +30,7 @@ public class ListGui extends GuiCollection {
     }
 
     public ListGui(Translation translation, BiFunction<String, Translation, GuiItem[]> itemBuilder) {
-        this(translation, 5, itemBuilder);
+        this(translation, 3, itemBuilder);
     }
 
     public void setControlsBuilder(Function<ListGui, GuiPane> controlsBuilder) {
@@ -77,7 +77,7 @@ public class ListGui extends GuiCollection {
     }
 
     private ChestGui buildGui(int currentPage, int pageCount, GuiPane controls) {
-        ChestGui gui = new ChestGui(translation.getTranslation("title", currentPage, pageCount, placeholders));
+        ChestGui gui = new ChestGui(translation.getTranslation("title", size, currentPage, pageCount, placeholders));
         if (controls != null)
             gui.addPane(controlsOffsetX, controlsOffsetY, controls);
         return gui;

@@ -8,16 +8,16 @@ import java.util.function.Function;
 public class HorizontalListControls extends ListControls {
 
     public HorizontalListControls() {
-        this(true);
+        super();
     }
 
     public HorizontalListControls(boolean detailed) {
-        super(9, detailed ? 2 : 1);
+        super(detailed);
     }
 
     public Function<ListGui, GuiPane> buildControlsBuilder() {
         return gui -> {
-            var pane = new GuiPane(getWidth(), getHeight());
+            var pane = new GuiPane(gui.getWidth(), gui.getHeight());
             pane.fillItems(0, 0, 8, isDetailed() ? 2 : 1, getPlaceholderItem());
             pane.registerItem(0, 0, getPreviousItem(gui));
             pane.registerItem(0, 4, getSearchItem(gui));
