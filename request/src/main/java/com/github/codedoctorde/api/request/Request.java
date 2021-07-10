@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  * @author CodeDoctorDE
  */
 public abstract class Request<T> implements Listener {
-    private static final HashMap<UUID, Request> requests = new HashMap<>();
+    private static final HashMap<UUID, Request<?>> requests = new HashMap<>();
     protected final Player player;
     protected Consumer<T> submitAction = (output) -> {
     };
@@ -25,9 +25,10 @@ public abstract class Request<T> implements Listener {
         if (requests.containsKey(player.getUniqueId()))
             requests.get(player.getUniqueId()).cancel();
         requests.put(player.getUniqueId(), this);
+        RequestListener.register();
     }
 
-    public static @Nullable Request getRequest(@NotNull Player player) {
+    public static @Nullable Request<?> getRequest(@NotNull Player player) {
         return requests.get(player.getUniqueId());
     }
 
@@ -37,7 +38,7 @@ public abstract class Request<T> implements Listener {
 
     public static void cancelAll(@NotNull Player... players) {
         Arrays.stream(players).filter(Request::hasRequest).forEach(player -> {
-            Request request = getRequest(player);
+            Request<?> request = getRequest(player);
             if (request != null)
                 request.cancel();
         });

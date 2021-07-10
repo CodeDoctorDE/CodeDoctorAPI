@@ -32,10 +32,10 @@ public class GuiListener implements Listener {
     public void onChestGuiItemClicked(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player))
             return;
-        event.setCancelled(true);
         Gui gui = Gui.getGui((Player) event.getWhoClicked());
         if (gui == null)
             return;
+        event.setCancelled(true);
         int slot = event.getSlot();
         int x = slot % 9;
         int y = slot / 9;

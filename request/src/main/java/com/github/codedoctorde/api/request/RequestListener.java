@@ -97,7 +97,7 @@ public class RequestListener implements Listener {
     @EventHandler
     public void onValueChange(PlayerItemHeldEvent event) {
         Player player = event.getPlayer();
-        Request request = Request.getRequest(player);
+        Request<?> request = Request.getRequest(player);
         if (request instanceof ValueRequest) {
             ValueRequest valueRequest = (ValueRequest) request;
             float current = (event.getPreviousSlot() > event.getNewSlot() ? event.getPreviousSlot() - event.getNewSlot() : event.getNewSlot() - event.getPreviousSlot()) * valueRequest.getSteps();
@@ -114,7 +114,7 @@ public class RequestListener implements Listener {
     @EventHandler
     public void onValueSubmit(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        Request request = Request.getRequest(player);
+        Request<?> request = Request.getRequest(player);
         if (request instanceof ValueRequest) {
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
                 ((ValueRequest) request).submit();
