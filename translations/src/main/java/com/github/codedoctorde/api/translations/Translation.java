@@ -99,7 +99,7 @@ public class Translation {
             String[] namespace = Arrays.copyOfRange(path, 0, path.length - 1);
             JsonObject currentJsonObject = jsonObject;
             for (String current : namespace) {
-                if (!currentJsonObject.get(current).isJsonObject()) currentJsonObject.add(current, new JsonObject());
+                if (!currentJsonObject.has(current) || !currentJsonObject.get(current).isJsonObject()) currentJsonObject.add(current, new JsonObject());
                 currentJsonObject = currentJsonObject.getAsJsonObject(current);
             }
             currentJsonObject.addProperty(path[path.length - 1], value);
