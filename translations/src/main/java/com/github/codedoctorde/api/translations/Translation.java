@@ -94,10 +94,12 @@ public class Translation {
         JsonObject jsonObject = new JsonObject();
         translations.forEach((key, value) -> {
             String[] path = key.split("\\.");
-            String[] namespace = path.length == 0 ? new String[0] : Arrays.copyOfRange(path, 0, path.length - 2);
+            if(path.length == 0)
+                return;
+            String[] namespace = Arrays.copyOfRange(path, 0, path.length - 1);
             JsonObject currentJsonObject = jsonObject;
             for (String current : namespace) {
-                if (!currentJsonObject.has(current)) currentJsonObject.add(current, new JsonObject());
+                if (!currentJsonObject.get(current).isJsonObject()) currentJsonObject.add(current, new JsonObject());
                 currentJsonObject = currentJsonObject.getAsJsonObject(current);
             }
             currentJsonObject.addProperty(path[path.length - 1], value);
