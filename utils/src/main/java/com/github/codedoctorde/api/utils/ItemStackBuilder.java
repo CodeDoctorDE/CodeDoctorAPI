@@ -163,9 +163,7 @@ public class ItemStackBuilder {
     }
 
     public ItemStackBuilder setLore(List<String> lore) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        Objects.requireNonNull(itemMeta).setLore(lore);
-        itemStack.setItemMeta(itemMeta);
+        setLore(lore.toArray(String[]::new));
         return this;
     }
 
