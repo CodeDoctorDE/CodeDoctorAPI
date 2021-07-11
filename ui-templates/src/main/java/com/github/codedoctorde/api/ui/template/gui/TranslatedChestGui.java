@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TranslatedChestGui extends ChestGui implements TranslatedObject {
     private final Translation translation;
-    private List<Object> placeholders = new ArrayList<>();
+    private Object[] placeholders = new Object[0];
 
     public TranslatedChestGui(Translation translation) {
         this(translation, 3);
@@ -37,10 +37,10 @@ public class TranslatedChestGui extends ChestGui implements TranslatedObject {
     }
 
     public Object[] getPlaceholders() {
-        return placeholders.toArray();
+        return placeholders;
     }
 
     public void setPlaceholders(Object... placeholders) {
-        this.placeholders = Arrays.asList(placeholders);
+        this.placeholders = placeholders;
     }
 }

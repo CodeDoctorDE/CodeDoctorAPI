@@ -2,7 +2,6 @@ package com.github.codedoctorde.api.translations;
 
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.Arrays;
@@ -32,11 +31,11 @@ public class Translation {
         Map<String, String> map = new HashMap<>();
         String prefix = path + (path.isBlank() ? "" : ".");
         jsonObject.entrySet().forEach(entry -> {
-            if(entry.getValue().isJsonObject())
+            if (entry.getValue().isJsonObject())
                 map.putAll(recursiveJsonMap(prefix + entry.getKey(), entry.getValue().getAsJsonObject()));
-            else if(entry.getValue().isJsonArray())
+            else if (entry.getValue().isJsonArray())
                 map.putAll(recursiveJsonArray(prefix + entry.getKey(), entry.getValue().getAsJsonArray()));
-            else if(entry.getValue().isJsonPrimitive())
+            else if (entry.getValue().isJsonPrimitive())
                 map.put(prefix + entry.getKey(), entry.getValue().getAsString());
         });
         return map;
@@ -47,11 +46,11 @@ public class Translation {
         String prefix = path + (path.isBlank() ? "" : ".");
         for (int i = 0; i < jsonArray.size(); i++) {
             var jsonElement = jsonArray.get(i);
-            if(jsonElement.isJsonObject())
+            if (jsonElement.isJsonObject())
                 map.putAll(recursiveJsonMap(prefix + i, jsonElement.getAsJsonObject()));
-            else if(jsonElement.isJsonArray())
+            else if (jsonElement.isJsonArray())
                 map.putAll(recursiveJsonArray(prefix + i, jsonElement.getAsJsonArray()));
-            else if(jsonElement.isJsonPrimitive())
+            else if (jsonElement.isJsonPrimitive())
                 map.put(prefix + i, jsonElement.getAsString());
         }
         return map;
@@ -86,20 +85,21 @@ public class Translation {
 
     public void translate(ItemStackBuilder itemStackBuilder, Object... placeholders) {
         itemStackBuilder.setDisplayName(getTranslation(itemStackBuilder.getDisplayName(), placeholders));
-        if(!itemStackBuilder.getLore().isEmpty())
-        itemStackBuilder.setLore(getTranslation(String.join("\n", itemStackBuilder.getLore()), placeholders));
+        if (!itemStackBuilder.getLore().isEmpty())
+            itemStackBuilder.setLore(getTranslation(String.join("\n", itemStackBuilder.getLore()), placeholders));
     }
 
     public JsonObject toJsonObject() {
         JsonObject jsonObject = new JsonObject();
         translations.forEach((key, value) -> {
             String[] path = key.split("\\.");
-            if(path.length == 0)
+            if (path.length == 0)
                 return;
             String[] namespace = Arrays.copyOfRange(path, 0, path.length - 1);
             JsonObject currentJsonObject = jsonObject;
             for (String current : namespace) {
-                if (!currentJsonObject.has(current) || !currentJsonObject.get(current).isJsonObject()) currentJsonObject.add(current, new JsonObject());
+                if (!currentJsonObject.has(current) || !currentJsonObject.get(current).isJsonObject())
+                    currentJsonObject.add(current, new JsonObject());
                 currentJsonObject = currentJsonObject.getAsJsonObject(current);
             }
             currentJsonObject.addProperty(path[path.length - 1], value);
