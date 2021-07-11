@@ -61,4 +61,14 @@ public class TranslationConfig extends JsonConfig {
     public JsonObject getJsonObject() {
         return instance.toJsonObject();
     }
+
+    @Override
+    public void setJsonObject(JsonObject jsonObject) {
+        instance = new Translation(jsonObject);
+    }
+
+    @Override
+    protected String getData() {
+        return getGson().toJson(instance.toJsonObject());
+    }
 }
