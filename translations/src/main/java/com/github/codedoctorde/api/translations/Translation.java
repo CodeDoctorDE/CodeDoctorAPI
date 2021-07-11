@@ -1,6 +1,8 @@
 package com.github.codedoctorde.api.translations;
 
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
@@ -31,9 +33,26 @@ public class Translation {
         jsonObject.entrySet().forEach(entry -> {
             if(entry.getValue().isJsonObject())
                 map.putAll(recursiveJsonMap(entry.getValue().getAsJsonObject(), prefix + entry.getKey()));
-            else
+            else if(entry.getValue().isJsonArray())
+                map.putAll(recursiveJsonArray(entry.getValue().getAsJsonArray(), prefix + entry.getKey()));
+            else if(entry.getValue().isJsonPrimitive())
                 map.put(entry.getValue().getAsString(), prefix + entry.getKey());
         });
+        return map;
+    }
+
+    private Map<String, String> recursiveJsonArray(JsonArray jsonArray, String path) {
+        Map<String, String> map = new HashMap<>();
+        String prefix = path + (path.isBlank() ? "" : ".");
+        for (int i = 0; i < jsonArray.size(); i++) {
+            var jsonElement = jsonArray.get(i);
+            if(jsonElement.isJsonObject())
+                map.putAll(recursiveJsonMap(jsonElement.getAsJsonObject(), prefix + i));
+            else if(jsonElement.isJsonArray())
+                map.putAll(recursiveJsonArray(jsonElement.getAsJsonArray(), prefix + i));
+            else if(jsonElement.isJsonPrimitive())
+                map.put(jsonElement.getAsString(), prefix + i);
+        }
         return map;
     }
 
