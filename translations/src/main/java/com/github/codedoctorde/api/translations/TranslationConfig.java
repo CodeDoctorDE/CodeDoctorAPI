@@ -15,12 +15,12 @@ import java.util.Map;
 public class TranslationConfig extends JsonConfig {
     private Translation instance = new Translation();
 
-    public TranslationConfig(File file) {
-        super(file);
+    public TranslationConfig(String filePath) {
+        super(filePath);
     }
 
-    public TranslationConfig(Gson gson, File file) {
-        super(gson, file);
+    public TranslationConfig(Gson gson, String filePath) {
+        super(gson, filePath);
     }
 
     private void reloadTranslation() {

@@ -17,12 +17,12 @@ public class JsonConfig extends FileConfig {
     protected JsonObject jsonObject = new JsonObject();
     private Gson gson = new Gson();
 
-    public JsonConfig(File file) {
-        super(file);
+    public JsonConfig(String filePath) {
+        super(filePath);
     }
 
-    public JsonConfig(Gson gson, File file) {
-        this(file);
+    public JsonConfig(Gson gson, String filePath) {
+        this(filePath);
         this.gson = gson;
     }
 
