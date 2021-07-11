@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -24,34 +25,34 @@ public class Translation {
     }
 
     public Translation(JsonObject jsonObject) {
-        translations = recursiveJsonMap(jsonObject, "");
+        translations = recursiveJsonMap("", jsonObject);
     }
 
-    private Map<String, String> recursiveJsonMap(JsonObject jsonObject, String path) {
+    private Map<String, String> recursiveJsonMap(String path, JsonObject jsonObject) {
         Map<String, String> map = new HashMap<>();
         String prefix = path + (path.isBlank() ? "" : ".");
         jsonObject.entrySet().forEach(entry -> {
             if(entry.getValue().isJsonObject())
-                map.putAll(recursiveJsonMap(entry.getValue().getAsJsonObject(), prefix + entry.getKey()));
+                map.putAll(recursiveJsonMap(prefix + entry.getKey(), entry.getValue().getAsJsonObject()));
             else if(entry.getValue().isJsonArray())
-                map.putAll(recursiveJsonArray(entry.getValue().getAsJsonArray(), prefix + entry.getKey()));
+                map.putAll(recursiveJsonArray(prefix + entry.getKey(), entry.getValue().getAsJsonArray()));
             else if(entry.getValue().isJsonPrimitive())
-                map.put(entry.getValue().getAsString(), prefix + entry.getKey());
+                map.put(prefix + entry.getKey(), entry.getValue().getAsString());
         });
         return map;
     }
 
-    private Map<String, String> recursiveJsonArray(JsonArray jsonArray, String path) {
+    private Map<String, String> recursiveJsonArray(String path, JsonArray jsonArray) {
         Map<String, String> map = new HashMap<>();
         String prefix = path + (path.isBlank() ? "" : ".");
         for (int i = 0; i < jsonArray.size(); i++) {
             var jsonElement = jsonArray.get(i);
             if(jsonElement.isJsonObject())
-                map.putAll(recursiveJsonMap(jsonElement.getAsJsonObject(), prefix + i));
+                map.putAll(recursiveJsonMap(prefix + i, jsonElement.getAsJsonObject()));
             else if(jsonElement.isJsonArray())
-                map.putAll(recursiveJsonArray(jsonElement.getAsJsonArray(), prefix + i));
+                map.putAll(recursiveJsonArray(prefix + i, jsonElement.getAsJsonArray()));
             else if(jsonElement.isJsonPrimitive())
-                map.put(jsonElement.getAsString(), prefix + i);
+                map.put(prefix + i, jsonElement.getAsString());
         }
         return map;
     }
@@ -88,4 +89,20 @@ public class Translation {
         if(!itemStackBuilder.getLore().isEmpty())
         itemStackBuilder.setLore(getTranslation(String.join("\n", itemStackBuilder.getLore()), placeholders));
     }
+
+    public JsonObject toJsonObject() {
+        JsonObject jsonObject = new JsonObject();
+        translations.forEach((key, value) -> {
+            String[] path = key.split("\\.");
+            String[] namespace = path.length == 0 ? new String[0] : Arrays.copyOfRange(path, 0, path.length - 2);
+            JsonObject currentJsonObject = jsonObject;
+            for (String current : namespace) {
+                if (!currentJsonObject.has(current)) currentJsonObject.add(current, new JsonObject());
+                currentJsonObject = currentJsonObject.getAsJsonObject(current);
+            }
+            currentJsonObject.addProperty(path[path.length - 1], value);
+        });
+        return jsonObject;
+    }
+
 }

@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,10 +22,6 @@ public class TranslationConfig extends JsonConfig {
 
     public TranslationConfig(Gson gson, String filePath) {
         super(gson, filePath);
-    }
-
-    private void reloadTranslation() {
-        instance = new Translation(jsonObject);
     }
 
     public Translation getInstance() {
@@ -56,8 +53,12 @@ public class TranslationConfig extends JsonConfig {
     }
 
     @Override
-    public void reload() {
-        super.reload();
-        reloadTranslation();
+    protected void read(BufferedReader reader) {
+        instance = new Translation(getGson().fromJson(reader, JsonObject.class));
+    }
+
+    @Override
+    public JsonObject getJsonObject() {
+        return instance.toJsonObject();
     }
 }
