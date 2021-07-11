@@ -36,8 +36,8 @@ public class RequestListener implements Listener {
         Request<?> request = Request.getRequest(current);
         if (request instanceof ChatRequest) {
             ChatRequest itemRequest = (ChatRequest) request;
-            itemRequest.raise(event.getMessage());
             event.setCancelled(true);
+            Bukkit.getScheduler().runTask(JavaPlugin.getProvidingPlugin(getClass()), () -> itemRequest.raise(event.getMessage()));
         }
     }
 
