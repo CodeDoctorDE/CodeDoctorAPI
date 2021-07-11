@@ -29,7 +29,7 @@ public class Translation {
         Map<String, String> map = new HashMap<>();
         String prefix = path + (path.isBlank() ? "" : ".");
         jsonObject.entrySet().forEach(entry -> {
-            if(jsonObject.isJsonObject())
+            if(entry.getValue().isJsonObject())
                 map.putAll(recursiveJsonMap(entry.getValue().getAsJsonObject(), prefix + entry.getKey()));
             else
                 map.put(entry.getValue().getAsString(), prefix + entry.getKey());
