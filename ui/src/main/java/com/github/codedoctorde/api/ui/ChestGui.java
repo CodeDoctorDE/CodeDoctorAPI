@@ -1,8 +1,8 @@
 package com.github.codedoctorde.api.ui;
 
+import com.github.codedoctorde.api.ui.item.GuiItem;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,15 +13,17 @@ public class ChestGui extends Gui {
     public ChestGui() {
         this("", 3);
     }
+
     public ChestGui(String title) {
         this(title, 3);
     }
+
     public ChestGui(int size) {
         this("", size);
     }
 
-    public ChestGui(String title, int size) {
-        super(9, size);
+    public ChestGui(String title, int height) {
+        super(9, height);
         this.title = title;
     }
 
@@ -37,24 +39,26 @@ public class ChestGui extends Gui {
 
     @Override
     protected void register(@NotNull Player player) {
-        Inventory inventory = Bukkit.createInventory(player, InventoryType.CHEST, getTitle());
+        Inventory inventory = Bukkit.createInventory(player, getHeight() * 9, getTitle());
         buildInventory(inventory);
+        player.openInventory(inventory);
         for (GuiItem[] row : guiItems)
-            for (GuiItem guiItem : row) guiItem.onOpen(player);
+            for (GuiItem guiItem : row) if (guiItem != null) guiItem.onOpen(player);
     }
 
     @Override
     protected void unregister(@NotNull Player player) {
         player.closeInventory();
-        for (GuiItem[] row : guiItems) for (GuiItem guiItem : row) guiItem.onClose(player);
+        for (GuiItem[] row : guiItems) for (GuiItem guiItem : row) if (guiItem != null) guiItem.onClose(player);
     }
 
-    public void buildInventory(Inventory inventory){
+    public void buildInventory(Inventory inventory) {
         for (int x = 0; x < guiItems.length; x++) {
             GuiItem[] row = guiItems[x];
             for (int y = 0; y < row.length; y++) {
                 GuiItem item = row[y];
-                inventory.setItem(x + y * 9, item.build());
+                if (item != null)
+                    inventory.setItem(x + y * 9, item.build(this));
             }
         }
     }

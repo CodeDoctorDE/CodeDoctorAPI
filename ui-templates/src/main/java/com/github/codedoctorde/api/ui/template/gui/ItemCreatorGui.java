@@ -5,7 +5,7 @@ import com.github.codedoctorde.api.request.ValueRequest;
 import com.github.codedoctorde.api.server.Version;
 import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.ChestGui;
-import com.github.codedoctorde.api.ui.StaticItem;
+import com.github.codedoctorde.api.ui.item.StaticItem;
 import com.github.codedoctorde.api.ui.template.item.TranslatedItem;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.ChatColor;
@@ -21,22 +21,18 @@ import java.util.function.Consumer;
 public class ItemCreatorGui extends ChestGui {
     private final StaticItem previewStaticItem;
     private final ItemStackBuilder itemStackBuilder;
-    private Consumer<ItemStack> submitAction;
+    private Consumer<ItemStack> submitAction = (item) -> {
+    };
     private Runnable cancelAction;
 
-    public void setCancelAction(Runnable cancelAction) {
-        this.cancelAction = cancelAction;
-    }
-
-    public void setSubmitAction(Consumer<ItemStack> submitAction) {
-        this.submitAction = submitAction;
-    }
-
-    public ItemCreatorGui(ItemStack itemStack, Translation translation, String namespace) {
-        super(translation.getTranslation(namespace + ".title"), 5);
+    public ItemCreatorGui(ItemStack itemStack, Translation translation) {
+        super(translation.getTranslation("title"), 5);
         itemStackBuilder = new ItemStackBuilder(itemStack);
         previewStaticItem = new StaticItem(new ItemStackBuilder().build());
-        previewStaticItem.setRenderAction(() -> previewStaticItem.setItemStack(itemStackBuilder.build()));
+        previewStaticItem.setRenderAction((gui) -> {
+            previewStaticItem.setItemStack(itemStackBuilder.build());
+            reloadAll();
+        });
         previewStaticItem.setClickAction(event -> {
             if (event.getCursor() != null)
                 if (event.getCursor().getType() != Material.AIR) {
@@ -51,7 +47,7 @@ public class ItemCreatorGui extends ChestGui {
 
         StaticItem backButton = new TranslatedItem(translation, new ItemStackBuilder(Material.BARRIER).setDisplayName("back").build());
         backButton.setClickAction(event -> {
-            if(cancelAction == null)
+            if (cancelAction == null)
                 hide();
             cancelAction.run();
         });
@@ -60,13 +56,24 @@ public class ItemCreatorGui extends ChestGui {
         fillItems(1, 0, 7, 0, placeholder);
 
         registerItem(4, 0, previewStaticItem);
-        registerItem(6, 0, new TranslatedItem(translation, new ItemStackBuilder(Material.PAPER).setDisplayName("paper").build()));
-        registerItem(8, 0, new TranslatedItem(translation, new ItemStackBuilder(Material.GREEN_DYE).setDisplayName("submit").build()){{
+        registerItem(6, 0, new TranslatedItem(translation, new ItemStackBuilder(Material.PAPER).setDisplayName("nbt").build()) {{
+            setClickAction(event -> {
+                hide((Player) event.getWhoClicked());
+                var request = new ChatRequest((Player) event.getWhoClicked());
+                request.setSubmitAction(s -> {
+                    show((Player) event.getWhoClicked());
+                });
+                request.setCancelAction(() -> show((Player) event.getWhoClicked()));
+            });
+        }});
+        registerItem(8, 0, new TranslatedItem(translation, new ItemStackBuilder(Material.GREEN_DYE).setDisplayName("submit").build()) {{
             setClickAction(event -> submitAction.accept(itemStackBuilder.build()));
         }});
-        addItem(new TranslatedItem(translation, new ItemStackBuilder(Material.NAME_TAG).setDisplayName("displayname.name").setLore("displayname.lore").build()){{
-            setRenderAction(() ->
-                    setPlaceholders(itemStackBuilder.getDisplayName())
+        addItem(new TranslatedItem(translation, new ItemStackBuilder(Material.NAME_TAG).setDisplayName("displayname.name").setLore("displayname.lore").build()) {{
+            setRenderAction((gui) -> {
+                        setPlaceholders(itemStackBuilder.getDisplayName());
+                        reloadAll();
+                    }
             );
             setClickAction(event -> {
                 switch (event.getClick()) {
@@ -95,8 +102,11 @@ public class ItemCreatorGui extends ChestGui {
                 }
             });
         }});
-        addItem(new TranslatedItem(translation, new ItemStackBuilder(Material.BOOK).setDisplayName("lore.name").setLore("lore.lore").build()){{
-            setRenderAction(() -> setPlaceholders(String.join("\n", itemStackBuilder.getLore())));
+        addItem(new TranslatedItem(translation, new ItemStackBuilder(Material.BOOK).setDisplayName("lore.name").setLore("lore.lore").build()) {{
+            setRenderAction((gui) -> {
+                setPlaceholders(String.join("\n", itemStackBuilder.getLore()));
+                reloadAll();
+            });
             setClickAction(event -> {
                 List<String> lore = itemStackBuilder.getLore();
                 Player player = (Player) event.getWhoClicked();
@@ -140,14 +150,17 @@ public class ItemCreatorGui extends ChestGui {
                             event.getWhoClicked().sendMessage(translation.getTranslation("lore.get",
                                     String.join(translation.getTranslation("lore.delimiter"), lore)));
                 }
-                if(event.getClick() != ClickType.LEFT) {
+                if (event.getClick() != ClickType.LEFT) {
                     itemStackBuilder.setLore(lore);
                     reloadAll();
                 }
             });
         }});
-        addItem(new TranslatedItem(translation, new ItemStackBuilder(Material.IRON_NUGGET).setDisplayName("amount.name").setLore("amount.lore").build()){{
-            setRenderAction(() -> setPlaceholders(itemStackBuilder.getAmount()));
+        addItem(new TranslatedItem(translation, new ItemStackBuilder(Material.IRON_NUGGET).setDisplayName("amount.name").setLore("amount.lore").build()) {{
+            setRenderAction((gui) -> {
+                setPlaceholders(itemStackBuilder.getAmount());
+                reloadAll();
+            });
             setClickAction((event) -> {
                 Player player = (Player) event.getWhoClicked();
                 ValueRequest request = new ValueRequest(player, itemStackBuilder.getAmount());
@@ -159,41 +172,52 @@ public class ItemCreatorGui extends ChestGui {
         }});
         ItemStackBuilder customModelDataItem = new ItemStackBuilder(Material.GOLD_INGOT);
         customModelDataItem.setDisplayName("custommodeldata.name");
-        if(Version.getVersion().isBiggerThan(Version.v1_13))
-            if(itemStackBuilder.getCustomModelData() != null)
+        if (Version.getVersion().isBiggerThan(Version.v1_13))
+            if (itemStackBuilder.getCustomModelData() != null)
                 customModelDataItem.setLore("custommodeldata.lore");
             else
                 customModelDataItem.setLore("custommodeldata.no");
         else
             customModelDataItem.setLore("custommodeldata.unavailable");
-        addItem(new TranslatedItem(translation, customModelDataItem.build()){{
+        addItem(new TranslatedItem(translation, customModelDataItem.build()) {{
             setClickAction(event -> {
                 Player player = (Player) event.getWhoClicked();
-                if(!Version.getVersion().isBiggerThan(Version.v1_13))
+                if (!Version.getVersion().isBiggerThan(Version.v1_13))
                     return;
-                if(itemStackBuilder.getCustomModelData() != null) {
-                    if(event.getClick() == ClickType.MIDDLE) {
+                if (itemStackBuilder.getCustomModelData() != null) {
+                    if (event.getClick() == ClickType.MIDDLE) {
                         itemStackBuilder.setCustomModelData(null);
                         reloadAll();
-                    }else {
+                    } else {
                         ValueRequest request = new ValueRequest(player, itemStackBuilder.getAmount());
                         request.setSubmitAction(value -> {
                             itemStackBuilder.setCustomModelData(Math.round(value));
                             reloadAll();
                         });
                     }
-                }else {
+                } else {
                     itemStackBuilder.setCustomModelData(0);
                     reloadAll();
                 }
             });
         }});
-        addItem(new TranslatedItem(translation, new ItemStackBuilder(Material.BEDROCK).setDisplayName("unbreakable.name").setLore("unbreakable.lore").build()){{
-            setRenderAction(() -> setPlaceholders("unbreakable." + (itemStackBuilder.isUnbreakable() ? "yes" : "no")));
+        addItem(new TranslatedItem(translation, new ItemStackBuilder(Material.BEDROCK).setDisplayName("unbreakable.name").setLore("unbreakable.lore").build()) {{
+            setRenderAction((gui) -> {
+                setPlaceholders("unbreakable." + (itemStackBuilder.isUnbreakable() ? "yes" : "no"));
+                reloadAll();
+            });
             setClickAction(event -> {
                 itemStackBuilder.setUnbreakable(!itemStackBuilder.isUnbreakable());
                 reloadAll();
             });
         }});
+    }
+
+    public void setCancelAction(Runnable cancelAction) {
+        this.cancelAction = cancelAction;
+    }
+
+    public void setSubmitAction(Consumer<ItemStack> submitAction) {
+        this.submitAction = submitAction;
     }
 }

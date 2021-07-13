@@ -91,7 +91,6 @@ public class AnimationItemManager {
                 }
                 break;
             case SINGLE:
-                break;
             case BLING:
                 break;
         }

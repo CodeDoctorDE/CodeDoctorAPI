@@ -10,11 +10,11 @@ import java.util.Objects;
  * @author CodeDoctorDE
  */
 public class DynamicStringboardValue {
+    private final String entry;
     private Team team = null;
     private String value;
     private String formattedValue;
     private int score = 0;
-    private final String entry;
 
     public DynamicStringboardValue(String value, Scoreboard scoreboard, String entry, String teamName) {
         this(value, 0, scoreboard, entry, teamName);

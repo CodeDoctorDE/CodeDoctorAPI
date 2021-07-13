@@ -1,20 +1,21 @@
 package com.github.codedoctorde.api.ui.template.gui;
 
+import com.github.codedoctorde.api.translations.TranslatedObject;
 import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.ChestGui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-public class TranslatedChestGui extends ChestGui {
+public class TranslatedChestGui extends ChestGui implements TranslatedObject {
     private final Translation translation;
-    private List<Object> placeholders = new ArrayList<>();
+    private Object[] placeholders = new Object[0];
 
     public TranslatedChestGui(Translation translation) {
         this(translation, 3);
     }
+
     public TranslatedChestGui(Translation translation, int size) {
         super("title", size);
 
@@ -27,7 +28,7 @@ public class TranslatedChestGui extends ChestGui {
     }
 
     @Override
-    public String getTitle(){
+    public String getTitle() {
         return translation.getTranslation(super.getTitle(), placeholders);
     }
 
@@ -35,11 +36,11 @@ public class TranslatedChestGui extends ChestGui {
         return super.getTitle();
     }
 
-    public void setPlaceholders(Object... placeholders){
-        this.placeholders = Arrays.asList(placeholders);
+    public Object[] getPlaceholders() {
+        return placeholders;
     }
 
-    public Object[] getPlaceholders() {
-        return placeholders.toArray();
+    public void setPlaceholders(Object... placeholders) {
+        this.placeholders = placeholders;
     }
 }

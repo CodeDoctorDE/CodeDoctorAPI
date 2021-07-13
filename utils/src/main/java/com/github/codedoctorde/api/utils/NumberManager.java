@@ -7,16 +7,17 @@ import org.bukkit.event.inventory.InventoryClickEvent;
  * @author CodeDoctorDE
  */
 public class NumberManager {
-    private float value;
     private final float defaultValue;
+    private float value;
     private float steps = 1;
     private float fastSteps = 5;
 
-    public NumberManager(float defaultValue){
+    public NumberManager(float defaultValue) {
         this.defaultValue = defaultValue;
         value = defaultValue;
     }
-    public NumberManager(){
+
+    public NumberManager() {
         this(1);
     }
 
@@ -28,55 +29,60 @@ public class NumberManager {
         return value;
     }
 
-    public float getFastSteps() {
-        return fastSteps;
-    }
-
-    public float getSteps() {
-        return steps;
-    }
-
     public void setValue(float value) {
         this.value = value;
+    }
+
+    public float getFastSteps() {
+        return fastSteps;
     }
 
     public void setFastSteps(float fastSteps) {
         this.fastSteps = fastSteps;
     }
 
+    public float getSteps() {
+        return steps;
+    }
+
     public void setSteps(float steps) {
         this.steps = steps;
     }
 
-    public void next(){
+    public void next() {
         nextCustom(steps);
     }
-    public void nextFast(){
+
+    public void nextFast() {
         nextCustom(fastSteps);
     }
-    public void nextCustom(float number){
-        value+= number;
+
+    public void nextCustom(float number) {
+        value += number;
     }
 
-    public void previous(){
+    public void previous() {
         previousCustom(steps);
     }
-    public void previousFast(){
+
+    public void previousFast() {
         previousCustom(fastSteps);
     }
-    public void previousCustom(float number){
-        value-= number;
+
+    public void previousCustom(float number) {
+        value -= number;
     }
+
     public void reset() {
         value = defaultValue;
     }
 
-    public void handleEvent(InventoryClickEvent event){
+    public void handleEvent(InventoryClickEvent event) {
         handleClick(event.getClick());
     }
 
-    public void handleClick(ClickType type){
-        switch(type){
+    public void handleClick(ClickType type) {
+        switch (type) {
             case LEFT:
                 next();
                 break;

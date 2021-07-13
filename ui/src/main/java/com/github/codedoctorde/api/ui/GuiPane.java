@@ -1,9 +1,8 @@
 package com.github.codedoctorde.api.ui;
 
+import com.github.codedoctorde.api.ui.item.GuiItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
 
 /**
  * @author CodeDoctorDE
@@ -16,15 +15,19 @@ public class GuiPane {
     }
 
     public void registerItem(int x, int y, @Nullable GuiItem item) {
-        guiItems[x][y] = item;
+        if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight())
+            guiItems[x][y] = item;
     }
 
     public GuiItem getItem(int x, int y) {
-        return guiItems[x][y];
+        if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight())
+            return guiItems[x][y];
+        return null;
     }
 
     public void unregisterItem(int x, int y) {
-        guiItems[x][y] = null;
+        if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight())
+            guiItems[x][y] = null;
     }
 
     public void fillItems(int startX, int startY, int endX, int endY, @Nullable GuiItem item) {
@@ -32,12 +35,14 @@ public class GuiPane {
     }
 
     public boolean containsItem(int x, int y) {
-        return guiItems[x][y] != null;
+        if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight())
+            return guiItems[x][y] != null;
+        return false;
     }
 
     public void addItem(@NotNull GuiItem item) {
-        for (int x = 0; x < guiItems.length; x++)
-            for (int y = 0; y < guiItems[x].length; y++)
+        for (int y = 0; y < getHeight(); y++)
+            for (int x = 0; x < getWidth(); x++)
                 if (!containsItem(x, y)) {
                     registerItem(x, y, item);
                     return;

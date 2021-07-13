@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,42 +14,61 @@ import java.util.Map;
  * @author CodeDoctorDE
  */
 public class TranslationConfig extends JsonConfig {
-    private Translation translation;
+    private Translation instance = new Translation();
 
-    public TranslationConfig(File file) {
-        super(file);
-    }
-    public TranslationConfig(Gson gson, File file) {
-        super(gson, file);
+    public TranslationConfig(String filePath) {
+        super(filePath);
     }
 
-    private void reloadTranslation(){
-        Map<String, String> map = new HashMap<>();
-        for(Map.Entry<String, JsonElement> entry : getValues().entrySet()){
-            map.put(entry.getKey(), entry.getValue().getAsString());
-        }
-        translation = new Translation(map);
+    public TranslationConfig(Gson gson, String filePath) {
+        super(gson, filePath);
     }
 
-    public Translation getTranslation() {
-        return translation;
+    public Translation getInstance() {
+        return instance;
+    }
+
+    public void setInstance(Translation instance) {
+        this.instance = instance;
     }
 
     public String getTranslation(String key, Object... placeholder) {
-        return translation.getTranslation(key, placeholder);
+        return instance.getTranslation(key, placeholder);
     }
 
     public boolean hasTranslation(String key) {
-        return translation.hasTranslation(key);
+        return instance.hasTranslation(key);
     }
 
-    public Translation subTranslation(String namespace){
-        return translation.subTranslation(namespace);
+    public Translation subTranslation(String namespace) {
+        return instance.subTranslation(namespace);
+    }
+
+    public void setDefault(Translation translation) {
+        var map = new HashMap<>(translation.getTranslations());
+        for (Map.Entry<String, String> entry : translation.getTranslations().entrySet())
+            if (!instance.getTranslationKeys().contains(entry.getKey()))
+                map.put(entry.getKey(), entry.getValue());
+        instance = new Translation(map);
     }
 
     @Override
-    public void reload() {
-        super.reload();
-        reloadTranslation();
+    protected void read(BufferedReader reader) {
+        instance = new Translation(getGson().fromJson(reader, JsonObject.class));
+    }
+
+    @Override
+    public JsonObject getJsonObject() {
+        return instance.toJsonObject();
+    }
+
+    @Override
+    public void setJsonObject(JsonObject jsonObject) {
+        instance = new Translation(jsonObject);
+    }
+
+    @Override
+    protected String getData() {
+        return getGson().toJson(instance.toJsonObject());
     }
 }

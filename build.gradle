@@ -1,0 +1,84 @@
+plugins {
+    id "io.freefair.aggregate-javadoc" version "6.0.0-m2"
+    id 'maven-publish'
+}
+
+apply plugin: "java"
+apply plugin: 'maven-publish'
+
+version = "3.0.0-SNAPSHOT"
+description = "CodeDoctorAPI"
+group = "com.github.codedoctorde.api"
+apply plugin: "io.freefair.aggregate-javadoc"
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+
+        // As of Gradle 5.1, you can limit this to only those
+        // dependencies you expect from it
+        content {
+            includeGroup 'org.bukkit'
+            includeGroup 'org.spigotmc'
+        }
+    }
+    /*
+     As Spigot-API depends on the Bungeecord ChatComponent-API,
+    we need to add the Sonatype OSS repository, as Gradle,
+    in comparison to maven, doesn't want to understand the ~/.m2
+    directory unless added using mavenLocal(). Maven usually just gets
+    it from there, as most people have run the BuildTools at least once.
+    This is therefore not needed if you're using the full Spigot/CraftBukkit,
+    or if you're using the Bukkit API.
+    */
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
+}
+dependencies {
+    // Pick only one of these and read the comment in the repositories block.
+    compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
+    // The Spigot API with no shadowing. Requires the OSS repo.
+    implementation 'org.jetbrains:annotations:21.0.1'
+    implementation 'com.google.code.gson:gson:2.8.7'
+}
+allprojects {
+    group = 'com.github.codedoctorde.api'
+    version = '3.0.0-SNAPSHOT'
+}
+subprojects {
+    apply plugin: "java"
+    apply plugin: 'maven-publish'
+    javadoc {
+        source = sourceSets.main.allJava
+    }
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+
+                from project.components.java
+            }
+        }
+
+        repositories {
+            maven {
+                def snapshotUrl = "https://repo.codemc.io/repository/maven-snapshots/"
+                def releaseUrl = "https://repo.codemc.io/repository/maven-releases/"
+
+                // You can use any other check here to set what URL should be used.
+                url = version.endsWith("SNAPSHOT") ? snapshotUrl : releaseUrl
+
+                // ORG_GRADLE_PROJECT_mavenUsername and ORG_GRADLE_PROJECT_mavenPassword are the enviroments you defined before.
+                def mavenUsername = System.getenv("ORG_GRADLE_PROJECT_mavenUsername") ? System.getenv("ORG_GRADLE_PROJECT_mavenUsername") : null
+                def mavenPassword = System.getenv("ORG_GRADLE_PROJECT_mavenPassword") ? System.getenv("ORG_GRADLE_PROJECT_mavenPassword") : null
+
+                if (mavenUsername != null && mavenPassword != null) {
+                    credentials {
+                        username = mavenUsername
+                        password = mavenPassword
+                    }
+                }
+            }
+        }
+    }
+}

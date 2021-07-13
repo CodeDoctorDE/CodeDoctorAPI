@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -160,9 +161,7 @@ public class ItemStackBuilder {
     }
 
     public ItemStackBuilder setLore(List<String> lore) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        Objects.requireNonNull(itemMeta).setLore(lore);
-        itemStack.setItemMeta(itemMeta);
+        setLore(lore.toArray(String[]::new));
         return this;
     }
 
@@ -214,6 +213,7 @@ public class ItemStackBuilder {
     @Nullable
     public Integer getCustomModelData() {
         ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
         return (itemMeta.hasCustomModelData()) ? itemMeta.getCustomModelData() : null;
     }
 
@@ -257,11 +257,13 @@ public class ItemStackBuilder {
 
     public boolean hasItemFlag(ItemFlag itemFlag) {
         ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
         return itemMeta.hasItemFlag(itemFlag);
     }
 
     public Set<ItemFlag> getItemFlags() {
         ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
         return itemMeta.getItemFlags();
     }
 
@@ -362,6 +364,43 @@ public class ItemStackBuilder {
 
     public void setItemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
+    }
+
+    public ItemStackBuilder addEnchant(Enchantment enchantment, int level) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.addEnchant(enchantment, level, true);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public ItemStackBuilder removeEnchant(Enchantment enchantment) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.removeEnchant(enchantment);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public boolean hasEnchant(Enchantment enchantment) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
+        return itemMeta.hasEnchant(enchantment);
+    }
+
+    public boolean isEnchanted() {
+        return hasEnchant(Enchantment.DURABILITY);
+    }
+
+    public ItemStackBuilder setEnchanted(boolean enchanted) {
+        if (enchanted) {
+            addEnchant(Enchantment.DURABILITY, 1);
+            addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        } else {
+            removeEnchant(Enchantment.DURABILITY);
+            removeItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+        return this;
     }
 
 }

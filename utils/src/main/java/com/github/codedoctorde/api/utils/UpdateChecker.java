@@ -10,10 +10,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Consumer;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Scanner;
 
 /**
  * Source: https://www.spigotmc.org/wiki/creating-an-update-checker-that-checks-for-updates/
@@ -30,10 +29,14 @@ public class UpdateChecker {
 
     public void getVersion(final Consumer<String> consumer) {
         Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
-            try (InputStream inputStream = new URL("https://api.spiget.org/v2/resources/" + this.resourceId + "/versions/latest").openStream(); Scanner scanner = new Scanner(inputStream)) {
-                if (scanner.hasNext()) consumer.accept(new Gson().fromJson(scanner.next(), JsonObject.class).get("name").getAsString());
-            } catch (IOException exception) {
-                this.plugin.getLogger().info("Cannot look for updates: " + exception.getMessage());
+            try {
+                StringBuilder result = new StringBuilder();
+                URL url = new URL("https://api.spiget.org/v2/resources/" + this.resourceId + "/versions/latest");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                consumer.accept(new Gson().fromJson(new InputStreamReader(conn.getInputStream()), JsonObject.class).get("name").getAsString());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
