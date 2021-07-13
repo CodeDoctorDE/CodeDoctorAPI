@@ -288,29 +288,25 @@ public class ItemStackBuilder {
     }
 
     public ItemStackBuilder setSkullId(String skullId){
+        itemStack = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta headMeta = (SkullMeta)itemStack.getItemMeta();
+        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        profile.getProperties().put("textures", new Property("textures", skullId));
         try {
-            SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
-            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-
-            profile.getProperties().put("textures", new Property("textures", "https://textures.minecraft.net/texture/" + skullId));
-
-            try {
-                assert skullMeta != null;
-                Method mtd = skullMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
-                mtd.setAccessible(true);
-                mtd.invoke(skullMeta, profile);
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-                ex.printStackTrace();
-            }
-
-            itemStack.setItemMeta(skullMeta);
-        } catch (IllegalStateException ignored) {
+            assert headMeta != null;
+            Method mtd = headMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
+            mtd.setAccessible(true);
+            mtd.invoke(headMeta, profile);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            ex.printStackTrace();
         }
+        itemStack.setItemMeta(headMeta);
         return this;
     }
 
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers() {
         ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
         return itemMeta.getAttributeModifiers();
     }
 

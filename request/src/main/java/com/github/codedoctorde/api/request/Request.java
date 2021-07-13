@@ -19,8 +19,8 @@ import java.util.function.Consumer;
  */
 public abstract class Request<T> implements Listener {
     protected final Player player;
-    protected Consumer<T> submitAction;
-    protected Runnable cancelAction;
+    protected Consumer<T> submitAction = (t) -> { };
+    protected Runnable cancelAction = () -> { };
     private static final HashMap<UUID, Request> requests = new HashMap<>();
 
     public Request(final Player player) {
