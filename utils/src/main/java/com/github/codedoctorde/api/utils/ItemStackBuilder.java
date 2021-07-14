@@ -49,10 +49,28 @@ public class ItemStackBuilder {
         this(Material.PLAYER_HEAD);
         setSkullId(skullId);
     }
-
     public ItemStackBuilder(UUID uuid) {
         this(Material.PLAYER_HEAD);
         setOwner(uuid);
+    }
+
+    public OfflinePlayer getOwningPlayer(){
+        return ((SkullMeta) Objects.requireNonNull(itemStack.getItemMeta())).getOwningPlayer();
+    }
+
+    public UUID getOwner(){
+        return getOwningPlayer().getUniqueId();
+    }
+
+    public ItemStackBuilder setOwningPlayer(OfflinePlayer player) {
+        SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
+        assert meta != null;
+        meta.setOwningPlayer(player);
+        itemStack.setItemMeta(meta);
+        return this;
+    }
+    public ItemStackBuilder setOwner(UUID uuid) {
+        return setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
     }
 
     public ItemStackBuilder(final ItemStack itemStack) {
@@ -99,26 +117,6 @@ public class ItemStackBuilder {
             return new ItemStackBuilder();
     }
 
-    public OfflinePlayer getOwningPlayer() {
-        return ((SkullMeta) Objects.requireNonNull(itemStack.getItemMeta())).getOwningPlayer();
-    }
-
-    public ItemStackBuilder setOwningPlayer(OfflinePlayer player) {
-        SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
-        assert meta != null;
-        meta.setOwningPlayer(player);
-        itemStack.setItemMeta(meta);
-        return this;
-    }
-
-    public UUID getOwner() {
-        return getOwningPlayer().getUniqueId();
-    }
-
-    public ItemStackBuilder setOwner(UUID uuid) {
-        return setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
-    }
-
     public Material getMaterial() {
         return itemStack.getType();
     }
@@ -150,7 +148,7 @@ public class ItemStackBuilder {
     }
 
     public List<String> getLore() {
-        return (Objects.requireNonNull(itemStack.getItemMeta()).getLore() == null) ? new ArrayList<>() : itemStack.getItemMeta().getLore();
+        return (itemStack.getItemMeta().getLore() == null) ? new ArrayList<>() : itemStack.getItemMeta().getLore();
     }
 
     public ItemStackBuilder setLore(String... lore) {
@@ -163,9 +161,7 @@ public class ItemStackBuilder {
     }
 
     public ItemStackBuilder setLore(List<String> lore) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        Objects.requireNonNull(itemMeta).setLore(lore);
-        itemStack.setItemMeta(itemMeta);
+        setLore(lore.toArray(String[]::new));
         return this;
     }
 
@@ -293,25 +289,20 @@ public class ItemStackBuilder {
         return (itemMeta.getAttributeModifiers() != null) && Objects.requireNonNull(itemMeta.getAttributeModifiers()).containsKey(attribute);
     }
 
-    public ItemStackBuilder setSkullId(String skullId) {
+    public ItemStackBuilder setSkullId(String skullId){
+        itemStack = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta headMeta = (SkullMeta)itemStack.getItemMeta();
+        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        profile.getProperties().put("textures", new Property("textures", skullId));
         try {
-            SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
-            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-
-            profile.getProperties().put("textures", new Property("textures", "https://textures.minecraft.net/texture/" + skullId));
-
-            try {
-                assert skullMeta != null;
-                Method mtd = skullMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
-                mtd.setAccessible(true);
-                mtd.invoke(skullMeta, profile);
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-                ex.printStackTrace();
-            }
-
-            itemStack.setItemMeta(skullMeta);
-        } catch (IllegalStateException ignored) {
+            assert headMeta != null;
+            Method mtd = headMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
+            mtd.setAccessible(true);
+            mtd.invoke(headMeta, profile);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            ex.printStackTrace();
         }
+        itemStack.setItemMeta(headMeta);
         return this;
     }
 
@@ -326,12 +317,10 @@ public class ItemStackBuilder {
         assert itemMeta != null;
         return Objects.requireNonNull(itemMeta.getAttributeModifiers()).get(attribute);
     }
-
-    public boolean isUnbreakable() {
+    public boolean isUnbreakable(){
         return Objects.requireNonNull(itemStack.getItemMeta()).isUnbreakable();
     }
-
-    public ItemStackBuilder setUnbreakable(boolean unbreakable) {
+    public ItemStackBuilder setUnbreakable(boolean unbreakable){
         ItemMeta itemMeta = itemStack.getItemMeta();
         assert itemMeta != null;
         itemMeta.setUnbreakable(unbreakable);
@@ -345,6 +334,36 @@ public class ItemStackBuilder {
         getLore().stream().map(line -> Arrays.asList(String.format(line, arguments).split("\n"))).forEach(formattedLore::addAll);
         setLore(formattedLore);
         return this;
+    }
+
+    public String serialize() {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
+            dataOutput.writeObject(itemStack);
+
+            // Serialize that array
+            dataOutput.close();
+            return Base64Coder.encodeLines(outputStream.toByteArray());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //Build
+    public ItemStack build() {
+        return itemStack;
+    }
+
+
+    @Deprecated
+    public ItemStack getItemStack() {
+        return itemStack;
+    }
+
+    public void setItemStack(ItemStack itemStack) {
+        this.itemStack = itemStack;
     }
 
     public ItemStackBuilder addEnchant(Enchantment enchantment, int level) {
@@ -382,36 +401,6 @@ public class ItemStackBuilder {
             removeItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         return this;
-    }
-
-    public String serialize() {
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
-            dataOutput.writeObject(itemStack);
-
-            // Serialize that array
-            dataOutput.close();
-            return Base64Coder.encodeLines(outputStream.toByteArray());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    //Build
-    public ItemStack build() {
-        return itemStack;
-    }
-
-
-    @Deprecated
-    public ItemStack getItemStack() {
-        return itemStack;
-    }
-
-    public void setItemStack(ItemStack itemStack) {
-        this.itemStack = itemStack;
     }
 
 }
