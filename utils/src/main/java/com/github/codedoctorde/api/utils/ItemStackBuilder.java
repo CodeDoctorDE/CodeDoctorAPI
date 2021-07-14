@@ -187,6 +187,21 @@ public class ItemStackBuilder {
         return this;
     }
 
+    public String getLocalizedName() {
+        return Objects.requireNonNull(itemStack.getItemMeta()).getLocalizedName();
+    }
+
+    public ItemStackBuilder setLocalizedName(String localizedName) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Objects.requireNonNull(itemMeta).setLocalizedName(localizedName);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public ItemStackBuilder localizedName(String localizedName) {
+        return setLocalizedName(localizedName);
+    }
+
     public String getDisplayName() {
         return Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
     }
