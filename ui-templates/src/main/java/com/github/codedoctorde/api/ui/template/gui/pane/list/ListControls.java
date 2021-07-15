@@ -18,8 +18,7 @@ public abstract class ListControls {
     private final boolean detailed;
     protected Consumer<InventoryClickEvent> backAction = (event) -> {
     };
-    protected Consumer<InventoryClickEvent> createAction = (event) -> {
-    };
+    protected Consumer<InventoryClickEvent> createAction;
     private int offsetX, offsetY;
 
     public ListControls(boolean detailed) {

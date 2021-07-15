@@ -8,6 +8,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -54,7 +55,7 @@ public class GuiListener implements Listener {
     public void onChestGuiClosed(InventoryCloseEvent event) {
         var p = (Player) event.getPlayer();
         var gui = Gui.getGui(p);
-        if (gui != null) {
+        if (gui != null && event.getPlayer().getOpenInventory().getType() == InventoryType.CRAFTING) {
             Gui.playerGuis.remove(p.getUniqueId());
             gui.unregister(p);
         }
