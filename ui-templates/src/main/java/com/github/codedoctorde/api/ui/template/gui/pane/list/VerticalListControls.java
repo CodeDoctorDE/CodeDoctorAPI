@@ -6,8 +6,17 @@ import com.github.codedoctorde.api.ui.template.gui.ListGui;
 import java.util.function.Function;
 
 public class VerticalListControls extends ListControls {
-    public VerticalListControls() {
+    private VerticalAlignment alignment;
+    public enum VerticalAlignment {
+        left, right
+    }
+    public VerticalListControls(VerticalAlignment alignment) {
         super();
+        this.alignment = alignment;
+    }
+
+    public VerticalListControls() {
+        this(VerticalAlignment.right);
     }
 
     public VerticalListControls(boolean detailed) {
@@ -16,11 +25,12 @@ public class VerticalListControls extends ListControls {
 
     public Function<ListGui, GuiPane> buildControlsBuilder() {
         return gui -> {
-            int height = gui.getHeight();
-            var pane = new GuiPane(gui.getWidth(), height);
-            var x = isDetailed() ? 1 : 0;
+            var height = gui.getHeight();
+            var width = gui.getWidth();
+            var pane = new GuiPane(width, height);
+            var x = VerticalAlignment.right == alignment ? width - 1 : 0;
             if (height < 3) return pane;
-            pane.fillItems(0, 0, isDetailed() ? 1 : 0, height, getPlaceholderItem());
+            pane.fillItems(VerticalAlignment.right == alignment ? (isDetailed() ? 7 : 8) : 0, 0, VerticalAlignment.right == alignment ? 8 : (isDetailed() ? 1 : 0), height, getPlaceholderItem());
             pane.registerItem(x, 0, getPreviousItem(gui));
             pane.registerItem(x, height / 2 - 1, getSearchItem(gui));
             pane.registerItem(x, height - 1, getNextItem(gui));
