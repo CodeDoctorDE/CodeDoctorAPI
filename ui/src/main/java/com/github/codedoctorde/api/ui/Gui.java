@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 public abstract class Gui extends GuiPane {
-    private static final Map<UUID, Gui> playerGuis = new HashMap<>();
+    static final Map<UUID, Gui> playerGuis = new HashMap<>();
     protected Consumer<Player> openAction = player -> {
     };
     protected Consumer<Player> closeAction = player -> {

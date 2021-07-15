@@ -52,8 +52,11 @@ public class GuiListener implements Listener {
 
     @EventHandler
     public void onChestGuiClosed(InventoryCloseEvent event) {
-        var gui = Gui.getGui((Player) event.getPlayer());
-        if (gui != null)
-            gui.onClose((Player) event.getPlayer());
+        var p = (Player) event.getPlayer();
+        var gui = Gui.getGui(p);
+        if (gui != null) {
+            Gui.playerGuis.remove(p.getUniqueId());
+            gui.unregister(p);
+        }
     }
 }

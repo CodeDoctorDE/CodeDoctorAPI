@@ -11,7 +11,11 @@ public class VerticalListControls extends ListControls {
         left, right
     }
     public VerticalListControls(VerticalAlignment alignment) {
-        super();
+        this(alignment, true);
+    }
+
+    public VerticalListControls(VerticalAlignment alignment, boolean detailed) {
+        super(detailed);
         this.alignment = alignment;
     }
 
@@ -20,7 +24,7 @@ public class VerticalListControls extends ListControls {
     }
 
     public VerticalListControls(boolean detailed) {
-        super(true);
+        this(VerticalAlignment.right, true);
     }
 
     public Function<ListGui, GuiPane> buildControlsBuilder() {
