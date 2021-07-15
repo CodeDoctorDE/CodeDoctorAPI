@@ -55,7 +55,7 @@ public class GuiListener implements Listener {
     public void onChestGuiClosed(InventoryCloseEvent event) {
         var p = (Player) event.getPlayer();
         var gui = Gui.getGui(p);
-        if (gui != null && event.getPlayer().getOpenInventory().getType() == InventoryType.CRAFTING) {
+        if (gui != null && event.getPlayer().getOpenInventory().getTopInventory().getType() == InventoryType.CRAFTING) {
             Gui.playerGuis.remove(p.getUniqueId());
             gui.unregister(p);
         }
