@@ -148,7 +148,7 @@ public class ItemStackBuilder {
     }
 
     public List<String> getLore() {
-        return (itemStack.getItemMeta().getLore() == null) ? new ArrayList<>() : itemStack.getItemMeta().getLore();
+        return (Objects.requireNonNull(itemStack.getItemMeta()).getLore() == null) ? new ArrayList<>() : itemStack.getItemMeta().getLore();
     }
 
     public ItemStackBuilder setLore(String... lore) {
@@ -161,7 +161,7 @@ public class ItemStackBuilder {
     }
 
     public ItemStackBuilder setLore(List<String> lore) {
-        setLore(lore.toArray(String[]::new));
+        setLore(lore.stream().flatMap(s -> Arrays.stream(s.split("\n"))).toArray(String[]::new));
         return this;
     }
 

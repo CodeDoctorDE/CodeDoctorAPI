@@ -16,8 +16,7 @@ import java.util.function.Function;
 
 public abstract class ListControls {
     private final boolean detailed;
-    protected Consumer<InventoryClickEvent> backAction = (event) -> {
-    };
+    protected Consumer<InventoryClickEvent> backAction;
     protected Consumer<InventoryClickEvent> createAction;
     private int offsetX, offsetY;
 
@@ -65,18 +64,20 @@ public abstract class ListControls {
 
     protected StaticItem getSearchItem(ListGui gui) {
         return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.COMPASS).setDisplayName("search.title").addLore("search.description").build()) {{
+            setRenderAction(event -> setPlaceholders(gui.getSearchText()));
             setClickAction(event -> {
                 Player player = (Player) event.getWhoClicked();
                 if (event.getClick() == ClickType.LEFT) {
                     gui.hide(player);
-                    player.sendMessage(gui.getTranslation().getTranslation("search.input"));
+                    player.sendMessage(gui.getTranslation().getTranslation("search.message"));
                     ChatRequest request = new ChatRequest(player);
                     request.setSubmitAction(searchText -> {
-                        player.sendMessage(gui.getTranslation().getTranslation("search.success", searchText));
                         gui.setSearchText(searchText);
                         gui.show(player);
                     });
-                } else if (event.getClick() == ClickType.RIGHT) gui.setSearchText("");
+                } else if (event.getClick() == ClickType.RIGHT){
+                    gui.setSearchText("");
+                }
                 else if (event.getClick() == ClickType.DROP) {
                     if (backAction != null) backAction.accept(event);
                     else gui.hide(player);
