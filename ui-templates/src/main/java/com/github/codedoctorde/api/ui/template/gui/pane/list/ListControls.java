@@ -98,7 +98,7 @@ public abstract class ListControls {
     }
 
     protected StaticItem getCreateItem(ListGui gui) {
-        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.KNOWLEDGE_BOOK).setDisplayName("create").build()) {{
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.KNOWLEDGE_BOOK).setDisplayName("create.title").setLore("create.description").build()) {{
             setClickAction(event -> createAction.accept(event));
         }};
     }
