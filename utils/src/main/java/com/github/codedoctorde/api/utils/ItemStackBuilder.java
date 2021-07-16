@@ -346,6 +346,8 @@ public class ItemStackBuilder {
     }
 
     public ItemStackBuilder format(Object... arguments) {
+        if(itemStack.getItemMeta() == null)
+            return this;
         displayName(String.format(getDisplayName(), arguments));
         List<String> formattedLore = new ArrayList<>();
         getLore().stream().map(line -> Arrays.asList(String.format(line, arguments).split("\n"))).forEach(formattedLore::addAll);
