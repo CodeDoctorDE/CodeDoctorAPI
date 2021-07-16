@@ -70,7 +70,7 @@ public class GuiCollection extends Gui {
     }
 
     public Gui getGui() {
-        if (guis.size() <= current)
+        if (guis.size() < current)
             return null;
         return guis.get(current);
     }
@@ -95,6 +95,14 @@ public class GuiCollection extends Gui {
 
     public int getCurrent() {
         return current;
+    }
+
+    public void setCurrent(int current) {
+        if (current < 0 || current >= getGuis().length)
+            return;
+        Player[] players = getOpenedPlayers();
+        this.current = current;
+        show(players);
     }
 
     public void next() {
@@ -153,82 +161,82 @@ public class GuiCollection extends Gui {
 
     @Override
     protected void register(@NotNull Player player) {
-        if(hasAccess())
+        if (hasAccess())
             getGui().register(player);
     }
 
     @Override
     protected void unregister(@NotNull Player player) {
-        if(hasAccess())
+        if (hasAccess())
             getGui().unregister(player);
     }
 
     @Override
     public void reloadAll() {
-        if(hasAccess())
+        if (hasAccess())
             getGui().reloadAll();
     }
 
     @Override
     protected void onOpen(@NotNull Player player) {
-        if(hasAccess())
+        if (hasAccess())
             getGui().onOpen(player);
     }
 
     @Override
     protected void onClose(@NotNull Player player) {
-        if(hasAccess())
+        if (hasAccess())
             getGui().onClose(player);
     }
 
     @Override
     public GuiItem getItem(int x, int y) {
-        if(hasAccess())
+        if (hasAccess())
             getGui().getItem(x, y);
         return null;
     }
 
     @Override
     public void fillItems(int startX, int startY, int endX, int endY, @Nullable GuiItem item) {
-        if(hasAccess())
+        if (hasAccess())
             getGui().fillItems(startX, startY, endX, endY, item);
     }
 
     @Override
     public boolean containsItem(int x, int y) {
-        if(hasAccess())
+        if (hasAccess())
             return getGui().containsItem(x, y);
         return false;
     }
 
     @Override
     public void addItem(@NotNull GuiItem item) {
-        if(hasAccess())
+        if (hasAccess())
             getGui().addItem(item);
     }
 
     @Override
     public int getItemCount() {
-        if(hasAccess())
+        if (hasAccess())
             return getGui().getItemCount();
         return 0;
     }
 
     @Override
     public void addPane(GuiPane pane) {
-        if(hasAccess())
+        if (hasAccess())
             getGui().addPane(pane);
     }
 
     @Override
     public void addPane(int offsetX, int offsetY, GuiPane pane) {
-        if(hasAccess())
+        if (hasAccess())
             getGui().addPane(offsetX, offsetY, pane);
     }
 
     @Override
     public GuiPane offset(int x, int y) {
-        if(hasAccess())
+        if (hasAccess())
             getGui().offset(x, y);
         return null;
     }

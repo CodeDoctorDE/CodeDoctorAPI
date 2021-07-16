@@ -52,11 +52,15 @@ public abstract class ListControls {
     public abstract Function<ListGui, GuiPane> buildControlsBuilder();
 
     protected StaticItem getPreviousItem(ListGui gui) {
-        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.ARROW).setDisplayName("previous").build());
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.ARROW).setDisplayName("previous").build()){{
+            setClickAction(event -> gui.previous());
+        }};
     }
 
     protected StaticItem getNextItem(ListGui gui) {
-        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.ARROW).setDisplayName("next").build());
+        return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.ARROW).setDisplayName("next").build()){{
+            setClickAction(event -> gui.next());
+        }};
     }
 
     protected StaticItem getSearchItem(ListGui gui) {
@@ -67,7 +71,11 @@ public abstract class ListControls {
                     gui.hide(player);
                     player.sendMessage(gui.getTranslation().getTranslation("search.input"));
                     ChatRequest request = new ChatRequest(player);
-                    request.setSubmitAction(gui::setSearchText);
+                    request.setSubmitAction(searchText -> {
+                        player.sendMessage(gui.getTranslation().getTranslation("search.success", searchText));
+                        gui.setSearchText(searchText);
+                        gui.show(player);
+                    });
                 } else if (event.getClick() == ClickType.RIGHT) gui.setSearchText("");
                 else if (event.getClick() == ClickType.DROP) {
                     if (backAction != null) backAction.accept(event);

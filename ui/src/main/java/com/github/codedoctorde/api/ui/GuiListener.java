@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -37,6 +38,8 @@ public class GuiListener implements Listener {
         if (gui == null)
             return;
         event.setCancelled(true);
+        if(event.getClickedInventory() instanceof PlayerInventory)
+            return;
         int slot = event.getSlot();
         int x = slot % 9;
         int y = slot / 9;

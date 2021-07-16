@@ -34,7 +34,7 @@ public class VerticalListControls extends ListControls {
             var pane = new GuiPane(width, height);
             var x = VerticalAlignment.right == alignment ? width - 1 : 0;
             if (height < 3) return pane;
-            pane.fillItems(VerticalAlignment.right == alignment ? (isDetailed() ? 7 : 8) : 0, 0, VerticalAlignment.right == alignment ? 8 : (isDetailed() ? 1 : 0), height, getPlaceholderItem());
+            pane.fillItems(VerticalAlignment.right == alignment ? (isDetailed() ? 7 : 8) : 0, 0, VerticalAlignment.right == alignment ? 8 : (isDetailed() ? 1 : 0), height - 1, getPlaceholderItem());
             pane.registerItem(x, 0, getPreviousItem(gui));
             pane.registerItem(x, height / 2 - 1, getSearchItem(gui));
             pane.registerItem(x, height - 1, getNextItem(gui));

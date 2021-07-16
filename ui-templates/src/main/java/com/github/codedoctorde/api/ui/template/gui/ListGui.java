@@ -49,10 +49,13 @@ public class ListGui extends GuiCollection {
     public void setPlaceholders(Object... placeholders) {
         this.placeholders.clear();
         this.placeholders.addAll(Collections.singleton(placeholders));
+        rebuild();
     }
 
     public void rebuild() {
+        var openedPlayers = getOpenedPlayers();
         clearGuis();
+        var width = getWidth();
         GuiItem[] items = itemBuilder.apply(searchText, translation);
         GuiPane controls = controlsBuilder == null ? null : controlsBuilder.apply(this);
         int controlsCount = controls == null ? 0 : controls.getItemCount();
@@ -65,15 +68,17 @@ public class ListGui extends GuiCollection {
         registerGui(currentGui);
 
         for (int i = 0, pageItemCount = 0; i < items.length; i++) {
-            if (height * 9 >= pageItemCount + controlsCount) {
+            if (height * width <= pageItemCount + controlsCount) {
                 currentPage++;
+                pageItemCount = 0;
                 currentGui = buildGui(currentPage, pageCount, controls);
                 registerGui(currentGui);
             }
             currentGui.addItem(items[i]);
             pageItemCount++;
         }
-        show(getOpenedPlayers());
+        toFirst();
+        show(openedPlayers);
     }
 
     private ChestGui buildGui(int currentPage, int pageCount, GuiPane controls) {
@@ -99,8 +104,8 @@ public class ListGui extends GuiCollection {
     public void controlsOffset(int x, int y) {
         controlsOffsetX = x;
         controlsOffsetY = y;
+        rebuild();
     }
-
     @Override
     public int getHeight() {
         return height;

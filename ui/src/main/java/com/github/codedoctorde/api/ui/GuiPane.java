@@ -31,7 +31,10 @@ public class GuiPane {
     }
 
     public void fillItems(int startX, int startY, int endX, int endY, @Nullable GuiItem item) {
-        for (int x = startX; x < endX; x++) for (int y = startY; y < endY; y++) registerItem(x, y, item);
+        for (int x = startX; x <= endX; x++)
+            for (int y = startY; y <= endY; y++)
+                if (!containsItem(x, y))
+                    registerItem(x, y, item);
     }
 
     public boolean containsItem(int x, int y) {
@@ -64,7 +67,7 @@ public class GuiPane {
         addPane(0, 0, pane);
     }
 
-    public void  addPane(int offsetX, int offsetY, GuiPane pane) {
+    public void addPane(int offsetX, int offsetY, GuiPane pane) {
         for (int x = 0; x < pane.guiItems.length; x++)
             for (int y = 0; y < pane.guiItems[x].length; y++)
                 if (pane.containsItem(x, y))

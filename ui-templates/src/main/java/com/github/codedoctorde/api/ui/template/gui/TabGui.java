@@ -23,11 +23,11 @@ public class TabGui extends GuiCollection {
     }
 
     public void registerGui(Gui gui) {
-        super.registerGui(gui);
         if (gui instanceof TranslatedObject)
             ((TranslatedObject) gui).setPlaceholders(placeholders);
         if (tabsBuilder != null)
             gui.addPane(tabsBuilder.apply(getGuis().length));
+        super.registerGui(gui);
     }
 
     public Object[] getPlaceholders() {
