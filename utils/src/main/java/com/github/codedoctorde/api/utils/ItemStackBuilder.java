@@ -208,7 +208,9 @@ public class ItemStackBuilder {
 
     public ItemStackBuilder setDisplayName(String displayName) {
         ItemMeta itemMeta = itemStack.getItemMeta();
-        Objects.requireNonNull(itemMeta).setDisplayName(displayName);
+        if(itemMeta == null)
+            return null;
+        itemMeta.setDisplayName(displayName);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
