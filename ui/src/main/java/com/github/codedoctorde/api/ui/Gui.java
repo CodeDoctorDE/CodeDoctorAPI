@@ -39,8 +39,8 @@ public abstract class Gui extends GuiPane {
         for (Player player : players) {
             if (hasGui(player))
                 getGui(player).hide();
-            playerGuis.put(player.getUniqueId(), this);
             register(player);
+            playerGuis.put(player.getUniqueId(), this);
         }
     }
 
