@@ -13,10 +13,10 @@ import java.util.function.Consumer;
 
 public class MaterialListGui extends ListGui {
     public MaterialListGui(Translation translation, Consumer<Material> action) {
-        super(translation, 4, (s, translation1) -> Arrays.stream(Material.values()).filter(material -> !material.isAir()).filter(material -> material.name().replace("_", " ").toLowerCase(Locale.ROOT).contains(s.toLowerCase(Locale.ROOT)))
-                .map(material -> new StaticItem(new ItemStack(material)){{
-            setClickAction((event) -> action.accept(material));
-        }}).toArray(GuiItem[]::new));
+        super(translation, 4, (gui) -> Arrays.stream(Material.values()).filter(material -> !material.isAir()).filter(material -> material.name().replace("_", " ").toLowerCase(Locale.ROOT).contains(gui.getSearchText().toLowerCase(Locale.ROOT)))
+                .map(material -> new StaticItem(new ItemStack(material)) {{
+                    setClickAction((event) -> action.accept(material));
+                }}).toArray(GuiItem[]::new));
         setListControls(new VerticalListControls());
     }
 }

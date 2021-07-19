@@ -6,10 +6,12 @@ import com.github.codedoctorde.api.ui.template.gui.ListGui;
 import java.util.function.Function;
 
 public class VerticalListControls extends ListControls {
-    private VerticalAlignment alignment;
+    private final VerticalAlignment alignment;
+
     public enum VerticalAlignment {
         left, right
     }
+
     public VerticalListControls(VerticalAlignment alignment) {
         this(alignment, true);
     }

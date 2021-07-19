@@ -49,16 +49,17 @@ public class ItemStackBuilder {
         this(Material.PLAYER_HEAD);
         setSkullId(skullId);
     }
+
     public ItemStackBuilder(UUID uuid) {
         this(Material.PLAYER_HEAD);
         setOwner(uuid);
     }
 
-    public OfflinePlayer getOwningPlayer(){
+    public OfflinePlayer getOwningPlayer() {
         return ((SkullMeta) Objects.requireNonNull(itemStack.getItemMeta())).getOwningPlayer();
     }
 
-    public UUID getOwner(){
+    public UUID getOwner() {
         return getOwningPlayer().getUniqueId();
     }
 
@@ -69,6 +70,7 @@ public class ItemStackBuilder {
         itemStack.setItemMeta(meta);
         return this;
     }
+
     public ItemStackBuilder setOwner(UUID uuid) {
         return setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
     }
@@ -154,15 +156,14 @@ public class ItemStackBuilder {
     public ItemStackBuilder setLore(String... lore) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         List<String> loreList = new ArrayList<>();
-        Arrays.stream(lore).map(line -> Arrays.asList(line.split("\r\n"))).forEach(loreList::addAll);
+        Arrays.stream(lore).map(line -> Arrays.asList(line.split("\n"))).forEach(loreList::addAll);
         Objects.requireNonNull(itemMeta).setLore(loreList);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
 
     public ItemStackBuilder setLore(List<String> lore) {
-        setLore(lore.stream().flatMap(s -> Arrays.stream(s.split("\n"))).toArray(String[]::new));
-        return this;
+        return setLore(lore.toArray(String[]::new));
     }
 
     public ItemStackBuilder lore(List<String> lore) {
@@ -208,7 +209,7 @@ public class ItemStackBuilder {
 
     public ItemStackBuilder setDisplayName(String displayName) {
         ItemMeta itemMeta = itemStack.getItemMeta();
-        if(itemMeta == null)
+        if (itemMeta == null)
             return null;
         itemMeta.setDisplayName(displayName);
         itemStack.setItemMeta(itemMeta);
@@ -306,9 +307,9 @@ public class ItemStackBuilder {
         return (itemMeta.getAttributeModifiers() != null) && Objects.requireNonNull(itemMeta.getAttributeModifiers()).containsKey(attribute);
     }
 
-    public ItemStackBuilder setSkullId(String skullId){
+    public ItemStackBuilder setSkullId(String skullId) {
         itemStack = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta headMeta = (SkullMeta)itemStack.getItemMeta();
+        SkullMeta headMeta = (SkullMeta) itemStack.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         profile.getProperties().put("textures", new Property("textures", skullId));
         try {
@@ -334,10 +335,12 @@ public class ItemStackBuilder {
         assert itemMeta != null;
         return Objects.requireNonNull(itemMeta.getAttributeModifiers()).get(attribute);
     }
-    public boolean isUnbreakable(){
+
+    public boolean isUnbreakable() {
         return Objects.requireNonNull(itemStack.getItemMeta()).isUnbreakable();
     }
-    public ItemStackBuilder setUnbreakable(boolean unbreakable){
+
+    public ItemStackBuilder setUnbreakable(boolean unbreakable) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         assert itemMeta != null;
         itemMeta.setUnbreakable(unbreakable);
@@ -346,7 +349,7 @@ public class ItemStackBuilder {
     }
 
     public ItemStackBuilder format(Object... arguments) {
-        if(itemStack.getItemMeta() == null)
+        if (itemStack.getItemMeta() == null)
             return this;
         displayName(String.format(getDisplayName(), arguments));
         List<String> formattedLore = new ArrayList<>();

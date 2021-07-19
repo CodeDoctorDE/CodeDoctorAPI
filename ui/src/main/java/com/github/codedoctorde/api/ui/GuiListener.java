@@ -2,6 +2,7 @@ package com.github.codedoctorde.api.ui;
 
 import com.github.codedoctorde.api.ui.item.GuiItem;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -38,14 +39,17 @@ public class GuiListener implements Listener {
         if (gui == null)
             return;
         event.setCancelled(true);
-        if(event.getClickedInventory() instanceof PlayerInventory)
+        if (event.getClickedInventory() instanceof PlayerInventory)
             return;
         int slot = event.getSlot();
         int x = slot % 9;
         int y = slot / 9;
         GuiItem item = gui.getItem(x, y);
-        if (item != null)
+        if (item != null) {
+            if (!gui.isSilent())
+                ((Player) event.getWhoClicked()).playSound(event.getWhoClicked().getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
             item.onClick(event);
+        }
     }
 
     @EventHandler

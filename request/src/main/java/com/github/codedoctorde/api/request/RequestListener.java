@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author CodeDoctorDE
  */
 public class RequestListener implements Listener {
-    private static boolean registered = false;
+    private static final boolean registered = false;
 
     public static void register() {
         RequestListener instance = new RequestListener();

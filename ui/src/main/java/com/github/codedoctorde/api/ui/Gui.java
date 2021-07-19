@@ -17,6 +17,7 @@ public abstract class Gui extends GuiPane {
     };
     protected Consumer<Player> closeAction = player -> {
     };
+    private boolean silent = false;
 
     public Gui(int width, int height) {
         super(width, height);
@@ -91,5 +92,13 @@ public abstract class Gui extends GuiPane {
 
     protected void onClose(@NotNull Player player) {
         closeAction.accept(player);
+    }
+
+    public boolean isSilent() {
+        return silent;
+    }
+
+    public void setSilent(boolean silent) {
+        this.silent = silent;
     }
 }

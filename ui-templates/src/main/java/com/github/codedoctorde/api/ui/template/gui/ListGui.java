@@ -8,28 +8,30 @@ import com.github.codedoctorde.api.ui.item.GuiItem;
 import com.github.codedoctorde.api.ui.template.gui.pane.list.ListControls;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ListGui extends GuiCollection {
-    private final List<Object> placeholders = new ArrayList<>();
-    private final BiFunction<String, Translation, GuiItem[]> itemBuilder;
+    private Object[] placeholders = new Object[0];
+    private final Function<ListGui, GuiItem[]> itemBuilder;
     private final int height;
     private final Translation translation;
     private Function<ListGui, GuiPane> controlsBuilder;
     private String searchText = "";
     private int controlsOffsetX = 0, controlsOffsetY = 0;
 
-    public ListGui(Translation translation, int height, BiFunction<String, Translation, GuiItem[]> itemBuilder) {
+    public ListGui(Translation translation, int height, Function<ListGui, GuiItem[]> itemBuilder) {
         this.itemBuilder = itemBuilder;
         this.height = height;
         this.translation = translation;
         rebuild();
     }
 
-    public ListGui(Translation translation, BiFunction<String, Translation, GuiItem[]> itemBuilder) {
+    public ListGui(Translation translation, Function<ListGui, GuiItem[]> itemBuilder) {
         this(translation, 3, itemBuilder);
     }
 
@@ -43,12 +45,11 @@ public class ListGui extends GuiCollection {
     }
 
     public Object[] getPlaceholders() {
-        return placeholders.toArray();
+        return placeholders;
     }
 
     public void setPlaceholders(Object... placeholders) {
-        this.placeholders.clear();
-        this.placeholders.addAll(Collections.singleton(placeholders));
+        this.placeholders = placeholders;
         rebuild();
     }
 
@@ -56,11 +57,13 @@ public class ListGui extends GuiCollection {
         var openedPlayers = getOpenedPlayers();
         clearGuis();
         var width = getWidth();
-        GuiItem[] items = itemBuilder.apply(searchText, translation);
+        GuiItem[] items = itemBuilder.apply(this);
         GuiPane controls = controlsBuilder == null ? null : controlsBuilder.apply(this);
         int controlsCount = controls == null ? 0 : controls.getItemCount();
         int freeSlots = height * 9 - controlsCount;
         int pageCount = (int) Math.ceil(items.length / (float) freeSlots);
+        if (pageCount <= 0)
+            pageCount = 1;
 
         int currentPage = 1;
 
@@ -81,8 +84,12 @@ public class ListGui extends GuiCollection {
         show(openedPlayers);
     }
 
-    private ChestGui buildGui(int currentPage, int pageCount, GuiPane controls) {
-        ChestGui gui = new ChestGui(translation.getTranslation("title", currentPage, pageCount, placeholders), height);
+    private TranslatedChestGui buildGui(int currentPage, int pageCount, GuiPane controls) {
+        TranslatedChestGui gui = new TranslatedChestGui(translation, height);
+        var placeholders = new ArrayList<>(Arrays.asList(this.placeholders));
+        placeholders.add(currentPage);
+        placeholders.add(pageCount);
+        gui.setPlaceholders(placeholders.toArray(Object[]::new));
         if (controls != null)
             gui.addPane(controlsOffsetX, controlsOffsetY, controls);
         return gui;
@@ -106,6 +113,7 @@ public class ListGui extends GuiCollection {
         controlsOffsetY = y;
         rebuild();
     }
+
     @Override
     public int getHeight() {
         return height;

@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 public class HorizontalListControls extends ListControls {
     private HorizontalAlignment alignment;
+
     public enum HorizontalAlignment {
         top, bottom
     }

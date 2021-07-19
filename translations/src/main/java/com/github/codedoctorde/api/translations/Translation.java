@@ -66,7 +66,7 @@ public class Translation {
 
     public String getTranslation(String key, Object... placeholders) {
         if (translations.containsKey(key))
-            if(placeholders.length == 0)
+            if (placeholders.length == 0)
                 return translations.get(key);
             else
                 return String.format(translations.get(key), placeholders);

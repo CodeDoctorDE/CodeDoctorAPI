@@ -34,7 +34,7 @@ public class MessageGui extends TranslatedChestGui {
 
     @Override
     public int getHeight() {
-        return (int) Math.ceil(super.getHeight() * (double) actions.length);
+        return super.getHeight() + (int) Math.ceil((double) actions.length / getWidth());
     }
 
     public int getDefaultHeight() {

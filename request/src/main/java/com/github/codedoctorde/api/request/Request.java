@@ -16,8 +16,10 @@ import java.util.function.Consumer;
 public abstract class Request<T> implements Listener {
     private static final HashMap<UUID, Request<?>> requests = new HashMap<>();
     protected final Player player;
-    protected Consumer<T> submitAction = (t) -> { };
-    protected Runnable cancelAction = () -> { };
+    protected Consumer<T> submitAction = (t) -> {
+    };
+    protected Runnable cancelAction = () -> {
+    };
 
     public Request(final Player player) {
         this.player = player;
@@ -27,7 +29,8 @@ public abstract class Request<T> implements Listener {
         RequestListener.register();
     }
 
-    public static @Nullable Request<?> getRequest(@NotNull Player player) {
+    public static @Nullable
+    Request<?> getRequest(@NotNull Player player) {
         return requests.get(player.getUniqueId());
     }
 
