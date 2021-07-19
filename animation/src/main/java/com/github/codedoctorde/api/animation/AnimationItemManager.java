@@ -2,6 +2,7 @@ package com.github.codedoctorde.api.animation;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class AnimationItemManager {
         }
     }
 
-    private List<ItemStack> getItemStacks() {
+    private @NotNull List<ItemStack> getItemStacks() {
         ItemMeta itemMetaTemplate = itemStackTemplate.getItemMeta();
         int maxSize = size();
         List<ItemStack> itemStacks = new ArrayList<>();

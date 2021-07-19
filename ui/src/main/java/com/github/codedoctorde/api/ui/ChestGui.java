@@ -28,7 +28,7 @@ public class ChestGui extends Gui {
     }
 
     @Override
-    public void reload(Player... players) {
+    public void reload(Player @NotNull ... players) {
         for (Player player : players) {
             if (hasGui(player)) {
                 Inventory inventory = player.getOpenInventory().getTopInventory();
@@ -52,7 +52,7 @@ public class ChestGui extends Gui {
         for (GuiItem[] row : guiItems) for (GuiItem guiItem : row) if (guiItem != null) guiItem.onClose(player);
     }
 
-    public void buildInventory(Inventory inventory) {
+    public void buildInventory(@NotNull Inventory inventory) {
         for (int x = 0; x < guiItems.length; x++) {
             GuiItem[] row = guiItems[x];
             for (int y = 0; y < row.length; y++) {

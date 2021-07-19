@@ -3,6 +3,7 @@ package com.github.codedoctorde.api.translations;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,11 +24,11 @@ public class Translation {
         this.translations = translations;
     }
 
-    public Translation(JsonObject jsonObject) {
+    public Translation(@NotNull JsonObject jsonObject) {
         translations = recursiveJsonMap("", jsonObject);
     }
 
-    private Map<String, String> recursiveJsonMap(String path, JsonObject jsonObject) {
+    private @NotNull Map<String, String> recursiveJsonMap(@NotNull String path, @NotNull JsonObject jsonObject) {
         Map<String, String> map = new HashMap<>();
         String prefix = path + (path.isBlank() ? "" : ".");
         jsonObject.entrySet().forEach(entry -> {
@@ -41,7 +42,7 @@ public class Translation {
         return map;
     }
 
-    private Map<String, String> recursiveJsonArray(String path, JsonArray jsonArray) {
+    private @NotNull Map<String, String> recursiveJsonArray(@NotNull String path, @NotNull JsonArray jsonArray) {
         Map<String, String> map = new HashMap<>();
         String prefix = path + (path.isBlank() ? "" : ".");
         for (int i = 0; i < jsonArray.size(); i++) {
@@ -60,11 +61,11 @@ public class Translation {
         return translations;
     }
 
-    public Set<String> getTranslationKeys() {
+    public @NotNull Set<String> getTranslationKeys() {
         return translations.keySet();
     }
 
-    public String getTranslation(String key, Object... placeholders) {
+    public String getTranslation(String key, Object @NotNull ... placeholders) {
         if (translations.containsKey(key))
             if (placeholders.length == 0)
                 return translations.get(key);
@@ -77,7 +78,7 @@ public class Translation {
         return translations.containsKey(key);
     }
 
-    public Translation subTranslation(String namespace) {
+    public @NotNull Translation subTranslation(String namespace) {
         Map<String, String> map = new HashMap<>();
         translations.forEach((key, value) -> {
             if (key.startsWith(namespace + "."))
@@ -86,13 +87,13 @@ public class Translation {
         return new Translation(map);
     }
 
-    public void translate(ItemStackBuilder itemStackBuilder, Object... placeholders) {
+    public void translate(@NotNull ItemStackBuilder itemStackBuilder, Object... placeholders) {
         itemStackBuilder.setDisplayName(getTranslation(itemStackBuilder.getDisplayName(), placeholders));
         if (!itemStackBuilder.getLore().isEmpty())
             itemStackBuilder.setLore(getTranslation(String.join("", itemStackBuilder.getLore()), placeholders).split("\n"));
     }
 
-    public JsonObject toJsonObject() {
+    public @NotNull JsonObject toJsonObject() {
         JsonObject jsonObject = new JsonObject();
         translations.forEach((key, value) -> {
             String[] path = key.split("\\.");

@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author CodeDoctorDE
@@ -31,7 +32,7 @@ public class RequestListener implements Listener {
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event) {
+    public void onChat(@NotNull AsyncPlayerChatEvent event) {
         Player current = event.getPlayer();
         Request<?> request = Request.getRequest(current);
         if (request instanceof ChatRequest) {
@@ -42,7 +43,7 @@ public class RequestListener implements Listener {
     }
 
     @EventHandler
-    public void onItemDrop(PlayerDropItemEvent event) {
+    public void onItemDrop(@NotNull PlayerDropItemEvent event) {
         Player current = event.getPlayer();
         Request<?> request = Request.getRequest(current);
         if (request instanceof ItemRequest) {
@@ -53,7 +54,7 @@ public class RequestListener implements Listener {
     }
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
+    public void onBlockBreak(@NotNull BlockBreakEvent event) {
         Player current = event.getPlayer();
         Request<?> request = Request.getRequest(current);
         if (request instanceof BlockBreakRequest) {
@@ -64,7 +65,7 @@ public class RequestListener implements Listener {
     }
 
     @EventHandler
-    private void onPlayerInteract(PlayerInteractEvent event) {
+    private void onPlayerInteract(@NotNull PlayerInteractEvent event) {
         Player current = event.getPlayer();
         if (event.getAction() != Action.LEFT_CLICK_AIR)
             return;
@@ -76,7 +77,7 @@ public class RequestListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
+    public void onPlayerQuit(@NotNull PlayerQuitEvent event) {
         Player current = event.getPlayer();
         Request<?> request = Request.getRequest(current);
         if (request != null)
@@ -84,7 +85,7 @@ public class RequestListener implements Listener {
     }
 
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
+    public void onBlockPlace(@NotNull BlockPlaceEvent event) {
         Player current = event.getPlayer();
         Request<?> request = Request.getRequest(current);
         if (request instanceof BlockPlaceRequest) {
@@ -95,7 +96,7 @@ public class RequestListener implements Listener {
     }
 
     @EventHandler
-    public void onValueChange(PlayerItemHeldEvent event) {
+    public void onValueChange(@NotNull PlayerItemHeldEvent event) {
         Player player = event.getPlayer();
         Request<?> request = Request.getRequest(player);
         if (request instanceof ValueRequest) {
@@ -112,7 +113,7 @@ public class RequestListener implements Listener {
     }
 
     @EventHandler
-    public void onValueSubmit(PlayerInteractEvent event) {
+    public void onValueSubmit(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Request<?> request = Request.getRequest(player);
         if (request instanceof ValueRequest) {

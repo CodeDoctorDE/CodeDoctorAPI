@@ -1,6 +1,10 @@
 package com.github.codedoctorde.api.config;
 
-import java.io.*;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,7 +41,7 @@ public abstract class FileConfig {
         return getPath().getParent();
     }
 
-    public Path getPath() {
+    public @NotNull Path getPath() {
         return Paths.get(filePath);
     }
 

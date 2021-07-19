@@ -2,15 +2,12 @@ package com.github.codedoctorde.api.ui.template.gui.pane.list;
 
 import com.github.codedoctorde.api.ui.GuiPane;
 import com.github.codedoctorde.api.ui.template.gui.ListGui;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
 public class HorizontalListControls extends ListControls {
     private HorizontalAlignment alignment;
-
-    public enum HorizontalAlignment {
-        top, bottom
-    }
 
     public HorizontalListControls() {
         super();
@@ -20,7 +17,7 @@ public class HorizontalListControls extends ListControls {
         super(detailed);
     }
 
-    public Function<ListGui, GuiPane> buildControlsBuilder() {
+    public @NotNull Function<ListGui, GuiPane> buildControlsBuilder() {
         return gui -> {
             var height = gui.getHeight();
             var pane = new GuiPane(gui.getWidth(), height);
@@ -38,5 +35,9 @@ public class HorizontalListControls extends ListControls {
             }
             return pane;
         };
+    }
+
+    public enum HorizontalAlignment {
+        top, bottom
     }
 }

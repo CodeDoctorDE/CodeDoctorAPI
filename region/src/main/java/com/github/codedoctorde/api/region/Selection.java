@@ -2,6 +2,7 @@ package com.github.codedoctorde.api.region;
 
 
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author CodeDoctorDE
@@ -31,7 +32,7 @@ public class Selection {
         this.pos2 = pos2;
     }
 
-    public boolean inSelection(Location location) {
+    public boolean inSelection(@NotNull Location location) {
         double minX = Math.min(pos1.getX(), pos2.getX());
         double minY = Math.min(pos1.getY(), pos2.getY());
         double minZ = Math.min(pos1.getZ(), pos2.getZ());

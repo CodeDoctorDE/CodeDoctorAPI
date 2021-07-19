@@ -1,6 +1,7 @@
 package com.github.codedoctorde.api.request;
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author CodeDoctorDE
@@ -11,13 +12,13 @@ public class ValueRequest extends Request<Float> {
     private float steps = 1;
     private float value;
 
-    public ValueRequest(final Player player, float initialValue) {
+    public ValueRequest(final @NotNull Player player, float initialValue) {
         super(player);
         value = initialValue;
         defaultValue = value;
     }
 
-    public ValueRequest(final Player player) {
+    public ValueRequest(final @NotNull Player player) {
         this(player, 0);
     }
 

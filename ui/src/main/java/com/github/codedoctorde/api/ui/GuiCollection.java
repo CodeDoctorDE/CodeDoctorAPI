@@ -65,11 +65,11 @@ public class GuiCollection extends Gui {
         return false;
     }
 
-    public Gui[] getGuis() {
+    public Gui @NotNull [] getGuis() {
         return guis.toArray(new Gui[0]);
     }
 
-    public Gui getGui() {
+    public @Nullable Gui getGui() {
         if (guis.size() < current)
             return null;
         return guis.get(current);
@@ -190,7 +190,7 @@ public class GuiCollection extends Gui {
     }
 
     @Override
-    public GuiItem getItem(int x, int y) {
+    public @Nullable GuiItem getItem(int x, int y) {
         if (hasAccess())
             getGui().getItem(x, y);
         return null;
@@ -223,19 +223,19 @@ public class GuiCollection extends Gui {
     }
 
     @Override
-    public void addPane(GuiPane pane) {
+    public void addPane(@NotNull GuiPane pane) {
         if (hasAccess())
             getGui().addPane(pane);
     }
 
     @Override
-    public void addPane(int offsetX, int offsetY, GuiPane pane) {
+    public void addPane(int offsetX, int offsetY, @NotNull GuiPane pane) {
         if (hasAccess())
             getGui().addPane(offsetX, offsetY, pane);
     }
 
     @Override
-    public GuiPane offset(int x, int y) {
+    public @Nullable GuiPane offset(int x, int y) {
         if (hasAccess())
             getGui().offset(x, y);
         return null;

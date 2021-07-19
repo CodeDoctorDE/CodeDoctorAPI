@@ -9,10 +9,10 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author CodeDoctorDE
@@ -32,7 +32,7 @@ public class GuiListener implements Listener {
     }
 
     @EventHandler
-    public void onChestGuiItemClicked(InventoryClickEvent event) {
+    public void onChestGuiItemClicked(@NotNull InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player))
             return;
         Gui gui = Gui.getGui((Player) event.getWhoClicked());
@@ -53,13 +53,13 @@ public class GuiListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
+    public void onPlayerQuit(@NotNull PlayerQuitEvent event) {
         var gui = Gui.getGui(event.getPlayer());
         if (gui != null) gui.hide(event.getPlayer());
     }
 
     @EventHandler
-    public void onChestGuiClosed(InventoryCloseEvent event) {
+    public void onChestGuiClosed(@NotNull InventoryCloseEvent event) {
         var p = (Player) event.getPlayer();
         var gui = Gui.getGui(p);
         if (gui != null) {

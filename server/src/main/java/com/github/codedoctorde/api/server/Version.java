@@ -1,6 +1,7 @@
 package com.github.codedoctorde.api.server;
 
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Class by CodingAir: https://github.com/CodingAir/CodingAPI/blob/master/src/de/codingair/codingapi/server/Version.java
@@ -8,7 +9,7 @@ import org.bukkit.Bukkit;
 public enum Version {
     UNKNOWN, v1_7, v1_8, v1_9, v1_10, v1_11, v1_12, v1_13, v1_14, v1_15, v1_16, v1_17;
 
-    public static Version getVersion() {
+    public static @NotNull Version getVersion() {
         if (Bukkit.getVersion().contains("1.7")) return v1_7;
         else if (Bukkit.getVersion().contains("1.8")) return v1_8;
         else if (Bukkit.getVersion().contains("1.9")) return v1_9;
@@ -23,11 +24,11 @@ public enum Version {
         else return UNKNOWN;
     }
 
-    public static String getBukkitVersion() {
+    public static @NotNull String getBukkitVersion() {
         return Bukkit.getServer().getClass().getPackage().getName().substring(23);
     }
 
-    public String getVersionName() {
+    public @NotNull String getVersionName() {
         switch (this) {
             case v1_7:
                 return "v1_7_R4";
@@ -56,14 +57,14 @@ public enum Version {
         }
     }
 
-    public boolean isBiggerThan(Version version) {
+    public boolean isBiggerThan(@NotNull Version version) {
         int current = getIndex();
         int param = version.getIndex();
 
         return current > param;
     }
 
-    public boolean isLowerThan(Version version) {
+    public boolean isLowerThan(@NotNull Version version) {
         int current = getIndex();
         int param = version.getIndex();
 

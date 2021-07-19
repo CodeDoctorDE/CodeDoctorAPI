@@ -13,19 +13,20 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 public class ItemCreatorGui extends ChestGui {
-    private final StaticItem previewStaticItem;
-    private final ItemStackBuilder itemStackBuilder;
+    private final @NotNull StaticItem previewStaticItem;
+    private final @NotNull ItemStackBuilder itemStackBuilder;
     private Consumer<ItemStack> submitAction = (item) -> {
     };
     private Runnable cancelAction;
 
-    public ItemCreatorGui(ItemStack itemStack, Translation translation) {
+    public ItemCreatorGui(@NotNull ItemStack itemStack, @NotNull Translation translation) {
         super(translation.getTranslation("title"), 5);
         itemStackBuilder = new ItemStackBuilder(itemStack);
         previewStaticItem = new StaticItem(new ItemStackBuilder().build());

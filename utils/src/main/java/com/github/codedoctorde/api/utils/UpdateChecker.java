@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Consumer;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -27,7 +28,7 @@ public class UpdateChecker {
         this.resourceId = resourceId;
     }
 
-    public void getVersion(final Consumer<String> consumer) {
+    public void getVersion(final @NotNull Consumer<String> consumer) {
         Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
             try {
                 StringBuilder result = new StringBuilder();

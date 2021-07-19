@@ -1,6 +1,7 @@
 package com.github.codedoctorde.api.game.teams;
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class Team {
         this.suffix = suffix;
     }
 
-    public List<Player> getPlayers() {
+    public @NotNull List<Player> getPlayers() {
         return players;
     }
 

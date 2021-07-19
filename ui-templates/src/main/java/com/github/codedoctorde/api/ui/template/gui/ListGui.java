@@ -6,20 +6,18 @@ import com.github.codedoctorde.api.ui.GuiCollection;
 import com.github.codedoctorde.api.ui.GuiPane;
 import com.github.codedoctorde.api.ui.item.GuiItem;
 import com.github.codedoctorde.api.ui.template.gui.pane.list.ListControls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ListGui extends GuiCollection {
-    private Object[] placeholders = new Object[0];
     private final Function<ListGui, GuiItem[]> itemBuilder;
     private final int height;
     private final Translation translation;
+    private Object[] placeholders = new Object[0];
     private Function<ListGui, GuiPane> controlsBuilder;
     private String searchText = "";
     private int controlsOffsetX = 0, controlsOffsetY = 0;
@@ -40,7 +38,7 @@ public class ListGui extends GuiCollection {
         rebuild();
     }
 
-    public void setListControls(ListControls controls) {
+    public void setListControls(@NotNull ListControls controls) {
         setControlsBuilder(controls.buildControlsBuilder());
     }
 
@@ -84,7 +82,7 @@ public class ListGui extends GuiCollection {
         show(openedPlayers);
     }
 
-    private TranslatedChestGui buildGui(int currentPage, int pageCount, GuiPane controls) {
+    private @NotNull TranslatedChestGui buildGui(int currentPage, int pageCount, @Nullable GuiPane controls) {
         TranslatedChestGui gui = new TranslatedChestGui(translation, height);
         var placeholders = new ArrayList<>(Arrays.asList(this.placeholders));
         placeholders.add(currentPage);

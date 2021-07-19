@@ -1,6 +1,7 @@
 package com.github.codedoctorde.api.game.teams;
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class TeamManager<T extends Team> {
         return true;
     }
 
-    public boolean join(Player player, Team team) {
+    public boolean join(Player player, @Nullable Team team) {
         if (team == null)
             return false;
         if (team.isFull())
@@ -66,7 +67,7 @@ public class TeamManager<T extends Team> {
         return teams.stream().filter(team -> team.getName().equals(name)).findFirst().orElse(null);
     }
 
-    public List<T> getTeams() {
+    public @NotNull List<T> getTeams() {
         return teams;
     }
 

@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,20 +17,20 @@ import java.util.Objects;
  * @author CodeDoctorDE
  */
 public class Stringboard {
-    private final Objective objective;
+    private final @NotNull Objective objective;
     private final List<StringboardValue> values = new ArrayList<>();
     private final List<DynamicStringboardValue> dynamicValues = new ArrayList<>();
     private String title;
 
-    public Stringboard(Scoreboard scoreboard, String title, String name) {
+    public Stringboard(@NotNull Scoreboard scoreboard, @NotNull String title, @NotNull String name) {
         this(scoreboard.registerNewObjective(name, "dummy", title));
     }
 
-    public Stringboard(String title, String name) {
+    public Stringboard(@NotNull String title, @NotNull String name) {
         this(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard().registerNewObjective(name, "dummy", title));
     }
 
-    public Stringboard(Objective objective) {
+    public Stringboard(@NotNull Objective objective) {
         this.title = objective.getDisplayName();
         this.objective = objective;
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -44,7 +46,7 @@ public class Stringboard {
         dynamicValues.forEach(value -> objective.getScore(value.getEntry()).setScore(value.getScore()));
     }
 
-    public List<StringboardValue> getValues() {
+    public @NotNull List<StringboardValue> getValues() {
         return values;
     }
 
@@ -56,15 +58,15 @@ public class Stringboard {
         this.title = title;
     }
 
-    public void show(Player player) {
+    public void show(@NotNull Player player) {
         player.setScoreboard(Objects.requireNonNull(objective.getScoreboard()));
     }
 
-    public Scoreboard getScoreboard() {
+    public @Nullable Scoreboard getScoreboard() {
         return objective.getScoreboard();
     }
 
-    public List<DynamicStringboardValue> getDynamicValues() {
+    public @NotNull List<DynamicStringboardValue> getDynamicValues() {
         return dynamicValues;
     }
 
@@ -77,11 +79,11 @@ public class Stringboard {
         updateTitle();
     }
 
-    public void openScoreboard(Player... players) {
+    public void openScoreboard(Player @NotNull ... players) {
         Arrays.stream(players).forEach(player -> player.setScoreboard(Objects.requireNonNull(objective.getScoreboard())));
     }
 
-    public void closeScoreboard(Player... players) {
+    public void closeScoreboard(Player @NotNull ... players) {
         Arrays.stream(players).filter(player -> player.getScoreboard().equals(objective.getScoreboard())).forEach(player -> player.setScoreboard(Objects.requireNonNull(Bukkit.getServer().getScoreboardManager()).getNewScoreboard()));
     }
 }

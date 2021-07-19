@@ -4,10 +4,6 @@ import com.github.codedoctorde.api.translations.TranslatedObject;
 import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.ChestGui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class TranslatedChestGui extends ChestGui implements TranslatedObject {
     private final Translation translation;
     private Object[] placeholders = new Object[0];

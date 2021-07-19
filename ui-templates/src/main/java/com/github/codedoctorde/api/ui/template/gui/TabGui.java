@@ -4,6 +4,7 @@ import com.github.codedoctorde.api.translations.TranslatedObject;
 import com.github.codedoctorde.api.ui.Gui;
 import com.github.codedoctorde.api.ui.GuiCollection;
 import com.github.codedoctorde.api.ui.GuiPane;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +31,7 @@ public class TabGui extends GuiCollection {
         super.registerGui(gui);
     }
 
-    public Object[] getPlaceholders() {
+    public Object @NotNull [] getPlaceholders() {
         return placeholders.toArray();
     }
 

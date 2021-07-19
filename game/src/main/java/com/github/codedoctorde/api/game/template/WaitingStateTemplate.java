@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -14,12 +15,12 @@ import java.util.Objects;
  */
 public abstract class WaitingStateTemplate extends GameState {
     @EventHandler
-    public void onPlayerHunger(FoodLevelChangeEvent event) {
+    public void onPlayerHunger(@NotNull FoodLevelChangeEvent event) {
         event.setCancelled(true);
     }
 
     @EventHandler
-    public void onPlayerDamage(EntityDamageEvent event) {
+    public void onPlayerDamage(@NotNull EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player))
             return;
         event.setCancelled(true);

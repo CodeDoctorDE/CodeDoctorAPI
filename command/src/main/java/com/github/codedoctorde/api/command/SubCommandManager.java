@@ -2,6 +2,7 @@ package com.github.codedoctorde.api.command;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,10 +11,10 @@ import java.util.List;
 
 public abstract class SubCommandManager implements SubCommand {
     @Override
-    public abstract List<String> aliases();
+    public abstract @NotNull List<String> aliases();
 
     @Override
-    public List<String> onTabComplete(CommandSender commandSender, String[] args) {
+    public @NotNull List<String> onTabComplete(CommandSender commandSender, String @NotNull [] args) {
         List<String> subCommandArgs = new ArrayList<>();
         List<SubCommand> subCommands = subCommands(commandSender, args);
         Collections.addAll(subCommandArgs, args);
@@ -41,16 +42,16 @@ public abstract class SubCommandManager implements SubCommand {
     }
 
     @Override
-    public abstract String permission();
+    public abstract @NotNull String permission();
 
-    public abstract List<SubCommand> subCommands(CommandSender commandSender, String[] args);
+    public abstract @NotNull List<SubCommand> subCommands(CommandSender commandSender, String[] args);
 
     public abstract void onNoPermission(CommandSender commandSender, String[] args);
 
     protected abstract void onNoSubCommand(CommandSender commandSender, String[] args);
 
     @Override
-    public void onCommand(CommandSender commandSender, String[] args) {
+    public void onCommand(@NotNull CommandSender commandSender, String @NotNull [] args) {
         List<String> subCommandArgs = new ArrayList<>(Arrays.asList(args));
         List<SubCommand> subCommands = subCommands(commandSender, args);
         boolean exist = false;

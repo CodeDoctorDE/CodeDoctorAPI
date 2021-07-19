@@ -2,11 +2,10 @@ package com.github.codedoctorde.api.translations;
 
 import com.github.codedoctorde.api.config.JsonConfig;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,11 +39,11 @@ public class TranslationConfig extends JsonConfig {
         return instance.hasTranslation(key);
     }
 
-    public Translation subTranslation(String namespace) {
+    public @NotNull Translation subTranslation(String namespace) {
         return instance.subTranslation(namespace);
     }
 
-    public void setDefault(Translation translation) {
+    public void setDefault(@NotNull Translation translation) {
         var map = new HashMap<>(translation.getTranslations());
         for (Map.Entry<String, String> entry : translation.getTranslations().entrySet())
             if (!instance.getTranslationKeys().contains(entry.getKey()))
@@ -53,17 +52,17 @@ public class TranslationConfig extends JsonConfig {
     }
 
     @Override
-    protected void read(BufferedReader reader) {
+    protected void read(@NotNull BufferedReader reader) {
         instance = new Translation(getGson().fromJson(reader, JsonObject.class));
     }
 
     @Override
-    public JsonObject getJsonObject() {
+    public @NotNull JsonObject getJsonObject() {
         return instance.toJsonObject();
     }
 
     @Override
-    public void setJsonObject(JsonObject jsonObject) {
+    public void setJsonObject(@NotNull JsonObject jsonObject) {
         instance = new Translation(jsonObject);
     }
 

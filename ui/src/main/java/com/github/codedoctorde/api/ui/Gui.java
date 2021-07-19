@@ -13,9 +13,9 @@ import java.util.function.Consumer;
 
 public abstract class Gui extends GuiPane {
     static final Map<UUID, Gui> playerGuis = new HashMap<>();
-    protected Consumer<Player> openAction = player -> {
+    protected @Nullable Consumer<Player> openAction = player -> {
     };
-    protected Consumer<Player> closeAction = player -> {
+    protected @Nullable Consumer<Player> closeAction = player -> {
     };
     private boolean silent = false;
 
@@ -32,11 +32,11 @@ public abstract class Gui extends GuiPane {
         return playerGuis.containsKey(player.getUniqueId());
     }
 
-    public static void hideAll(@NotNull Player... players) {
+    public static void hideAll(@NotNull Player @NotNull ... players) {
         Arrays.stream(players).filter(Gui::hasGui).forEach(player -> getGui(player).hide(player));
     }
 
-    public void show(@NotNull Player... players) {
+    public void show(@NotNull Player @NotNull ... players) {
         for (Player player : players) {
             if (hasGui(player))
                 getGui(player).hide();
@@ -45,7 +45,7 @@ public abstract class Gui extends GuiPane {
         }
     }
 
-    public void hide(@NotNull Player... players) {
+    public void hide(@NotNull Player @NotNull ... players) {
         for (Player player : players) {
             if (playerGuis.containsKey(player.getUniqueId())) {
                 playerGuis.remove(player.getUniqueId());

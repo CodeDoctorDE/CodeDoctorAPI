@@ -1,14 +1,10 @@
 package com.github.codedoctorde.api.config;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author CodeDoctorDE
@@ -32,7 +28,7 @@ public class JsonConfig extends FileConfig {
     }
 
     @Override
-    protected void read(BufferedReader reader) {
+    protected void read(@NotNull BufferedReader reader) {
         jsonObject = gson.fromJson(reader, JsonObject.class);
     }
 
@@ -44,11 +40,11 @@ public class JsonConfig extends FileConfig {
         this.gson = gson;
     }
 
-    public void setJsonObject(JsonObject jsonObject) {
-        this.jsonObject = jsonObject;
-    }
-
     public JsonObject getJsonObject() {
         return jsonObject;
+    }
+
+    public void setJsonObject(JsonObject jsonObject) {
+        this.jsonObject = jsonObject;
     }
 }

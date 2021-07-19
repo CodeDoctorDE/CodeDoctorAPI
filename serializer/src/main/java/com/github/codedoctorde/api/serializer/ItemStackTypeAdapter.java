@@ -3,6 +3,8 @@ package com.github.codedoctorde.api.serializer;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.*;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 
@@ -10,7 +12,7 @@ import java.lang.reflect.Type;
  * @author CodeDoctorDE
  */
 public class ItemStackTypeAdapter implements JsonSerializer<ItemStack>, JsonDeserializer<ItemStack> {
-    private final Gson gson;
+    private final @NotNull Gson gson;
 
     public ItemStackTypeAdapter() {
         gson = new GsonBuilder().create();
@@ -22,7 +24,7 @@ public class ItemStackTypeAdapter implements JsonSerializer<ItemStack>, JsonDese
     }
 
     @Override
-    public JsonElement serialize(ItemStack itemStack, Type type, JsonSerializationContext context) {
+    public @Nullable JsonElement serialize(@NotNull ItemStack itemStack, Type type, JsonSerializationContext context) {
         return new JsonPrimitive(new ItemStackBuilder(itemStack).serialize());
     }
 

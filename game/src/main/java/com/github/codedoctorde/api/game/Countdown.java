@@ -2,6 +2,7 @@ package com.github.codedoctorde.api.game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author CodeDoctorDE
@@ -9,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public abstract class Countdown {
     private final JavaPlugin plugin;
     protected int idleTime = 500, countdownTime = 30, time;
-    protected Integer taskID = null;
+    protected @Nullable Integer taskID = null;
 
     public Countdown(JavaPlugin plugin) {
         this.plugin = plugin;

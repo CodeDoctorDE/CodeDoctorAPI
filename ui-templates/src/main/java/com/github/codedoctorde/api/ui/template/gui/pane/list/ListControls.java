@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -50,19 +51,19 @@ public abstract class ListControls {
 
     public abstract Function<ListGui, GuiPane> buildControlsBuilder();
 
-    protected StaticItem getPreviousItem(ListGui gui) {
+    protected @NotNull StaticItem getPreviousItem(@NotNull ListGui gui) {
         return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.ARROW).setDisplayName("previous").build()) {{
             setClickAction(event -> gui.previous());
         }};
     }
 
-    protected StaticItem getNextItem(ListGui gui) {
+    protected @NotNull StaticItem getNextItem(@NotNull ListGui gui) {
         return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.ARROW).setDisplayName("next").build()) {{
             setClickAction(event -> gui.next());
         }};
     }
 
-    protected StaticItem getSearchItem(ListGui gui) {
+    protected @NotNull StaticItem getSearchItem(@NotNull ListGui gui) {
         return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.COMPASS).setDisplayName("search.title").addLore("search.description").build()) {{
             setRenderAction(event -> setPlaceholders(gui.getSearchText()));
             setClickAction(event -> {
@@ -85,25 +86,25 @@ public abstract class ListControls {
         }};
     }
 
-    protected StaticItem getFirstItem(ListGui gui) {
+    protected @NotNull StaticItem getFirstItem(@NotNull ListGui gui) {
         return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.BLAZE_ROD).setDisplayName("first").build()) {{
             setClickAction(event -> gui.toFirst());
         }};
     }
 
-    protected StaticItem getLastItem(ListGui gui) {
+    protected @NotNull StaticItem getLastItem(@NotNull ListGui gui) {
         return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.BLAZE_ROD).setDisplayName("last").build()) {{
             setClickAction(event -> gui.toLast());
         }};
     }
 
-    protected StaticItem getCreateItem(ListGui gui) {
+    protected @NotNull StaticItem getCreateItem(@NotNull ListGui gui) {
         return new TranslatedItem(gui.getTranslation(), new ItemStackBuilder(Material.KNOWLEDGE_BOOK).setDisplayName("create.title").setLore("create.description").build()) {{
             setClickAction(event -> createAction.accept(event));
         }};
     }
 
-    protected StaticItem getPlaceholderItem() {
+    protected @NotNull StaticItem getPlaceholderItem() {
         return new StaticItem(new ItemStackBuilder(Material.IRON_BARS).setDisplayName(" ").build());
     }
 

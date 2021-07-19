@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
@@ -37,11 +38,11 @@ public class ItemStackBuilder {
         itemStack = new ItemStack(Material.AIR);
     }
 
-    public ItemStackBuilder(Material material, int amount) {
+    public ItemStackBuilder(@NotNull Material material, int amount) {
         itemStack = new ItemStack(material, amount);
     }
 
-    public ItemStackBuilder(Material material) {
+    public ItemStackBuilder(@NotNull Material material) {
         itemStack = new ItemStack(material);
     }
 
@@ -50,36 +51,16 @@ public class ItemStackBuilder {
         setSkullId(skullId);
     }
 
-    public ItemStackBuilder(UUID uuid) {
+    public ItemStackBuilder(@NotNull UUID uuid) {
         this(Material.PLAYER_HEAD);
         setOwner(uuid);
     }
 
-    public OfflinePlayer getOwningPlayer() {
-        return ((SkullMeta) Objects.requireNonNull(itemStack.getItemMeta())).getOwningPlayer();
-    }
-
-    public UUID getOwner() {
-        return getOwningPlayer().getUniqueId();
-    }
-
-    public ItemStackBuilder setOwningPlayer(OfflinePlayer player) {
-        SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
-        assert meta != null;
-        meta.setOwningPlayer(player);
-        itemStack.setItemMeta(meta);
-        return this;
-    }
-
-    public ItemStackBuilder setOwner(UUID uuid) {
-        return setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
-    }
-
-    public ItemStackBuilder(final ItemStack itemStack) {
+    public ItemStackBuilder(final @NotNull ItemStack itemStack) {
         this.itemStack = itemStack.clone();
     }
 
-    public ItemStackBuilder(JsonObject value) {
+    public ItemStackBuilder(@Nullable JsonObject value) {
         if (value != null) {
             itemStack = new ItemStack(Material.valueOf(value.get("material").getAsString()));
             displayName(value.get("name").getAsString())
@@ -89,7 +70,7 @@ public class ItemStackBuilder {
             itemStack = new ItemStack(Material.AIR);
     }
 
-    public ItemStackBuilder(JsonElement value) {
+    public ItemStackBuilder(@Nullable JsonElement value) {
         if (value != null) {
             try {
                 ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(value.getAsString()));
@@ -104,7 +85,7 @@ public class ItemStackBuilder {
             itemStack = new ItemStack(Material.AIR);
     }
 
-    public static ItemStackBuilder deserialize(String value) {
+    public static @NotNull ItemStackBuilder deserialize(@Nullable String value) {
         if (value != null) {
             try {
                 ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(value));
@@ -119,20 +100,40 @@ public class ItemStackBuilder {
             return new ItemStackBuilder();
     }
 
-    public Material getMaterial() {
+    public @Nullable OfflinePlayer getOwningPlayer() {
+        return ((SkullMeta) Objects.requireNonNull(itemStack.getItemMeta())).getOwningPlayer();
+    }
+
+    public @NotNull ItemStackBuilder setOwningPlayer(OfflinePlayer player) {
+        SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
+        assert meta != null;
+        meta.setOwningPlayer(player);
+        itemStack.setItemMeta(meta);
+        return this;
+    }
+
+    public @NotNull UUID getOwner() {
+        return getOwningPlayer().getUniqueId();
+    }
+
+    public @NotNull ItemStackBuilder setOwner(@NotNull UUID uuid) {
+        return setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
+    }
+
+    public @NotNull Material getMaterial() {
         return itemStack.getType();
     }
 
-    public ItemStackBuilder setMaterial(Material material) {
+    public @NotNull ItemStackBuilder setMaterial(@NotNull Material material) {
         itemStack.setType(material);
         return this;
     }
 
-    public ItemStackBuilder material(Material material) {
+    public @NotNull ItemStackBuilder material(@NotNull Material material) {
         return setMaterial(material);
     }
 
-    public Material material() {
+    public @NotNull Material material() {
         return itemStack.getType();
     }
 
@@ -140,20 +141,20 @@ public class ItemStackBuilder {
         return itemStack.getAmount();
     }
 
-    public ItemStackBuilder setAmount(int amount) {
+    public @NotNull ItemStackBuilder setAmount(int amount) {
         itemStack.setAmount(amount);
         return this;
     }
 
-    public ItemStackBuilder amount(int amount) {
+    public @NotNull ItemStackBuilder amount(int amount) {
         return setAmount(amount);
     }
 
-    public List<String> getLore() {
+    public @Nullable List<String> getLore() {
         return (Objects.requireNonNull(itemStack.getItemMeta()).getLore() == null) ? new ArrayList<>() : itemStack.getItemMeta().getLore();
     }
 
-    public ItemStackBuilder setLore(String... lore) {
+    public @NotNull ItemStackBuilder setLore(String @NotNull ... lore) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         List<String> loreList = new ArrayList<>();
         Arrays.stream(lore).map(line -> Arrays.asList(line.split("\n"))).forEach(loreList::addAll);
@@ -162,52 +163,52 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public ItemStackBuilder setLore(List<String> lore) {
+    public @NotNull ItemStackBuilder setLore(@NotNull List<String> lore) {
         return setLore(lore.toArray(String[]::new));
     }
 
-    public ItemStackBuilder lore(List<String> lore) {
+    public @NotNull ItemStackBuilder lore(@NotNull List<String> lore) {
         return setLore(lore);
     }
 
 
-    public ItemStackBuilder lore(String... lore) {
+    public @NotNull ItemStackBuilder lore(String... lore) {
         return setLore(lore);
     }
 
-    public ItemStackBuilder addLore(String... lore) {
+    public @NotNull ItemStackBuilder addLore(String... lore) {
         List<String> currentLore = new ArrayList<>(getLore());
         Collections.addAll(currentLore, lore);
         return setLore(currentLore);
     }
 
-    public ItemStackBuilder addLore(JsonArray jsonArray) {
+    public @NotNull ItemStackBuilder addLore(@NotNull JsonArray jsonArray) {
         for (JsonElement element :
                 jsonArray)
             addLore(element.getAsString());
         return this;
     }
 
-    public String getLocalizedName() {
+    public @NotNull String getLocalizedName() {
         return Objects.requireNonNull(itemStack.getItemMeta()).getLocalizedName();
     }
 
-    public ItemStackBuilder setLocalizedName(String localizedName) {
+    public @NotNull ItemStackBuilder setLocalizedName(String localizedName) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         Objects.requireNonNull(itemMeta).setLocalizedName(localizedName);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
 
-    public ItemStackBuilder localizedName(String localizedName) {
+    public @NotNull ItemStackBuilder localizedName(String localizedName) {
         return setLocalizedName(localizedName);
     }
 
-    public String getDisplayName() {
+    public @NotNull String getDisplayName() {
         return Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
     }
 
-    public ItemStackBuilder setDisplayName(String displayName) {
+    public @Nullable ItemStackBuilder setDisplayName(String displayName) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null)
             return null;
@@ -220,11 +221,11 @@ public class ItemStackBuilder {
      * @deprecated Replaced by {@link #displayName(String)} ()}
      */
     @Deprecated
-    public ItemStackBuilder name(String displayName) {
+    public @Nullable ItemStackBuilder name(String displayName) {
         return setDisplayName(displayName);
     }
 
-    public ItemStackBuilder displayName(String displayName) {
+    public @Nullable ItemStackBuilder displayName(String displayName) {
         return setDisplayName(displayName);
     }
 
@@ -235,14 +236,14 @@ public class ItemStackBuilder {
         return (itemMeta.hasCustomModelData()) ? itemMeta.getCustomModelData() : null;
     }
 
-    public ItemStackBuilder setCustomModelData(Integer data) {
+    public @NotNull ItemStackBuilder setCustomModelData(Integer data) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         Objects.requireNonNull(itemMeta).setCustomModelData(data);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
 
-    public ItemStackBuilder customModelData(Integer data) {
+    public @NotNull ItemStackBuilder customModelData(Integer data) {
         return setCustomModelData(data);
     }
 
@@ -250,49 +251,49 @@ public class ItemStackBuilder {
         return ((Damageable) itemStack).getDamage();
     }
 
-    public ItemStackBuilder setDamage(int damage) {
+    public @NotNull ItemStackBuilder setDamage(int damage) {
         ((Damageable) itemStack).setDamage(damage);
         return this;
     }
 
-    public ItemStackBuilder damage(int damage) {
+    public @NotNull ItemStackBuilder damage(int damage) {
         return setDamage(damage);
     }
 
-    public ItemStackBuilder addItemFlags(ItemFlag... itemFlags) {
+    public @NotNull ItemStackBuilder addItemFlags(ItemFlag... itemFlags) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         Objects.requireNonNull(itemMeta).addItemFlags(itemFlags);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
 
-    public ItemStackBuilder removeItemFlags(ItemFlag... itemFlags) {
+    public @NotNull ItemStackBuilder removeItemFlags(ItemFlag... itemFlags) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         Objects.requireNonNull(itemMeta).removeItemFlags(itemFlags);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
 
-    public boolean hasItemFlag(ItemFlag itemFlag) {
+    public boolean hasItemFlag(@NotNull ItemFlag itemFlag) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         assert itemMeta != null;
         return itemMeta.hasItemFlag(itemFlag);
     }
 
-    public Set<ItemFlag> getItemFlags() {
+    public @NotNull Set<ItemFlag> getItemFlags() {
         ItemMeta itemMeta = itemStack.getItemMeta();
         assert itemMeta != null;
         return itemMeta.getItemFlags();
     }
 
-    public ItemStackBuilder addAttributeModifier(Attribute attribute, AttributeModifier attributeModifier) {
+    public @NotNull ItemStackBuilder addAttributeModifier(@NotNull Attribute attribute, @NotNull AttributeModifier attributeModifier) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         Objects.requireNonNull(itemMeta).addAttributeModifier(attribute, attributeModifier);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
 
-    public ItemStackBuilder removeAttributeModifier(Attribute attribute) {
+    public @NotNull ItemStackBuilder removeAttributeModifier(@NotNull Attribute attribute) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         Objects.requireNonNull(itemMeta).removeAttributeModifier(attribute);
         itemStack.setItemMeta(itemMeta);
@@ -307,7 +308,7 @@ public class ItemStackBuilder {
         return (itemMeta.getAttributeModifiers() != null) && Objects.requireNonNull(itemMeta.getAttributeModifiers()).containsKey(attribute);
     }
 
-    public ItemStackBuilder setSkullId(String skullId) {
+    public @NotNull ItemStackBuilder setSkullId(String skullId) {
         itemStack = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta headMeta = (SkullMeta) itemStack.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
@@ -317,14 +318,14 @@ public class ItemStackBuilder {
             Method mtd = headMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
             mtd.setAccessible(true);
             mtd.invoke(headMeta, profile);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+        } catch (@NotNull IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
             ex.printStackTrace();
         }
         itemStack.setItemMeta(headMeta);
         return this;
     }
 
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers() {
+    public @Nullable Multimap<Attribute, AttributeModifier> getAttributeModifiers() {
         ItemMeta itemMeta = itemStack.getItemMeta();
         assert itemMeta != null;
         return itemMeta.getAttributeModifiers();
@@ -340,7 +341,7 @@ public class ItemStackBuilder {
         return Objects.requireNonNull(itemStack.getItemMeta()).isUnbreakable();
     }
 
-    public ItemStackBuilder setUnbreakable(boolean unbreakable) {
+    public @NotNull ItemStackBuilder setUnbreakable(boolean unbreakable) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         assert itemMeta != null;
         itemMeta.setUnbreakable(unbreakable);
@@ -348,7 +349,7 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public ItemStackBuilder format(Object... arguments) {
+    public @NotNull ItemStackBuilder format(Object... arguments) {
         if (itemStack.getItemMeta() == null)
             return this;
         displayName(String.format(getDisplayName(), arguments));
@@ -358,7 +359,7 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public String serialize() {
+    public @Nullable String serialize() {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
@@ -388,7 +389,7 @@ public class ItemStackBuilder {
         this.itemStack = itemStack;
     }
 
-    public ItemStackBuilder addEnchant(Enchantment enchantment, int level) {
+    public @NotNull ItemStackBuilder addEnchant(@NotNull Enchantment enchantment, int level) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         assert itemMeta != null;
         itemMeta.addEnchant(enchantment, level, true);
@@ -396,7 +397,7 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public ItemStackBuilder removeEnchant(Enchantment enchantment) {
+    public @NotNull ItemStackBuilder removeEnchant(@NotNull Enchantment enchantment) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         assert itemMeta != null;
         itemMeta.removeEnchant(enchantment);
@@ -404,7 +405,7 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public boolean hasEnchant(Enchantment enchantment) {
+    public boolean hasEnchant(@NotNull Enchantment enchantment) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         assert itemMeta != null;
         return itemMeta.hasEnchant(enchantment);
@@ -414,7 +415,7 @@ public class ItemStackBuilder {
         return hasEnchant(Enchantment.DURABILITY);
     }
 
-    public ItemStackBuilder setEnchanted(boolean enchanted) {
+    public @NotNull ItemStackBuilder setEnchanted(boolean enchanted) {
         if (enchanted) {
             addEnchant(Enchantment.DURABILITY, 1);
             addItemFlags(ItemFlag.HIDE_ENCHANTS);

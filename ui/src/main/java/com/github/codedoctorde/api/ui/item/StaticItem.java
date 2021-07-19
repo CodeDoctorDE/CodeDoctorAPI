@@ -5,6 +5,7 @@ import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class StaticItem implements GuiItem {
     protected Consumer<Gui> renderAction = (gui) -> {
     };
     private ItemStack itemStack;
-    private List<Object> placeholders = new ArrayList<>();
+    private @NotNull List<Object> placeholders = new ArrayList<>();
 
     public StaticItem() {
         this(new ItemStack(Material.AIR));

@@ -3,12 +3,13 @@ package com.github.codedoctorde.api.ui.template.item;
 import com.github.codedoctorde.api.ui.item.StaticItem;
 import com.github.codedoctorde.api.utils.NumberManager;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
 
 public class NumberItem extends StaticItem {
-    private final NumberManager manager;
+    private final @NotNull NumberManager manager;
     private Consumer<Float> changeAction;
 
     public NumberItem(ItemStack itemStack) {
@@ -25,7 +26,7 @@ public class NumberItem extends StaticItem {
         });
     }
 
-    public NumberManager getManager() {
+    public @NotNull NumberManager getManager() {
         return manager;
     }
 
@@ -38,7 +39,7 @@ public class NumberItem extends StaticItem {
     }
 
     @Override
-    public Object[] getPlaceholders() {
+    public Object @NotNull [] getPlaceholders() {
         Object[] defaultPlaceholders = super.getPlaceholders();
         int N = defaultPlaceholders.length;
         Object[] placeholders = Arrays.copyOf(defaultPlaceholders, N + 6);

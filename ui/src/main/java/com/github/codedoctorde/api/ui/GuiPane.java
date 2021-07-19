@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
  * @author CodeDoctorDE
  */
 public class GuiPane {
-    protected final GuiItem[][] guiItems;
+    protected final GuiItem[] @NotNull [] guiItems;
 
     public GuiPane(int width, int height) {
         guiItems = new GuiItem[width][height];
@@ -19,7 +19,7 @@ public class GuiPane {
             guiItems[x][y] = item;
     }
 
-    public GuiItem getItem(int x, int y) {
+    public @Nullable GuiItem getItem(int x, int y) {
         if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight())
             return guiItems[x][y];
         return null;
@@ -63,11 +63,11 @@ public class GuiPane {
         return count;
     }
 
-    public void addPane(GuiPane pane) {
+    public void addPane(@NotNull GuiPane pane) {
         addPane(0, 0, pane);
     }
 
-    public void addPane(int offsetX, int offsetY, GuiPane pane) {
+    public void addPane(int offsetX, int offsetY, @NotNull GuiPane pane) {
         for (int x = 0; x < pane.guiItems.length; x++)
             for (int y = 0; y < pane.guiItems[x].length; y++)
                 if (pane.containsItem(x, y))

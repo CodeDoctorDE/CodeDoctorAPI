@@ -15,13 +15,13 @@ import java.util.function.Consumer;
  */
 public abstract class Request<T> implements Listener {
     private static final HashMap<UUID, Request<?>> requests = new HashMap<>();
-    protected final Player player;
+    protected final @NotNull Player player;
     protected Consumer<T> submitAction = (t) -> {
     };
     protected Runnable cancelAction = () -> {
     };
 
-    public Request(final Player player) {
+    public Request(final @NotNull Player player) {
         this.player = player;
         if (requests.containsKey(player.getUniqueId()))
             requests.get(player.getUniqueId()).cancel();
@@ -38,7 +38,7 @@ public abstract class Request<T> implements Listener {
         return requests.containsKey(player.getUniqueId());
     }
 
-    public static void cancelAll(@NotNull Player... players) {
+    public static void cancelAll(@NotNull Player @NotNull ... players) {
         Arrays.stream(players).filter(Request::hasRequest).forEach(player -> {
             Request<?> request = getRequest(player);
             if (request != null)
@@ -60,7 +60,7 @@ public abstract class Request<T> implements Listener {
         unregister();
     }
 
-    public Player getPlayer() {
+    public @NotNull Player getPlayer() {
         return player;
     }
 

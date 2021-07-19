@@ -2,6 +2,7 @@ package com.github.codedoctorde.api.utils;
 
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author CodeDoctorDE
@@ -77,11 +78,11 @@ public class NumberManager {
         value = defaultValue;
     }
 
-    public void handleEvent(InventoryClickEvent event) {
+    public void handleEvent(@NotNull InventoryClickEvent event) {
         handleClick(event.getClick());
     }
 
-    public void handleClick(ClickType type) {
+    public void handleClick(@NotNull ClickType type) {
         switch (type) {
             case LEFT:
                 next();

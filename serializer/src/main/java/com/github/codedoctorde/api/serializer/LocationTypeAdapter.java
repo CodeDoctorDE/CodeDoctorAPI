@@ -4,6 +4,7 @@ import com.google.gson.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
 
@@ -22,7 +23,7 @@ import java.lang.reflect.Type;
 public class LocationTypeAdapter implements JsonDeserializer<Location>, JsonSerializer<Location> {
 
     @Override
-    public Location deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+    public @NotNull Location deserialize(@NotNull JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
 
         if (!json.isJsonObject()) {
             throw new JsonParseException("not a JSON object");
@@ -74,7 +75,7 @@ public class LocationTypeAdapter implements JsonDeserializer<Location>, JsonSeri
     }
 
     @Override
-    public JsonElement serialize(Location location, Type type, JsonSerializationContext jsonSerializationContext) {
+    public @NotNull JsonElement serialize(@NotNull Location location, Type type, JsonSerializationContext jsonSerializationContext) {
 
         final JsonObject obj = new JsonObject();
         obj.addProperty("world", location.getWorld().getName());

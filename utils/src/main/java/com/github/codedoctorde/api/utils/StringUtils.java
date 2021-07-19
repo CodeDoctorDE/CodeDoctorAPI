@@ -1,5 +1,7 @@
 package com.github.codedoctorde.api.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import java.util.List;
  * @author CodeDoctorDE
  */
 public class StringUtils {
-    public static List<String> wrap(String string, int letters) {
+    public static @NotNull List<String> wrap(@NotNull String string, int letters) {
         List<String> output = new ArrayList<>();
         output.add("");
         for (String current :

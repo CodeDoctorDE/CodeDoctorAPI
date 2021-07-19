@@ -19,7 +19,7 @@ public class InventoryGui extends Gui {
     }
 
     @Override
-    public void reload(Player... players) {
+    public void reload(Player @NotNull ... players) {
         for (Player player : players) {
             if (hasGui(player)) {
                 Inventory inventory = player.getOpenInventory().getTopInventory();
@@ -49,7 +49,7 @@ public class InventoryGui extends Gui {
             for (GuiItem guiItem : row) if (guiItem != null) guiItem.onClose(player);
     }
 
-    public void buildInventory(Inventory inventory) {
+    public void buildInventory(@NotNull Inventory inventory) {
         inventory.clear();
         for (int x = 0; x < guiItems.length; x++) {
             GuiItem[] row = guiItems[x];

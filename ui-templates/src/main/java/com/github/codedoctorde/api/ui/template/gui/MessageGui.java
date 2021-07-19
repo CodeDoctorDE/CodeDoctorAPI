@@ -5,6 +5,7 @@ import com.github.codedoctorde.api.ui.item.GuiItem;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -20,7 +21,7 @@ public class MessageGui extends TranslatedChestGui {
         super(translation, size);
     }
 
-    public void addActions(GuiItem... actions) {
+    public void addActions(GuiItem @NotNull ... actions) {
         this.actions = Stream.concat(Arrays.stream(this.actions), Arrays.stream(actions)).toArray(GuiItem[]::new);
     }
 
@@ -42,7 +43,7 @@ public class MessageGui extends TranslatedChestGui {
     }
 
     @Override
-    public void buildInventory(Inventory inventory) {
+    public void buildInventory(@NotNull Inventory inventory) {
         super.buildInventory(inventory);
         int lastSlot = getHeight() * 9;
         Translation t = getTranslation();
