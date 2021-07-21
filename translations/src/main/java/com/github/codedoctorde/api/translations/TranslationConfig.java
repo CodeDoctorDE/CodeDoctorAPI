@@ -13,13 +13,13 @@ import java.util.Map;
  * @author CodeDoctorDE
  */
 public class TranslationConfig extends JsonConfig {
-    private Translation instance = new Translation();
+    private Translation instance;
 
     public TranslationConfig(String filePath) {
         super(filePath);
     }
 
-    public TranslationConfig(Gson gson, String filePath) {
+    public TranslationConfig(@NotNull Gson gson, String filePath) {
         super(gson, filePath);
     }
 
@@ -44,16 +44,17 @@ public class TranslationConfig extends JsonConfig {
     }
 
     public void setDefault(@NotNull Translation translation) {
-        var map = new HashMap<>(translation.getTranslations());
+        var map = new HashMap<>(instance.getTranslations());
         for (Map.Entry<String, String> entry : translation.getTranslations().entrySet())
-            if (!instance.getTranslationKeys().contains(entry.getKey()))
+            if (!map.containsKey(entry.getKey()))
                 map.put(entry.getKey(), entry.getValue());
         instance = new Translation(map);
     }
 
     @Override
     protected void read(@NotNull BufferedReader reader) {
-        instance = new Translation(getGson().fromJson(reader, JsonObject.class));
+        var map = getGson().fromJson(reader, JsonObject.class);
+        instance = new Translation(map);
     }
 
     @Override

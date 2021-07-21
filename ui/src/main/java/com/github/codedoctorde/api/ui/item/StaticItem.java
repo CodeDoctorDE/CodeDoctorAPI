@@ -7,9 +7,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -23,7 +20,7 @@ public class StaticItem implements GuiItem {
     protected Consumer<Gui> renderAction = (gui) -> {
     };
     private ItemStack itemStack;
-    private @NotNull List<Object> placeholders = new ArrayList<>();
+    private @NotNull Object[] placeholders = new Object[0];
 
     public StaticItem() {
         this(new ItemStack(Material.AIR));
@@ -76,7 +73,7 @@ public class StaticItem implements GuiItem {
      * @return Returns the placeholder list
      */
     public Object[] getPlaceholders() {
-        return placeholders.toArray();
+        return placeholders;
     }
 
     /**
@@ -85,7 +82,7 @@ public class StaticItem implements GuiItem {
      * @param placeholders All placeholders which can be replaced from the display name and the lore
      */
     public void setPlaceholders(Object... placeholders) {
-        this.placeholders = Arrays.asList(placeholders);
+        this.placeholders = placeholders;
     }
 
     /**

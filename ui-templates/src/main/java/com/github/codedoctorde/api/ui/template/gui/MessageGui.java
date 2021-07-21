@@ -2,6 +2,7 @@ package com.github.codedoctorde.api.ui.template.gui;
 
 import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.item.GuiItem;
+import com.github.codedoctorde.api.ui.template.item.TranslatedGuiItem;
 import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -34,20 +35,19 @@ public class MessageGui extends TranslatedChestGui {
     }
 
     @Override
-    public int getHeight() {
-        return super.getHeight() + (int) Math.ceil((double) actions.length / getWidth());
-    }
-
-    public int getDefaultHeight() {
-        return super.getHeight();
-    }
-
-    @Override
     public void buildInventory(@NotNull Inventory inventory) {
-        super.buildInventory(inventory);
         int lastSlot = getHeight() * 9;
         Translation t = getTranslation();
-        inventory.setItem(4, new ItemStackBuilder(Material.OAK_SIGN).setDisplayName(t.getTranslation("title")).setLore(t.getTranslation("description")).build());
-        for (int i = 0; i < actions.length; i++) inventory.setItem(lastSlot - i - 1, actions[i].build(this));
+        var placeholders = getPlaceholders();
+        registerItem(4, 0, new TranslatedGuiItem(new ItemStackBuilder(Material.OAK_SIGN).setDisplayName("message").setLore("description").build()) {{
+            setPlaceholders(placeholders);
+        }});
+        for (int i = 0; i < actions.length && i < (getHeight() - 2) * 9; i++) {
+            var loc = lastSlot - i - 1;
+            var x = loc % 9;
+            var y = loc / 9;
+            registerItem(x, y, actions[i]);
+            super.buildInventory(inventory);
+        }
     }
 }

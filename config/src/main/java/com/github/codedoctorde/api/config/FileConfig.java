@@ -20,13 +20,7 @@ public abstract class FileConfig {
         this.filePath = filePath;
         try {
             Files.createDirectories(getParentDirectory());
-            if (Files.exists(getPath())) {
-                try {
-                    reload();
-                    save();
-                } catch (Exception ignored) {
-                }
-            } else
+            if (!Files.exists(getPath()))
                 Files.createFile(getPath());
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,15 +57,9 @@ public abstract class FileConfig {
     }
 
     public void reload() {
-        BufferedReader br = null;
         try {
-            br = Files.newBufferedReader(getPath(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert br != null;
-        read(br);
-        try {
+            var br = Files.newBufferedReader(getPath(), StandardCharsets.UTF_8);
+            read(br);
             br.close();
         } catch (IOException e) {
             e.printStackTrace();

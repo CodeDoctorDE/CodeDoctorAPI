@@ -5,15 +5,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author CodeDoctorDE
  */
-public class Translation {
+public final class Translation {
     private final Map<String, String> translations;
 
     public Translation() {
@@ -58,7 +55,7 @@ public class Translation {
     }
 
     public Map<String, String> getTranslations() {
-        return translations;
+        return Collections.unmodifiableMap(translations);
     }
 
     public @NotNull Set<String> getTranslationKeys() {

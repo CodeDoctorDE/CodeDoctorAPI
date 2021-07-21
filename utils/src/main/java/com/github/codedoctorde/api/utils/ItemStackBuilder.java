@@ -85,6 +85,10 @@ public class ItemStackBuilder {
             itemStack = new ItemStack(Material.AIR);
     }
 
+    public static ItemStackBuilder placeholder() {
+        return new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE).displayName(" ");
+    }
+
     public static @NotNull ItemStackBuilder deserialize(@Nullable String value) {
         if (value != null) {
             try {
@@ -112,8 +116,10 @@ public class ItemStackBuilder {
         return this;
     }
 
-    public @NotNull UUID getOwner() {
-        return getOwningPlayer().getUniqueId();
+    public @Nullable UUID getOwner() {
+        var p = getOwningPlayer();
+        if (p != null) return p.getUniqueId();
+        return null;
     }
 
     public @NotNull ItemStackBuilder setOwner(@NotNull UUID uuid) {
@@ -150,8 +156,8 @@ public class ItemStackBuilder {
         return setAmount(amount);
     }
 
-    public @Nullable List<String> getLore() {
-        return (Objects.requireNonNull(itemStack.getItemMeta()).getLore() == null) ? new ArrayList<>() : itemStack.getItemMeta().getLore();
+    public @NotNull List<String> getLore() {
+        return (Objects.requireNonNull(itemStack.getItemMeta()).getLore() == null) ? new ArrayList<>() : Objects.requireNonNull(itemStack.getItemMeta().getLore());
     }
 
     public @NotNull ItemStackBuilder setLore(String @NotNull ... lore) {
@@ -208,10 +214,10 @@ public class ItemStackBuilder {
         return Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
     }
 
-    public @Nullable ItemStackBuilder setDisplayName(String displayName) {
+    public @NotNull ItemStackBuilder setDisplayName(String displayName) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null)
-            return null;
+            return this;
         itemMeta.setDisplayName(displayName);
         itemStack.setItemMeta(itemMeta);
         return this;
@@ -221,11 +227,11 @@ public class ItemStackBuilder {
      * @deprecated Replaced by {@link #displayName(String)} ()}
      */
     @Deprecated
-    public @Nullable ItemStackBuilder name(String displayName) {
+    public @NotNull ItemStackBuilder name(String displayName) {
         return setDisplayName(displayName);
     }
 
-    public @Nullable ItemStackBuilder displayName(String displayName) {
+    public @NotNull ItemStackBuilder displayName(String displayName) {
         return setDisplayName(displayName);
     }
 
