@@ -2,6 +2,7 @@ package com.github.codedoctorde.api.ui.template.gui;
 
 import com.github.codedoctorde.api.translations.Translation;
 import com.github.codedoctorde.api.ui.ChestGui;
+import com.github.codedoctorde.api.ui.Gui;
 import com.github.codedoctorde.api.ui.GuiCollection;
 import com.github.codedoctorde.api.ui.GuiPane;
 import com.github.codedoctorde.api.ui.item.GuiItem;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 import java.util.function.Function;
 
 public class ListGui extends GuiCollection {
-    private final Function<ListGui, GuiItem[]> itemBuilder;
+    private Function<ListGui, GuiItem[]> itemBuilder = (gui) -> new GuiItem[0];
     private final int height;
     private final Translation translation;
     private Object[] placeholders = new Object[0];
@@ -36,6 +37,23 @@ public class ListGui extends GuiCollection {
     public void setControlsBuilder(Function<ListGui, GuiPane> controlsBuilder) {
         this.controlsBuilder = controlsBuilder;
         rebuild();
+    }
+    public ListGui(Translation translation, int height) {
+        this.height = height;
+        this.translation = translation;
+        rebuild();
+    }
+
+    public ListGui(Translation translation) {
+        this(translation, 3);
+    }
+
+    public void setControlsBuilder() {
+        rebuild();
+    }
+
+    public void setItemBuilder(Function<ListGui, GuiItem[]> itemBuilder) {
+        this.itemBuilder = itemBuilder;
     }
 
     public void setListControls(@NotNull ListControls controls) {

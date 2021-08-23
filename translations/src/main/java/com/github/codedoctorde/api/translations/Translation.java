@@ -4,6 +4,7 @@ import com.github.codedoctorde.api.utils.ItemStackBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -21,8 +22,11 @@ public final class Translation {
         this.translations = translations;
     }
 
-    public Translation(@NotNull JsonObject jsonObject) {
-        translations = recursiveJsonMap("", jsonObject);
+    public Translation(@Nullable JsonObject jsonObject) {
+        if(jsonObject != null)
+            translations = recursiveJsonMap("", jsonObject);
+        else
+            translations = new HashMap<>();
     }
 
     private @NotNull Map<String, String> recursiveJsonMap(@NotNull String path, @NotNull JsonObject jsonObject) {
