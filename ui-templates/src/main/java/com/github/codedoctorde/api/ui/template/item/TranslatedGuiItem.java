@@ -23,11 +23,12 @@ public class TranslatedGuiItem extends TranslatedItem {
 
     @Override
     public ItemStack build(Gui gui) {
-        if (gui instanceof TranslatedObject && !getItemStack().getType().isAir()) {
+        if (gui instanceof TranslatedObject) {
             renderAction.accept(gui);
             TranslatedObject to = (TranslatedObject) gui;
             ItemStackBuilder itemStackBuilder = new ItemStackBuilder(getItemStack());
-            to.getTranslation().translate(itemStackBuilder, getPlaceholders());
+            if (!getItemStack().getType().isAir())
+                to.getTranslation().translate(itemStackBuilder, getPlaceholders());
             return itemStackBuilder.build();
         }
         return super.build(gui);

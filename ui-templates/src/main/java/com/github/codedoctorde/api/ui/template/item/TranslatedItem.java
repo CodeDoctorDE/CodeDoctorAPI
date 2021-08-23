@@ -27,7 +27,8 @@ public class TranslatedItem extends StaticItem implements TranslatedObject {
     public ItemStack build(Gui gui) {
         renderAction.accept(gui);
         ItemStackBuilder itemStackBuilder = new ItemStackBuilder(getItemStack());
-        getTranslation().translate(itemStackBuilder, getPlaceholders());
+        if (translation != null && !getItemStack().getType().isAir())
+            getTranslation().translate(itemStackBuilder, getPlaceholders());
         return itemStackBuilder.build();
     }
 
