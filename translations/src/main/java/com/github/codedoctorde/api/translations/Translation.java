@@ -88,10 +88,11 @@ public final class Translation {
         return new Translation(map);
     }
 
-    public void translate(@NotNull ItemStackBuilder itemStackBuilder, Object... placeholders) {
+    public ItemStackBuilder translate(@NotNull ItemStackBuilder itemStackBuilder, Object... placeholders) {
         itemStackBuilder.setDisplayName(getTranslation(itemStackBuilder.getDisplayName(), placeholders));
         if (!itemStackBuilder.getLore().isEmpty())
             itemStackBuilder.setLore(getTranslation(String.join("", itemStackBuilder.getLore()), placeholders).split("\n"));
+        return itemStackBuilder;
     }
 
     public @NotNull JsonObject toJsonObject() {
