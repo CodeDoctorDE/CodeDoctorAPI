@@ -8,7 +8,7 @@ apply plugin: 'maven-publish'
 
 version = "3.0.0-SNAPSHOT"
 description = "CodeDoctorAPI"
-group = "com.github.codedoctorde.api"
+group = "dev.linwood"
 apply plugin: "io.freefair.aggregate-javadoc"
 
 repositories {
@@ -43,9 +43,19 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.7'
 }
 allprojects {
-    group = 'com.github.codedoctorde.api'
+    group = 'dev.linwood'
     version = '3.0.0-SNAPSHOT'
 }
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier.set("sources")
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set("javadoc")
+    from javadoc.destinationDir
+}
+
 subprojects {
     apply plugin: "java"
     apply plugin: 'maven-publish'
@@ -55,28 +65,49 @@ subprojects {
     publishing {
         publications {
             mavenJava(MavenPublication) {
-
                 from project.components.java
+
+                artifact sourcesJar
+                artifact javadocJar
+                pom {
+                    name = 'ItemMods'
+                    description = 'Your item modification tool in Minecraft.'
+                    url = 'https://itemmods.linwood.dev'
+                    licenses {
+                        license {
+                            name = 'MIT'
+                            url = 'https://opensource.org/licenses/MIT'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'codedoctorde'
+                            name = 'CodeDoctor'
+                            url = 'https://linwood.dev'
+                            email = 'codedoctor@linwood.dev'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:https://github.com/CodeDoctorDE/ItemMods.git'
+                        developerConnection = 'scm:git:git@github.com:CodeDoctorDE/ItemMods.git'
+                        url = 'https://github.com/CodeDoctorDE/ItemMods'
+                    }
+                    issueManagement {
+                        system = 'GitHub'
+                        url = 'https://github.com/CodeDoctorDE/ItemMods/issues'
+                    }
+                }
             }
         }
 
         repositories {
             maven {
-                def snapshotUrl = "https://repo.codemc.io/repository/maven-snapshots/"
-                def releaseUrl = "https://repo.codemc.io/repository/maven-releases/"
-
-                // You can use any other check here to set what URL should be used.
-                url = version.endsWith("SNAPSHOT") ? snapshotUrl : releaseUrl
-
-                // ORG_GRADLE_PROJECT_mavenUsername and ORG_GRADLE_PROJECT_mavenPassword are the enviroments you defined before.
-                def mavenUsername = System.getenv("ORG_GRADLE_PROJECT_mavenUsername") ? System.getenv("ORG_GRADLE_PROJECT_mavenUsername") : null
-                def mavenPassword = System.getenv("ORG_GRADLE_PROJECT_mavenPassword") ? System.getenv("ORG_GRADLE_PROJECT_mavenPassword") : null
-
-                if (mavenUsername != null && mavenPassword != null) {
-                    credentials {
-                        username = mavenUsername
-                        password = mavenPassword
-                    }
+                def releasesRepoUrl = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+                def snapshotsRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                credentials {
+                    username sonatypeUsername
+                    password sonatypePassword
                 }
             }
         }

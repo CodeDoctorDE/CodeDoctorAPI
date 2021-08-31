@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.codedoctorde.api.java-conventions'
+    id 'dev.linwood.api.java-conventions'
 }
 repositories {
     // ...
