@@ -1,3 +1,5 @@
+import org.gradle.api.publish.maven.internal.publication.DefaultMavenPublication
+
 plugins {
     id "io.freefair.aggregate-javadoc" version "6.0.0-m2"
     id 'maven-publish'
@@ -6,7 +8,6 @@ plugins {
 apply plugin: "java"
 apply plugin: 'maven-publish'
 
-version = "3.0.0-SNAPSHOT"
 description = "CodeDoctorAPI"
 group = "dev.linwood"
 apply plugin: "io.freefair.aggregate-javadoc"
@@ -44,8 +45,11 @@ dependencies {
 }
 allprojects {
     group = 'dev.linwood'
-    version = '3.0.0-SNAPSHOT'
+    version = '3.0.0'
 }
+
+
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier.set("sources")
     from sourceSets.main.allSource
@@ -57,12 +61,20 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 subprojects {
+    apply plugin: 'signing'
     apply plugin: "java"
     apply plugin: 'maven-publish'
     javadoc {
         source = sourceSets.main.allJava
     }
+
+
+
+    signing { sign configurations.archives }
+
+
     publishing {
+
         publications {
             mavenJava(MavenPublication) {
                 from project.components.java
@@ -70,9 +82,9 @@ subprojects {
                 artifact sourcesJar
                 artifact javadocJar
                 pom {
-                    name = 'ItemMods'
-                    description = 'Your item modification tool in Minecraft.'
-                    url = 'https://itemmods.linwood.dev'
+                    name = 'CodeDoctorAPI'
+                    description = ' My api for minecraft.'
+                    url = 'https://github.com/CodeDoctorDE/CodeDoctorAPI'
                     licenses {
                         license {
                             name = 'MIT'
