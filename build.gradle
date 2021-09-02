@@ -100,13 +100,13 @@ subprojects {
                         }
                     }
                     scm {
-                        connection = 'scm:git:https://github.com/CodeDoctorDE/ItemMods.git'
-                        developerConnection = 'scm:git:git@github.com:CodeDoctorDE/ItemMods.git'
-                        url = 'https://github.com/CodeDoctorDE/ItemMods'
+                        connection = 'scm:git:https://github.com/CodeDoctorDE/CodeDoctorAPI.git'
+                        developerConnection = 'scm:git:git@github.com:CodeDoctorDE/CodeDoctorAPI.git'
+                        url = 'https://github.com/CodeDoctorDE/CodeDoctorAPI'
                     }
                     issueManagement {
                         system = 'GitHub'
-                        url = 'https://github.com/CodeDoctorDE/ItemMods/issues'
+                        url = 'https://github.com/CodeDoctorDE/CodeDoctorAPI/issues'
                     }
                 }
             }
