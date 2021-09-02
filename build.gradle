@@ -68,6 +68,7 @@ subprojects {
         source = sourceSets.main.allJava
     }
 
+    ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 
     signing { sign configurations.archives }
