@@ -125,6 +125,6 @@ subprojects {
         }
     }
     tasks.withType(Sign) {
-        onlyIf { isReleaseVersion }
+        onlyIf { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
     }
 }
