@@ -69,6 +69,7 @@ subprojects {
         source = sourceSets.main.allJava
     }
 
+    ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 
 
@@ -106,13 +107,13 @@ subprojects {
                         }
                     }
                     scm {
-                        connection = 'scm:git:https://github.com/CodeDoctorDE/ItemMods.git'
-                        developerConnection = 'scm:git:git@github.com:CodeDoctorDE/ItemMods.git'
-                        url = 'https://github.com/CodeDoctorDE/ItemMods'
+                        connection = 'scm:git:https://github.com/CodeDoctorDE/CodeDoctorAPI.git'
+                        developerConnection = 'scm:git:git@github.com:CodeDoctorDE/CodeDoctorAPI.git'
+                        url = 'https://github.com/CodeDoctorDE/CodeDoctorAPI'
                     }
                     issueManagement {
                         system = 'GitHub'
-                        url = 'https://github.com/CodeDoctorDE/ItemMods/issues'
+                        url = 'https://github.com/CodeDoctorDE/CodeDoctorAPI/issues'
                     }
                 }
             }
@@ -124,10 +125,13 @@ subprojects {
                 def snapshotsRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
                 url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
                 credentials {
-                    username sonatypeUsername
-                    password sonatypePassword
+                    username project.properties['sonatypeUsername']
+                    password project.properties['sonatypePassword']
                 }
             }
         }
+    }
+    tasks.withType(Sign) {
+        onlyIf { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
     }
 }
