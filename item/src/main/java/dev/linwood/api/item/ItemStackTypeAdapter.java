@@ -1,12 +1,12 @@
-package dev.linwood.api.serializer;
+package dev.linwood.api.item;
 
-import dev.linwood.api.utils.ItemStackBuilder;
 import com.google.gson.*;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
+import java.util.Objects;
 
 /**
  * @author CodeDoctorDE
@@ -25,7 +25,7 @@ public class ItemStackTypeAdapter implements JsonSerializer<ItemStack>, JsonDese
 
     @Override
     public @Nullable JsonElement serialize(@NotNull ItemStack itemStack, Type type, JsonSerializationContext context) {
-        return new JsonPrimitive(new ItemStackBuilder(itemStack).serialize());
+        return new JsonPrimitive(Objects.requireNonNull(new ItemStackBuilder(itemStack).serialize()));
     }
 
 }

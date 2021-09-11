@@ -8,7 +8,7 @@ plugins {
 
 dependencies {
     implementation project(':config')
-    implementation project(':utils')
+    implementation project(':item')
 }
 
 description = 'translations'

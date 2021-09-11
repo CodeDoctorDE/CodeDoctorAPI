@@ -5,7 +5,7 @@ import dev.linwood.api.ui.GuiPane;
 import dev.linwood.api.ui.item.StaticItem;
 import dev.linwood.api.ui.template.gui.ListGui;
 import dev.linwood.api.ui.template.item.TranslatedItem;
-import dev.linwood.api.utils.ItemStackBuilder;
+import dev.linwood.api.item.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

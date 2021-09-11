@@ -1,7 +1,7 @@
 package dev.linwood.api.ui.item;
 
 import dev.linwood.api.ui.Gui;
-import dev.linwood.api.utils.ItemStackBuilder;
+import dev.linwood.api.item.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;

@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':utils')
+    implementation project(':item')
 }
 
 description = 'ui'

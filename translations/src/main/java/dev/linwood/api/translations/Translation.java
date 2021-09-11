@@ -1,6 +1,6 @@
 package dev.linwood.api.translations;
 
-import dev.linwood.api.utils.ItemStackBuilder;
+import dev.linwood.api.item.ItemStackBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;

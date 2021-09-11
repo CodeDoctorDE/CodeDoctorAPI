@@ -7,7 +7,7 @@ import dev.linwood.api.translations.Translation;
 import dev.linwood.api.ui.ChestGui;
 import dev.linwood.api.ui.item.StaticItem;
 import dev.linwood.api.ui.template.item.TranslatedItem;
-import dev.linwood.api.utils.ItemStackBuilder;
+import dev.linwood.api.item.ItemStackBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -61,9 +61,7 @@ public class ItemCreatorGui extends ChestGui {
             setClickAction(event -> {
                 hide((Player) event.getWhoClicked());
                 var request = new ChatRequest((Player) event.getWhoClicked());
-                request.setSubmitAction(s -> {
-                    show((Player) event.getWhoClicked());
-                });
+                request.setSubmitAction(s -> show((Player) event.getWhoClicked()));
                 request.setCancelAction(() -> show((Player) event.getWhoClicked()));
             });
         }});
@@ -111,18 +109,15 @@ public class ItemCreatorGui extends ChestGui {
             setClickAction(event -> {
                 List<String> lore = itemStackBuilder.getLore();
                 Player player = (Player) event.getWhoClicked();
-                if (lore == null)
-                    lore = new ArrayList<>();
                 switch (event.getClick()) {
                     case LEFT:
                         hide(player);
                         event.getWhoClicked().sendMessage(translation.getTranslation("lore.message"));
                         ChatRequest request = new ChatRequest((Player) event.getWhoClicked());
-                        List<String> finalLore = lore;
                         request.setSubmitAction(output -> {
                             output = ChatColor.translateAlternateColorCodes('&', output);
-                            finalLore.add(output);
-                            itemStackBuilder.lore(finalLore);
+                            lore.add(output);
+                            itemStackBuilder.lore(lore);
 
                             player.sendMessage(translation.getTranslation("lore.success", output));
                             show(player);

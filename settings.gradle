@@ -16,3 +16,5 @@ include(':animation')
 include(':utils')
 include(':ui-templates')
 include(':config')
+include 'item'
+

@@ -1,9 +1,10 @@
-package dev.linwood.api.utils;
+package dev.linwood.api.item;
 
 import com.google.common.collect.Multimap;
 import com.google.gson.*;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -102,6 +103,10 @@ public class ItemStackBuilder {
             }
         } else
             return new ItemStackBuilder();
+    }
+
+    public NBTItem constructNBT() {
+        return new NBTItem(itemStack);
     }
 
     public @Nullable OfflinePlayer getOwningPlayer() {
@@ -431,5 +436,7 @@ public class ItemStackBuilder {
         }
         return this;
     }
+
+
 
 }

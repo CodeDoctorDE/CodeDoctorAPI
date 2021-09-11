@@ -3,7 +3,7 @@ package dev.linwood.api.ui.template.item;
 import dev.linwood.api.translations.TranslatedObject;
 import dev.linwood.api.translations.Translation;
 import dev.linwood.api.ui.Gui;
-import dev.linwood.api.utils.ItemStackBuilder;
+import dev.linwood.api.item.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

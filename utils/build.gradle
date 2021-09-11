@@ -1,16 +1,4 @@
 plugins {
     id 'dev.linwood.api.java-conventions'
 }
-repositories {
-    // ...
-    maven {
-        name = 'minecraft-repo'
-        url = 'https://libraries.minecraft.net'
-    }
-}
-
-dependencies {
-    compileOnly 'com.mojang:authlib:1.5.21'
-}
-
 description = 'utils'

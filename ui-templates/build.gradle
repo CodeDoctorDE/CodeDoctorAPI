@@ -9,6 +9,7 @@ plugins {
 dependencies {
     implementation project(':request')
     implementation project(':ui')
+    implementation project(':item')
     implementation project(':utils')
     implementation project(':server')
     implementation project(':translations')

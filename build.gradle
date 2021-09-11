@@ -1,3 +1,4 @@
+//file:noinspection GroovyAssignabilityCheck
 import org.gradle.api.publish.maven.internal.publication.DefaultMavenPublication
 
 plugins {
@@ -40,12 +41,12 @@ dependencies {
     // Pick only one of these and read the comment in the repositories block.
     compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
     // The Spigot API with no shadowing. Requires the OSS repo.
-    implementation 'org.jetbrains:annotations:21.0.1'
-    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'org.jetbrains:annotations:22.0.0'
+    implementation 'com.google.code.gson:gson:2.8.8'
 }
 allprojects {
     group = 'dev.linwood'
-    version = '3.0.0'
+    version = '3.1.0-SNAPSHOT'
 }
 
 
@@ -70,7 +71,12 @@ subprojects {
 
 
 
-    signing { sign configurations.archives }
+
+    signing {
+        sign publishing.publications
+    }
+
+
 
 
     publishing {
