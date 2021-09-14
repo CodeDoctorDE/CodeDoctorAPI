@@ -113,4 +113,10 @@ public final class Translation {
         return jsonObject;
     }
 
+    public Translation merge(Translation... other) {
+        Map<String, String> translations = new HashMap<>();
+        Arrays.stream(other).forEach(translation -> translations.putAll(translation.getTranslations()));
+        return new Translation(translations);
+    }
+
 }
