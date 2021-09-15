@@ -114,9 +114,10 @@ public final class Translation {
     }
 
     public Translation merge(Translation... other) {
-        Map<String, String> translations = new HashMap<>();
-        Arrays.stream(other).forEach(translation -> translations.putAll(translation.getTranslations()));
-        return new Translation(translations);
+        Map<String, String> map = new HashMap<>();
+        Arrays.stream(other).forEach(translation -> map.putAll(translation.getTranslations()));
+        map.putAll(translations);
+        return new Translation(map);
     }
 
 }
