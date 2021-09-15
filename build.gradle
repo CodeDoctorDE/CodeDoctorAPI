@@ -6,7 +6,7 @@ plugins {
     id 'maven-publish'
 }
 
-apply plugin: "java"
+apply plugin: "java-library"
 apply plugin: 'maven-publish'
 
 description = "CodeDoctorAPI"
@@ -56,41 +56,34 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    archiveClassifier.set("javadoc")
-    from javadoc.destinationDir
-}
-
 subprojects {
     apply plugin: 'signing'
-    apply plugin: "java"
+    apply plugin: "java-library"
     apply plugin: 'maven-publish'
-    javadoc {
-        source = sourceSets.main.allJava
+    java {
+        withJavadocJar()
+        withSourcesJar()
     }
 
     ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
-
-
-
-    signing {
-        sign publishing.publications
-    }
-
-
 
 
     publishing {
 
         publications {
             mavenJava(MavenPublication) {
-                from project.components.java
-
-                artifact sourcesJar
-                artifact javadocJar
+                from components.java
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
                 pom {
                     name = 'CodeDoctorAPI'
-                    description = ' My api for minecraft.'
+                    description = 'My api for minecraft.'
                     url = 'https://github.com/CodeDoctorDE/CodeDoctorAPI'
                     licenses {
                         license {
@@ -131,7 +124,14 @@ subprojects {
             }
         }
     }
-    tasks.withType(Sign) {
-        onlyIf { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
+
+    signing {
+        required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
+        sign publishing.publications.mavenJava
+    }
+    javadoc {
+        if(JavaVersion.current().isJava9Compatible()) {
+            options.addBooleanOption('html5', true)
+        }
     }
 }

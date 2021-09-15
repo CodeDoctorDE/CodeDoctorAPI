@@ -229,7 +229,9 @@ public class ItemStackBuilder {
     }
 
     /**
-     * @deprecated Replaced by {@link #displayName(String)} ()}
+     * @param displayName The current name of the item
+     * @deprecated Replaced by {@link #displayName(String)}
+     * @return The current instance of the builder
      */
     @Deprecated
     public @NotNull ItemStackBuilder name(String displayName) {
