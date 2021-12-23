@@ -1,5 +1,6 @@
 package dev.linwood.api.ui.template.gui;
 
+import dev.linwood.api.item.ItemStackBuilder;
 import dev.linwood.api.request.ChatRequest;
 import dev.linwood.api.request.ValueRequest;
 import dev.linwood.api.server.Version;
@@ -7,7 +8,6 @@ import dev.linwood.api.translations.Translation;
 import dev.linwood.api.ui.ChestGui;
 import dev.linwood.api.ui.item.StaticItem;
 import dev.linwood.api.ui.template.item.TranslatedItem;
-import dev.linwood.api.item.ItemStackBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,7 +15,6 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -168,7 +167,7 @@ public class ItemCreatorGui extends ChestGui {
         }});
         ItemStackBuilder customModelDataItem = new ItemStackBuilder(Material.GOLD_INGOT);
         customModelDataItem.setDisplayName("custommodeldata.name");
-        if (Version.getVersion().isBiggerThan(Version.v1_13))
+        if (Version.getCurrentVersion().isBiggerThan(new Version("1.13")))
             if (itemStackBuilder.getCustomModelData() != null)
                 customModelDataItem.setLore("custommodeldata.lore");
             else
@@ -178,7 +177,7 @@ public class ItemCreatorGui extends ChestGui {
         addItem(new TranslatedItem(translation, customModelDataItem.build()) {{
             setClickAction(event -> {
                 Player player = (Player) event.getWhoClicked();
-                if (!Version.getVersion().isBiggerThan(Version.v1_13))
+                if (!Version.getCurrentVersion().isBiggerThan(new Version("1.13")))
                     return;
                 if (itemStackBuilder.getCustomModelData() != null) {
                     if (event.getClick() == ClickType.MIDDLE) {

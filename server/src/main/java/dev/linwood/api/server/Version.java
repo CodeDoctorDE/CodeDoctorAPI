@@ -8,6 +8,18 @@ public class Version {
     private final int minor;
     private final int revision;
 
+    public Version(String version) {
+        version = version.toLowerCase();
+        version = version.replace("v", "");
+        version = version.replace("_", ".");
+        version = version.replace("R", "");
+        version = version.replace("-", ".");
+        String[] versionSplit = version.split("\\.");
+        major = Integer.parseInt(versionSplit[0]);
+        minor = Integer.parseInt(versionSplit[1]);
+        revision = versionSplit.length > 2 ? Integer.parseInt(versionSplit[2]) : 1;
+    }
+
     public Version(int major, int minor, int revision) {
         this.major = major;
         this.minor = minor;
@@ -22,19 +34,12 @@ public class Version {
         return minor;
     }
 
-    public static @NotNull Version getVersion() {
-        // Get bukkit major.minor version
-        String version = getBukkitVersion().substring(1);
-        String[] versionSplit = version.split("_");
-        int major = Integer.parseInt(versionSplit[0]);
-        int minor = Integer.parseInt(versionSplit[1]);
-        int revision = versionSplit.length > 2 ? Integer.parseInt(versionSplit[2].substring(1)) : 1;
-        return new Version(major, minor, revision);
-
-    }
-
     public static @NotNull String getBukkitVersion() {
         return Bukkit.getServer().getClass().getPackage().getName().substring(23);
+    }
+
+    public static @NotNull Version getCurrentVersion() {
+        return new Version(getBukkitVersion());
     }
 
     @Override
