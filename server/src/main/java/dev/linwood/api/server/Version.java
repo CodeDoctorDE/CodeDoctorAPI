@@ -3,82 +3,54 @@ package dev.linwood.api.server;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Class by CodingAir: https://github.com/CodingAir/CodingAPI/blob/master/src/de/codingair/codingapi/server/Version.java
- */
-public enum Version {
-    UNKNOWN, v1_7, v1_8, v1_9, v1_10, v1_11, v1_12, v1_13, v1_14, v1_15, v1_16, v1_17;
+public class Version {
+    private final int major;
+    private final int minor;
+    private final int revision;
+
+    public Version(int major, int minor, int revision) {
+        this.major = major;
+        this.minor = minor;
+        this.revision = revision;
+    }
+
+    public int getMajor() {
+        return major;
+    }
+
+    public int getMinor() {
+        return minor;
+    }
 
     public static @NotNull Version getVersion() {
-        if (Bukkit.getVersion().contains("1.7")) return v1_7;
-        else if (Bukkit.getVersion().contains("1.8")) return v1_8;
-        else if (Bukkit.getVersion().contains("1.9")) return v1_9;
-        else if (Bukkit.getVersion().contains("1.10")) return v1_10;
-        else if (Bukkit.getVersion().contains("1.11")) return v1_11;
-        else if (Bukkit.getVersion().contains("1.12")) return v1_12;
-        else if (Bukkit.getVersion().contains("1.13")) return v1_13;
-        else if (Bukkit.getVersion().contains("1.14")) return v1_14;
-        else if (Bukkit.getVersion().contains("1.15")) return v1_15;
-        else if (Bukkit.getVersion().contains("1.16")) return v1_16;
-        else if (Bukkit.getVersion().contains("1.17")) return v1_17;
-        else return UNKNOWN;
+        // Get bukkit major.minor version
+        String version = getBukkitVersion().substring(1);
+        String[] versionSplit = version.split("_");
+        int major = Integer.parseInt(versionSplit[0]);
+        int minor = Integer.parseInt(versionSplit[1]);
+        int revision = versionSplit.length > 2 ? Integer.parseInt(versionSplit[2].substring(1)) : 1;
+        return new Version(major, minor, revision);
+
     }
 
     public static @NotNull String getBukkitVersion() {
         return Bukkit.getServer().getClass().getPackage().getName().substring(23);
     }
 
-    public @NotNull String getVersionName() {
-        switch (this) {
-            case v1_7:
-                return "v1_7_R4";
-            case v1_8:
-                return "v1_8_R3";
-            case v1_9:
-                return "v1_9_R1";
-            case v1_10:
-                return "v1_10_R1";
-            case v1_11:
-                return "v1_11_R1";
-            case v1_12:
-                return "v1_12";
-            case v1_13:
-                return "v1_13";
-            case v1_14:
-                return "v1_14";
-            case v1_15:
-                return "v1_15";
-            case v1_16:
-                return "v1_16";
-            case v1_17:
-                return "v1_17";
-            default:
-                return UNKNOWN.name();
-        }
+    @Override
+    public String toString() {
+        return "v" + major + "_" + minor + "_R" + revision;
     }
 
     public boolean isBiggerThan(@NotNull Version version) {
-        int current = getIndex();
-        int param = version.getIndex();
-
-        return current > param;
+        if (major > version.getMajor()) return true;
+        if (major == version.getMajor()) return minor > version.getMinor();
+        return false;
     }
 
     public boolean isLowerThan(@NotNull Version version) {
-        int current = getIndex();
-        int param = version.getIndex();
-
-        return current < param;
-    }
-
-    public int getIndex() {
-        int index = 0;
-
-        for (Version v : values()) {
-            if (this.equals(v)) return index;
-            else index++;
-        }
-
-        return -1;
+        if (major < version.getMajor()) return true;
+        if (major == version.getMajor()) return minor < version.getMinor();
+        return false;
     }
 }

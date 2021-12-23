@@ -2,7 +2,7 @@
 import org.gradle.api.publish.maven.internal.publication.DefaultMavenPublication
 
 plugins {
-    id "io.freefair.aggregate-javadoc" version "6.0.0-m2"
+    id "io.freefair.aggregate-javadoc" version "6.3.0"
     id 'maven-publish'
 }
 
@@ -39,14 +39,14 @@ repositories {
 }
 dependencies {
     // Pick only one of these and read the comment in the repositories block.
-    compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT'
     // The Spigot API with no shadowing. Requires the OSS repo.
     implementation 'org.jetbrains:annotations:22.0.0'
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.8.9'
 }
 allprojects {
     group = 'dev.linwood'
-    version = '3.1.1-SNAPSHOT'
+    version = '3.1.1'
 }
 
 
