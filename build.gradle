@@ -1,5 +1,4 @@
 //file:noinspection GroovyAssignabilityCheck
-import org.gradle.api.publish.maven.internal.publication.DefaultMavenPublication
 
 plugins {
     id "io.freefair.aggregate-javadoc" version "6.3.0"
@@ -60,6 +59,7 @@ subprojects {
     apply plugin: 'signing'
     apply plugin: "java-library"
     apply plugin: 'maven-publish'
+
     java {
         withJavadocJar()
         withSourcesJar()
@@ -72,7 +72,7 @@ subprojects {
 
         publications {
             mavenJava(MavenPublication) {
-                from components.java
+                from project.components.java
                 versionMapping {
                     usage('java-api') {
                         fromResolutionOf('runtimeClasspath')
@@ -82,7 +82,7 @@ subprojects {
                     }
                 }
                 pom {
-                    name = 'CodeDoctorAPI'
+                    name = artifactId
                     description = 'My api for minecraft.'
                     url = 'https://github.com/CodeDoctorDE/CodeDoctorAPI'
                     licenses {
