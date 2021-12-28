@@ -12,7 +12,7 @@ public class Version {
         version = version.toLowerCase();
         version = version.replace("v", "");
         version = version.replace("_", ".");
-        version = version.replace("R", "");
+        version = version.replace("r", "");
         version = version.replace("-", ".");
         String[] versionSplit = version.split("\\.");
         major = Integer.parseInt(versionSplit[0]);
