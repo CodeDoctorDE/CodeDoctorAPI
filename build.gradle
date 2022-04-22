@@ -1,7 +1,7 @@
 //file:noinspection GroovyAssignabilityCheck
 
 plugins {
-    id "io.freefair.aggregate-javadoc" version "6.3.0"
+    id "io.freefair.aggregate-javadoc" version "6.4.1"
     id 'maven-publish'
 }
 
@@ -33,19 +33,18 @@ repositories {
     This is therefore not needed if you're using the full Spigot/CraftBukkit,
     or if you're using the Bukkit API.
     */
-    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
-    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
+    maven { url = 'https://git.linwood.dev/api/packages/Minecraft/maven' }
 }
 dependencies {
     // Pick only one of these and read the comment in the repositories block.
-    compileOnly 'org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT'
     // The Spigot API with no shadowing. Requires the OSS repo.
-    implementation 'org.jetbrains:annotations:22.0.0'
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation 'com.google.code.gson:gson:2.9.0'
 }
 allprojects {
     group = 'dev.linwood'
-    version = '3.1.2'
+    version = '3.2.1'
 }
 
 
@@ -105,7 +104,7 @@ subprojects {
                         url = 'https://github.com/CodeDoctorDE/CodeDoctorAPI'
                     }
                     issueManagement {
-                        system = 'GitHub'
+                        system = 'Gitea'
                         url = 'https://github.com/CodeDoctorDE/CodeDoctorAPI/issues'
                     }
                 }
@@ -114,12 +113,15 @@ subprojects {
 
         repositories {
             maven {
-                def releasesRepoUrl = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
-                def snapshotsRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+                def releasesRepoUrl = 'https://git.linwood.dev/api/packages/minecraft/maven'
+                def snapshotsRepoUrl = 'https://git.linwood.dev/api/packages/minecraft/maven'
                 url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-                credentials {
-                    username project.properties['sonatypeUsername']
-                    password project.properties['sonatypePassword']
+                credentials(HttpHeaderCredentials) {
+                    name = "Authorization"
+                    value = "token " + project.property("token")
+                }
+                authentication {
+                    header(HttpHeaderAuthentication)
                 }
             }
         }
