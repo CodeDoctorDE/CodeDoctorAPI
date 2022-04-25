@@ -9,7 +9,7 @@ apply plugin: "java-library"
 apply plugin: 'maven-publish'
 
 description = "CodeDoctorAPI"
-group = "dev.linwood"
+group = "dev.linwood.api"
 apply plugin: "io.freefair.aggregate-javadoc"
 
 repositories {
@@ -43,7 +43,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
 }
 allprojects {
-    group = 'dev.linwood'
+    group = 'dev.linwood.api'
     version = '3.2.1'
 }
 

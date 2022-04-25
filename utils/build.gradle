@@ -1,4 +1,0 @@
-plugins {
-    id 'dev.linwood.api.java-conventions'
-}
-description = 'utils'

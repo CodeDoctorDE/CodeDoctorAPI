@@ -8,3 +8,34 @@
 My own api for my plugins.
 
 JavaDocs: <https://codedoctor.tk/CodeDoctorAPI>
+
+## Structure
+
+```mermaid
+graph TD
+  utils
+  animation
+  command
+  config
+  game
+  item
+  region
+  request
+  scoreboard
+  serializer
+  server
+  translation
+  ui
+  ui-template
+  util
+  request
+  item --> translation
+  config --> translation
+  item --> ui
+  request --> ui-template
+  ui --> ui-template
+  item --> ui-template
+  util --> ui-template
+  server --> ui-template
+  translation --> ui-template
+```
