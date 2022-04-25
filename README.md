@@ -25,17 +25,17 @@ graph TD
   serializer
   server
   translation
-  ui
-  ui-template
+  gui
+  gui-template
   util
   request
   item --> translation
   config --> translation
   item --> ui
-  request --> ui-template
-  ui --> ui-template
-  item --> ui-template
-  util --> ui-template
-  server --> ui-template
-  translation --> ui-template
+  request --> gui-template
+  gui --> gui-template
+  item --> gui-template
+  util --> gui-template
+  server --> gui-template
+  translation --> gui-template
 ```

@@ -1,7 +1,7 @@
 package dev.linwood.api.config;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,11 +11,12 @@ import java.io.BufferedReader;
  * @author CodeDoctorDE
  */
 public class JsonConfig extends FileConfig {
-    protected JsonObject jsonObject = new JsonObject();
-    private Gson gson = new GsonBuilder().create();
+    protected JsonElement jsonElement = new JsonObject();
+    private final Gson gson;
 
     public JsonConfig(String filePath) {
         super(filePath);
+        gson = new Gson();
     }
 
     public JsonConfig(@NotNull Gson gson, String filePath) {
@@ -38,15 +39,21 @@ public class JsonConfig extends FileConfig {
         return gson;
     }
 
-    public void setGson(Gson gson) {
-        this.gson = gson;
+    public JsonElement getJsonElement() {
+        return jsonElement;
     }
 
+    @Deprecated
     public JsonObject getJsonObject() {
-        return jsonObject;
+        return jsonElement.getAsJsonObject();
     }
 
+    @Deprecated
     public void setJsonObject(JsonObject jsonObject) {
-        this.jsonObject = jsonObject;
+        this.jsonElement = jsonObject;
+    }
+
+    public void setJsonElement(JsonElement jsonElement) {
+        this.jsonElement = jsonElement;
     }
 }

@@ -3,7 +3,7 @@
  */
 
 rootProject.name = 'CodeDoctorAPI'
-include(':ui')
+include(':gui')
 include(':region')
 include(':translation')
 include(':server')
@@ -14,7 +14,8 @@ include(':command')
 include(':game')
 include(':animation')
 include(':util')
-include(':ui-template')
+include(':gui-template')
 include(':config')
 include(':item')
+include(':gui-action')
 
