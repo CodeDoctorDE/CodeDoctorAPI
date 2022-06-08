@@ -21,8 +21,8 @@ public class HorizontalListControls extends ListControls {
         return gui -> {
             var height = gui.getHeight();
             var pane = new GuiPane(gui.getWidth(), height);
-            var y = HorizontalAlignment.top == alignment ? 0 : height - 1;
-            pane.fillItems(0, HorizontalAlignment.bottom == alignment ? (isDetailed() ? height - 2 : height - 1) : 0, 8, HorizontalAlignment.top == alignment ? (isDetailed() ? 2 : 1) : height - 1, getPlaceholderItem());
+            var y = HorizontalAlignment.TOP == alignment ? 0 : height - 1;
+            pane.fillItems(0, HorizontalAlignment.BOTTOM == alignment ? (isDetailed() ? height - 2 : height - 1) : 0, 8, HorizontalAlignment.TOP == alignment ? (isDetailed() ? 2 : 1) : height - 1, getPlaceholderItem());
             pane.registerItem(0, y, getPreviousItem(gui));
             pane.registerItem(4, y, getSearchItem(gui));
             pane.registerItem(8, y, getNextItem(gui));
@@ -38,6 +38,6 @@ public class HorizontalListControls extends ListControls {
     }
 
     public enum HorizontalAlignment {
-        top, bottom
+        TOP, BOTTOM
     }
 }
